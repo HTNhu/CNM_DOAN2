@@ -14,10 +14,10 @@ function Login(props) {
     const { getFieldDecorator } = form
     // const { Link } = Anchor
     return (
-        <div>
+        <div style={{textAlign: 'center', marginTop:'100px'}}>
             <Row id="layout-login">
                 <Col
-                    span={8} push={6}
+                    span={8} push={8}
                 >
                     <div id="components-form-demo-normal-login" style={{ margin: '0 auto' }}>
                         <Form
