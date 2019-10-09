@@ -5,9 +5,10 @@ import React from 'react'
 // import gql from 'graphql-tag'
 // import { inject, observer } from 'mobx-react'
 import { Row, Col, Form, Icon, Input, Button, Typography } from 'antd'
+// import { withRouter } from 'react-router-dom'
 
 function Login(props) {
-    console.log(props)
+    console.log('prop login',props)
     const { Title } = Typography
     const { form, history } = props
     const { getFieldDecorator } = form
@@ -102,4 +103,4 @@ function Login(props) {
         </div>
     )
 }
-export default (Form.create({ name: 'normal_login' })(Login))
+export default (Form.create({ name: 'normal_login' }) (Login))

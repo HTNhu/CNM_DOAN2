@@ -1,6 +1,8 @@
 import React from 'react'
 import { Card, Avatar, Row, Col } from 'antd'
-function payment() {
+import { withRouter } from 'react-router-dom'
+function Payment(props) {
+    console.log('props payment', props)
     return (
         <>
             <h1 style={{ textAlign: 'center' }}><b>THANH TOÁN HÓA ĐƠN</b></h1>
@@ -37,4 +39,4 @@ function payment() {
     )
 }
 
-export default payment
+export default withRouter(Payment)
