@@ -1,0 +1,14 @@
+type Account {
+  id: String
+  username: String!
+  password: String
+  type: String
+}
+type LoginRes{
+  id: String
+  token: String
+  type: String
+}
+type Query {
+  login(username: String!, password: String!): LoginRes
+}
