@@ -6,13 +6,19 @@ import signup from './signup'
 import signupCom from './signup/company'
 import signupMem from './signup/member'
 import payment from './payment'
+import paycompany from './payment/paycompany'
+import paybill from './payment/paybill'
+
 import bg from '../assets/images/bg.jpg'
 import history from './history'
 import managecompany from './manageCompany'
 import managebill from './managebill'
+
+
 function Root(props) {
     console.log("prop", props)
     const { Content, Header } = Layout
+
     const routes = [
         {
             path: '/payment',
@@ -86,6 +92,9 @@ function Root(props) {
                         path='/payment'
                         component={payment} />
                     <Route
+                        path='/paycompany'
+                        component={paycompany} />
+                    <Route
                         path='/history'
                         component={history} />
                     <Route
@@ -94,6 +103,9 @@ function Root(props) {
                     <Route
                         path='/managebill'
                         component={managebill} />
+                    <Route
+                        path='/paybill'
+                        component={paybill} />
                 </Switch>
             </BrowserRouter>
         </div>
