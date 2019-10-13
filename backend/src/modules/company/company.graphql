@@ -1,0 +1,23 @@
+type Company {
+    id: ID!
+    name: String!
+    phone: String!
+    address: String
+    logo: String
+    listTypeBill: [String]
+}
+input CompanyInput {
+    name: String!
+    phone: String!
+    address: String
+    logo: String
+    username: String!
+    password: String
+    listTypeBill: [String]
+}
+type Query {
+    getCompanyByAcc(id: String): Company
+}
+type Mutation {
+  createCompany(compInput: CompanyInput): Boolean
+}

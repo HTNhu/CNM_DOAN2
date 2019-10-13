@@ -1,0 +1,19 @@
+type Member {
+    id: ID!
+    name: String!
+    phone: String!
+    address: String
+}
+input MemberInput {
+    name: String!
+    phone: String!
+    address: String
+    username: String!
+    password: String
+}
+type Query {
+    getMemberByAcc(id: String): Member
+}
+type Mutation {
+  createMember(memInput: MemberInput): Boolean
+}

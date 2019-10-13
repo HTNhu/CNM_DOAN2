@@ -19,5 +19,7 @@ export class LoginRes {
 }
 
 export abstract class IQuery {
+    abstract getAllAccount(): Account[] | Promise<Account[]>;
+
     abstract login(username: string, password: string): LoginRes | Promise<LoginRes>;
 }

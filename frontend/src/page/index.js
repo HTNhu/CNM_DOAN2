@@ -40,7 +40,6 @@ function Root(props) {
         }
     ]
     const menuOnclick = ({ item, key, keyPath }) => {
-        // props.history.push('./'+key)
         console.log(item)
     }
     return (

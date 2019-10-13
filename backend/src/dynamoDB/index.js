@@ -70,23 +70,7 @@ const AWS = require('aws-sdk')
         });
     }
 
-    const createTable = async(table) => {
-        const dynamodb = new AWS.DynamoDB()
-            await new Promise((resolve, reject) => {
-                dynamodb.createTable(table, (err) => {
-                    if (err) {
-                            console.dir(err);
-                            reject(err);
-                    } else {
-                        console.dir(`Created table "${table.TableName}"`);
-                        resolve();
-                    }
-                });
-            });
-        }
-
 module.exports= {
-    createTable,
     getItem,
     putItem,
     deleteItem,
