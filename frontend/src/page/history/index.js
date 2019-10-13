@@ -1,7 +1,7 @@
 import React from 'react'
 // import { withRouter } from 'react-router-dom'
 
-import { Table, Divider, Tag } from 'antd';
+import { Table, Tag } from 'antd';
 
 import { Select } from 'antd';
 
@@ -28,6 +28,11 @@ const columns = [
         title: 'ID',
         dataIndex: 'id',
         key: 'id',
+    },
+    {
+        title: 'TÊN KHÁCH HÀNG',
+        dataIndex: 'tenkh',
+        key: 'tenkh',
     },
     {
         title: 'LOẠI HÓA ĐƠN',
@@ -75,6 +80,7 @@ const data = [
     {
         key: '1',
         id: 'HD001',
+        tenkh: 'Phan Hữu Quý',
         loaihd: 'Wifi',
         tong: '300000vnđ',
         ngay: '12-11-2020',
@@ -84,6 +90,7 @@ const data = [
     {
         key: '2',
         id: 'HD002',
+        tenkh: 'Hồ Trần Như',
         loaihd: 'Wifi',
         tong: '300000vnđ',
         ngay: '12-11-2020',
@@ -93,6 +100,7 @@ const data = [
     {
         key: '3',
         id: 'HD003',
+        tenkh: 'Nguyễn Anh Tuấn',
         loaihd: 'Wifi',
         tong: '300000vnđ',
         ngay: '12-11-2020',
@@ -104,7 +112,7 @@ const data = [
 function History(props) {
     console.log('prop history', props)
     return (
-        <div>
+        <>
             <Select
                 showSearch
                 style={{ width: 200, margin: 30 }}
@@ -123,7 +131,7 @@ function History(props) {
                 <Option value="3">Nước</Option>
             </Select>
             <Table columns={columns} dataSource={data} />
-        </div>
+        </>
 
     )
 }
