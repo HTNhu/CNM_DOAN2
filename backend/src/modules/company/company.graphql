@@ -1,10 +1,14 @@
 type Company {
-    id: ID!
+    userId: ID!
     name: String!
     phone: String!
     address: String
     logo: String
-    listTypeBill: [String]
+    serviceId: String
+    username: String!
+    password: String
+    createdAt: String
+    updatedAt: String
 }
 input CompanyInput {
     name: String!
@@ -13,10 +17,11 @@ input CompanyInput {
     logo: String
     username: String!
     password: String
-    listTypeBill: [String]
+    serviceId: String
 }
 type Query {
-    getCompanyByAcc(id: String): Company
+    getCompanyByUsername(username: String): Company
+    getCompanyByServiceId(serviceId: String): [Company]
 }
 type Mutation {
   createCompany(compInput: CompanyInput): Boolean

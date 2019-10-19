@@ -9,24 +9,43 @@ AWS.config.update({
 })
 const dynamodb = new AWS.DynamoDB()
 dynamodb.createTable({
-    TableName: awsConfig.TABLE_NAME,
+    TableName: "Service",
     KeySchema: [
-        { AttributeName: "partitionkey", KeyType: "HASH" },
-        { AttributeName: "sortkey", KeyType: "RANGE" }
+        { AttributeName: "name", KeyType: "HASH" },
     ],
     AttributeDefinitions: [
-        { AttributeName: "partitionkey", AttributeType: "S" },
-        { AttributeName: "sortkey", AttributeType: "S" }
+        { AttributeName: "name", AttributeType: "S" },
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10
+    },
+}, (err, data) => {
+    if (err) {
+        console.dir(err);
+    } else {
+        console.dir(`Created table`);
+    }
+});
+dynamodb.createTable({
+    TableName: "User_TransactionHistory",
+    KeySchema: [
+        { AttributeName: "username", KeyType: "HASH" },
+        { AttributeName: "type", KeyType: "RANGE" }
+    ],
+    AttributeDefinitions: [
+        { AttributeName: "username", AttributeType: "S" },
+        { AttributeName: "type", AttributeType: "S" }
     ],
     // GlobalSecondaryIndexes: [{
-    //     IndexName: 'GSI-1',
+    //     IndexName: 'User_History',
     //     KeySchema: [
     //         {
-    //             AttributeName: 'partitionkey',
+    //             AttributeName: 'username',
     //             KeyType: 'HASH',
     //         },
     //         {
-    //             AttributeName: 'sortkey',
+    //             AttributeName: 'historyId',
     //             KeyType: 'RANGE',
     //         }
     //     ],
@@ -47,6 +66,6 @@ dynamodb.createTable({
     if (err) {
         console.dir(err);
     } else {
-        console.dir(`Created table "${data.TableName}"`);
+        console.dir(`Created table 1`);
     }
 });

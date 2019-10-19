@@ -6,10 +6,16 @@ export class CompanyResolver {
   constructor(private readonly companyService: CompanyService) { }
 
   @Query(() => Company)
-  async getMemberByAcc(
-    @Args('id') id: string
+  async getCompanyByUsername(
+    @Args('username') username: string
   ) {
-    return this.companyService.findCompanyByAcc(id)
+    return this.companyService.findCompanyByUsername(username)
+  }
+  @Query(() => [Company])
+  async getCompanyByServiceId(
+    @Args('serviceId') serviceId: string
+  ) {
+    return this.companyService.findCompanyByService(serviceId)
   }
   @Mutation(() => Boolean)
   async createCompany(@Args('compInput') companyInput: CompanyInput) {

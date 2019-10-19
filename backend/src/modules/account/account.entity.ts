@@ -1,19 +1,19 @@
 export class Account {
-  id: string
+  userId: string
   username: string
   password: string
   type: string
-  createdAt: String
-  updatedAt: String
+  createdAt: string
+  updatedAt: string
 }
 
-export class LoginRes {
-  id: string
-  token: string
-  type: string
-}
 export class AccountInput {
   username: string
   password: string
+  type: string
+}
+export class LoginRes {
+  userId: string
+  token: string
   type: string
 }

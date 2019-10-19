@@ -1,114 +1,83 @@
-import React from 'react'
-import { BrowserRouter, Switch, Route, NavLink } from 'react-router-dom'
-import { Layout, Avatar, Menu } from 'antd'
-import login from './login'
-import signup from './signup'
-import signupCom from './signup/company'
-import signupMem from './signup/member'
-import payment from './payment'
-import paycompany from './payment/paycompany'
-import paybill from './payment/paybill'
-
-import bg from '../assets/images/bg.jpg'
-import history from './history'
-import managecompany from './manageCompany'
-import managebill from './managebill'
-
-
+import React, { lazy, Suspense } from 'react'
+// import { inject, observer } from 'mobx-react'
+import { Switch, Route, withRouter
+    , Redirect 
+} 
+    from 'react-router-dom'
+import Login from './login'
+import LayoutPage from './layout'
+import { routers }  from '../routes'
+import Signup from './signup'
+//  import Paycompany from './payment/paycompany'
 function Root(props) {
-    console.log("prop", props)
-    const { Content, Header } = Layout
-
-    const routes = [
-        {
-            path: '/payment',
-            component: 'payment',
-            breadcrumbName: 'Thanh Toán',
-            exact: true
-        },
-        {
-            path: '/history',
-            component: 'history',
-            breadcrumbName: 'Lịch sử giao dịch',
-            exact: true
-        },
-        {
-            path: '/managebill',
-            component: 'managebill',
-            breadcrumbName: 'Quản lý hóa đơn',
-            exact: true
-        },
-        {
-            path: '/managecompany',
-            component: 'managecompany',
-            breadcrumbName: 'Quản lý công ty',
-            exact: true
-        }
-    ]
-    const menuOnclick = ({ item, key, keyPath }) => {
-        console.log(item)
-    }
-    return (
-        <div style={{ backgroundImage: `url(${bg})`, height: '750px' }}>
-
-            <BrowserRouter>
-                <Layout className="layout" style={{ backgroundImage: `url(${bg})` }}>
-                    <Header>
-                        <div className="logo" />
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            {/* <Router> */}
-                            <Menu
-                                // defaultSelectedKeys={}
-                                theme="dark"
-                                mode="horizontal"
-                                style={{ lineHeight: '64px' }}
-                                onClick={menuOnclick}
-                            >
-                                {routes.map((route, idx) =>
-                                    (<Menu.Item key={route.component}>
-                                        <NavLink to={route.path}>{route.breadcrumbName}</NavLink>
-                                    </Menu.Item>))}
-                            </Menu>
-                            {/* </Router> */}
-                            <Avatar size={50} shape="circle" style={{ backgroundImage: `url(${bg})`, float: 'right' }} icon="user" />
-                        </div>
-                    </Header>
-                    <Content style={{ padding: '0 50px' }}>
-                    </Content>
-                </Layout>
-
-                <Switch>
-                    <Route exact path="/" component={login} />
-                    <Route
-                        path='/signup'
-                        component={signup} />
-                    <Route
-                        path='/company'
-                        component={signupCom} />
-                    <Route
-                        path='/member'
-                        component={signupMem} />
-                    <Route
-                        path='/payment'
-                        component={payment} />
-                    <Route
-                        path='/paycompany'
-                        component={paycompany} />
-                    <Route
-                        path='/history'
-                        component={history} />
-                    <Route
-                        path='/managecompany'
-                        component={managecompany} />
-                    <Route
-                        path='/managebill'
-                        component={managebill} />
-                    <Route
-                        path='/paybill'
-                        component={paybill} />
-                </Switch>
-            </BrowserRouter>
-        </div>
-    )
+console.log(routers)
+const username = localStorage.getItem('username')
+  return (  
+    <Switch>
+   { username 
+   ? 
+      routers.map((router, index) => (
+         !router.type ? <Route 
+           key={index}
+          exact={router.exact}
+          path={router.path}
+          render={() => { 
+             const Component = lazy(() => import(`./${router.component}`))
+            return (
+             <LayoutPage key={index} menuKey={router.key} {...props} >
+                <Suspense fallback={null}>
+                  <Component {...props} />
+                </Suspense>
+              </LayoutPage>
+            )}
+          }
+      /> :
+      <Route 
+           key={index}
+          exact={router.exact}
+          path={router.path}
+          render={() => { 
+             const Component = lazy(() => import(`./payment/${router.component}`))
+            return (
+             <LayoutPage key={index} menuKey={router.key} {...props} >
+                <Suspense fallback={null}>
+                  <Component {...props} />
+                </Suspense>
+              </LayoutPage>
+            )}
+          }
+        />
+       ))
+        // child.map((router, index) => ())
+        
+     : <>
+     <Route
+        path='/login'
+        render={() => {
+          const Component = lazy(() => import(`./login`))
+          return (
+            <Login {...props}>
+                <Suspense fallback={null}></Suspense>
+              <Component {...props} />
+            </Login>
+          )
+        }}
+      />
+      <Route
+        path='/signup'
+        render={() => {
+          const Component = lazy(() => import(`./signup`))
+          return (
+            <Signup {...props}>
+                <Suspense fallback={null}></Suspense>
+              <Component {...props} />
+            </Signup>
+          )
+        }}
+   /> </>}
+   <Redirect to='/login' /> 
+    </Switch>
+  )
 }
-export default Root
+
+export default (withRouter(Root))

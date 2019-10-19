@@ -1,0 +1,9 @@
+type Service {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  getAllService: [Service]
+}
+

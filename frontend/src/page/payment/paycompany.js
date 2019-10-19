@@ -1,9 +1,15 @@
-import React from 'react'
+import React  from 'react'
 import { Card, Avatar, Row, Col } from 'antd'
-
+import { withRouter } from 'react-router-dom'
+import gql from 'graphql-tag'
+import { graphql } from 'react-apollo'
 function Paycompany(props) {
     console.log('props payment', props)
     const { history } = props
+    // const [count, setCount] = useState(0);
+console.log(props.getCompaniesByService)
+   
+
     return (
         <>
             <h1 style={{ textAlign: 'center' }}><b>CÔNG TY</b></h1>
@@ -78,4 +84,21 @@ function Paycompany(props) {
         </>
     )
 }
-export default Paycompany
+const GET_COMPANY_BYSERVICE = gql`
+query($serviceId: String){
+    getCompanyByServiceId(serviceId: $serviceId){
+            userId
+            name
+            serviceId
+        }
+  }
+`
+export default graphql(
+    GET_COMPANY_BYSERVICE, {
+    name: 'getCompaniesByService',
+    options: props => ({
+        variables: {
+            siteId: props.match.params.serviceId
+        }
+    })}
+)(withRouter(Paycompany))

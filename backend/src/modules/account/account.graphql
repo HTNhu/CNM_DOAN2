@@ -1,26 +1,26 @@
 type Account {
-  id: ID!
+  userId: ID!
   username: String!
   password: String
   type: String
   createdAt: String
   updatedAt: String
 }
-type LoginRes{
-  id: ID
-  token: String
-  type: String
-}
 input AccountInput {
 	username: String!
 	password: String!
   type: String!
 }
+type LoginRes{
+  userId: ID
+  token: String
+  type: String
+}
 type Query {
   getAllAccount: [Account]
-  login(username: String!, password: String!): LoginRes
+ 
 }
 type Mutation {
-  signup(accInput: AccountInput): String
-  updateAccount(id: String, password: String): Boolean
+  updateAccount(type: String,username: String, password: String): Boolean
+  login(username: String!, password: String!): LoginRes
 }

@@ -1,10 +1,14 @@
 export class Company {
-    id: string // accID
+    userId: string // accID
     name: string
     phone: string
     address: string
     logo: string
-    listTypeBill: [string]
+    serviceId: string
+    username: string
+    password: string
+    createdAt: Date
+    updatedAt: Date
 }
 export class CompanyInput {
     name: string
@@ -13,5 +17,5 @@ export class CompanyInput {
     username: string
     password: string
     logo: string
-    listTypeBill: [string]
+    serviceId: string
 }

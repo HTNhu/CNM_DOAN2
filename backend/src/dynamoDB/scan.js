@@ -5,7 +5,7 @@ endpoint: 'http://localhost:8000',
 });
 const docClient = new AWS.DynamoDB.DocumentClient();
 const params = {
-    TableName: 'CNM_DOAN2',
+    TableName: 'User_TransactionHistory',
 };
 console.log('Scan ... ');
 docClient.scan(params, onScan);

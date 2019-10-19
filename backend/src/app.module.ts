@@ -7,6 +7,7 @@ import { GraphqlModule }  from './graphqlConfig/graphql.module';
 import { AccountModule } from '../src/modules/account/account.module'
 import { MemberModule} from '../src/modules/member/member.module'
 import { CompanyModule } from '../src/modules/company/company.module'
+import { ServiceModule } from '../src/modules/service/service.module'
 import * as path from 'path';
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import * as path from 'path';
   AccountModule,
   GraphqlModule,
   MemberModule,
-  CompanyModule
+  CompanyModule,
+  ServiceModule
 ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,8 +1,12 @@
 type Member {
-    id: ID!
+    userId: ID!
     name: String!
     phone: String!
     address: String
+    username: String!
+    password: String
+    createdAt: String
+    updatedAt: String
 }
 input MemberInput {
     name: String!
@@ -12,7 +16,7 @@ input MemberInput {
     password: String
 }
 type Query {
-    getMemberByAcc(id: String): Member
+    getMemberByUsername(username: String): Member
 }
 type Mutation {
   createMember(memInput: MemberInput): Boolean
