@@ -87,7 +87,7 @@ export class CompanyService {
                 ':type': 'company'
             }
         })
-        if (a.Count === 0) return null
+        if (a.Count === 0) return []
         console.log(a.Items,"sà")
         const lst = []
         await a.Items.forEach(async element => {

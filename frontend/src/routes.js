@@ -36,17 +36,25 @@ export const routers = [
 	},
 	{
 		path: '/managecompany',
-		component: 'managecompany',
+		component: 'manageCompany',
 		key: 'managecompany',
 		breadcrumbName: 'Quản lý công ty',
 		exact: true
 	},
 	{
-		type: 'child',
+		isParams: true,
 		path: '/payment/:serviceId',
-		component: 'paycompany',
+		component: 'payment/paycompany',
 		key: 'payCompany',
 		breadcrumbName: 'Công ty',
+		exact: true
+	},
+	{
+		isParams: true,
+		path: '/payment/:serviceId/:companyId',
+		component: 'payment/paybill',
+		key: 'paybill',
+		breadcrumbName: 'Tìm kiếm hóa đơn',
 		exact: true
 	}
 ]

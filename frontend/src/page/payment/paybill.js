@@ -2,7 +2,7 @@ import React from 'react'
 import { Input } from 'antd';
 import { Modal, Button } from 'antd';
 import { Table } from 'antd';
-
+import { withRouter } from 'react-router-dom'
 const columns = [
     {
         title: 'CÔNG TY',
@@ -98,4 +98,4 @@ function Paybill(props) {
 
     )
 }
-export default Paybill
+export default withRouter(Paybill)

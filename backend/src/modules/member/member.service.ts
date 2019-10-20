@@ -37,14 +37,14 @@ export class MemberService {
     async findUserByPhoneUsername(phone) {
         return await dynamoDB.scan({
             TableName: 'User_TransactionHistory',
-            FilterExpression: ' #phone = :phone ',
+            FilterExpression: ' #phone = :phone and  #type = :type ',
             ExpressionAttributeNames: {
-                // '#type': 'type',
+                '#type': 'type',
 
                 '#phone': 'phone'
             },
             ExpressionAttributeValues: {
-                // ':type': 'member',
+                ':type': 'member',
                 ':phone': phone
             },
         })
@@ -52,6 +52,7 @@ export class MemberService {
     async create(memInput): Promise<Boolean> {
         const existMember = await this.findUserByPhoneUsername(memInput.phone)
         const existUsername = await this.findMemberByUsername(memInput.username)
+        console.log("sfdg",existMember, existUsername)
         if (existMember.Count !== 0 || existUsername) throw new ApolloError('Member existed', '401')
         // const id = await this.accService.signup({ username: memInput.username, password: memInput.password, type: "member" })
         // console.log("idđ", id)

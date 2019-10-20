@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 // import {
 //     Switch, Route
 //     , Redirect
@@ -41,7 +41,12 @@ function Login(props) {
                             localStorage.setItem('type', type)
                             openNotificationWithIcon('success', 'login', 'Login Success', 'Login Success')
                             console.log("sadsadsad")
-                            props.history.push('/managebill')
+                            const header = localStorage.getItem('type') === 'member'
+                                ? '/payment'
+                                : localStorage.getItem('type') === 'admin'
+                                    ? '/manageCompany'
+                                    : '/managebill'
+                            props.history.push(header)
                         }
                     })
                     .catch(err1 => {
