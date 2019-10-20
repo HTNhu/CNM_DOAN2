@@ -18,7 +18,7 @@ const AutoCompleteOption = AutoComplete.Option;
 
 
 
-class RegistrationForm extends React.Component {
+class Company extends React.Component {
   state = {
     confirmDirty: false,
     autoCompleteResult: [],
@@ -105,18 +105,25 @@ class RegistrationForm extends React.Component {
     ));
 
     return (
-      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+      <div style={{ width: '60%', margin:' 0 auto' }}>
+      <Form {...formItemLayout} onSubmit={this.handleSubmit} style={{
+        padding: '12px',
+        background: '#fbfbfb',
+        border: '2px solid #89d1be',
+        borderRadius: '6px'
+      }}>
+        <h3><center>ĐĂNG KÝ CÔNG TY</center></h3>
         <Form.Item label="Số điện thoại">
           {getFieldDecorator('phone', {
             rules: [{ required: true, message: 'Bạn cần nhập số điện thoại!' }],
           })(<Input addonBefore={prefixSelector} style={{ width: '50%' }} />)}
         </Form.Item>
-        
+
         <Form.Item
           label={
             <span>
               Họ và Tên&nbsp;
-              
+
             </span>
           }
         >
@@ -124,12 +131,12 @@ class RegistrationForm extends React.Component {
             rules: [{ required: true, message: 'Bạn cần nhập họ và tên!', whitespace: true }],
           })(<Input style={{ width: '50%' }} />)}
         </Form.Item>
-        
+
         <Form.Item
           label={
             <span>
               Địa chỉ&nbsp;
-              
+
             </span>
           }
         >
@@ -137,13 +144,13 @@ class RegistrationForm extends React.Component {
             rules: [{ required: true, message: 'Bạn cần nhập Địa chỉ!', whitespace: true }],
           })(<Input style={{ width: '50%' }} />)}
         </Form.Item>
-        
-        
+
+
         <Form.Item
           label={
             <span>
               Logo&nbsp;
-              
+
             </span>
           }
         >
@@ -164,7 +171,7 @@ class RegistrationForm extends React.Component {
         >
           {getFieldDecorator('nickname', {
             rules: [{ required: true, message: 'Bạn cần nhập Usename!', whitespace: true }],
-          })(<Input  style={{ width: '50%' }}/>)}
+          })(<Input style={{ width: '50%' }} />)}
         </Form.Item>
         <Form.Item label="Password" hasFeedback>
           {getFieldDecorator('password', {
@@ -190,13 +197,10 @@ class RegistrationForm extends React.Component {
                 validator: this.compareToFirstPassword,
               },
             ],
-          })(<Input.Password onBlur={this.handleConfirmBlur} style={{ width: '50%' }}  />)}
+          })(<Input.Password onBlur={this.handleConfirmBlur} style={{ width: '50%' }} />)}
         </Form.Item>
-        
-        
 
-        
-        <Form.Item {...tailFormItemLayout}>
+        {/* <Form.Item {...tailFormItemLayout}>
           {getFieldDecorator('agreement', {
             valuePropName: 'checked',
           })(
@@ -204,30 +208,19 @@ class RegistrationForm extends React.Component {
               I have read the <a href="">agreement</a>
             </Checkbox>,
           )}
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
             Register
           </Button>
           <Button type="primary" htmlType="button" style={{ margin: 20 }}>
-          <a href= "http://localhost:3000/signup">Trở về</a>
-            </Button>
+            <a href="http://localhost:3006/signup">Trở về</a>
+          </Button>
         </Form.Item>
       </Form>
+      </div>
     );
   }
 }
 
-const WrappedRegistrationForm = Form.create({ name: 'register' })(RegistrationForm);
-
-
-function Company(){
-  return(
-    <>
-    <center><h1>Company Singup</h1></center>
-    <WrappedRegistrationForm />
-    </>
-  )
-    
-}
-export default Company
+export default Form.create({ name: 'register' })(Company);

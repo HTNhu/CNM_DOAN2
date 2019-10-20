@@ -1,11 +1,11 @@
 export const routers = [
-	// {
-	// 	path: '/login',
-	// 	component: 'login',
-	// 	key: 'login',
-	// 	breadcrumbName: 'Đăng nhập',
-	// 	exact: true
-	// },
+	{
+		path: '/login',
+		component: 'login',
+		key: 'login',
+		breadcrumbName: 'Đăng nhập',
+		exact: true
+	},
 	{
 		path: '/payment',
 		component: 'payment',
@@ -41,8 +41,24 @@ export const routers = [
 		breadcrumbName: 'Quản lý công ty',
 		exact: true
 	},
+	// {
+	// 	isPublish: true,
+	// 	path: '/signup/company',
+	// 	component: 'signup/company',
+	// 	key: 'signupCompany',
+	// 	breadcrumbName: 'Đăng ký công ty',
+	// 	exact: true
+	// },
+	// {
+	// 	isPublish: true,
+	// 	path: '/signup/member',
+	// 	component: 'signup/member',
+	// 	key: 'signupMember',
+	// 	breadcrumbName: 'Đăng ký thành viên',
+	// 	exact: true
+	// },
 	{
-		isParams: true,
+		// isParams: true,
 		path: '/payment/:serviceId',
 		component: 'payment/paycompany',
 		key: 'payCompany',
@@ -50,7 +66,7 @@ export const routers = [
 		exact: true
 	},
 	{
-		isParams: true,
+		// isParams: true,
 		path: '/payment/:serviceId/:companyId',
 		component: 'payment/paybill',
 		key: 'paybill',
