@@ -26,8 +26,8 @@ function Signup(props) {
                     <Radio value='company'><span style={{ fontSize: '13px' }}>Công ty</span></Radio>
                 </Radio.Group>
           
-            {type === 'member' && <Member></Member>}
-            {type === 'company' && <Company></Company>}
+            {type === 'member' && <Member history ={props.history}></Member>}
+            {type === 'company' && <Company history = {props.history}></Company>}
             </div>
         </>
 

@@ -7,7 +7,7 @@ import { notification } from 'antd'
           description,
           placement: 'bottomRight',
           bottom: 50,
-          duration: 3,
+          duration: 1,
           })
 }
 export default openNotificationWithIcon
