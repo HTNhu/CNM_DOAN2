@@ -231,7 +231,7 @@ console.log("props", this.props)
 
             <Form.Item {...tailFormItemLayout} >
               <Button type="primary" htmlType="submit">
-                Register
+                Đồng ý
             </Button>
               <Button type="primary" htmlType="button" style={{ margin: 20 }}>
                 <a href="http://localhost:3000/signup">Trở về</a>

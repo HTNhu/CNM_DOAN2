@@ -340,7 +340,7 @@ query{
         </Form.Item> */}
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-              Register
+              Đồng ý
           </Button>
             <Button type="primary" htmlType="button" style={{ margin: 20 }}>
               <a href="http://localhost:3006/signup">Trở về</a>

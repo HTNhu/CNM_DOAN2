@@ -71,7 +71,7 @@ function Login(props) {
     }
     return (
         // <div style={{backgroundColor: '#89d1be', height:'100%', width:'100%'}} >
-        <div style={{ textAlign: 'center', marginTop: '100px' }}>
+        <div style={{textAlign: 'center', marginTop: '100px' }}>
             <Row id="layout-login">
                 <Col
                     span={8} push={8}
@@ -82,7 +82,8 @@ function Login(props) {
                                 padding: '24px',
                                 background: '#fbfbfb',
                                 border: '2px solid #89d1be',
-                                borderRadius: '6px'
+                                borderRadius: '6px',
+                                // opacity: 10
                             }}
                             className="login-form">
                             <div className="login-form-header" >
