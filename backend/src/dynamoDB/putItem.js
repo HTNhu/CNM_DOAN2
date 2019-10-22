@@ -42,17 +42,11 @@ docClient.put(params, (err, data) => {
         console.log("Added item:", JSON.stringify(data, null, 2))
     }
 });
-
 let params1 = {
-    TableName: 'User_TransactionHistory',
+    TableName: 'Service',
     Item: {
-        username: 'member1' ,
-        type: 'member' ,
-        password: '12345678',
-        userId: uuid(),
-        name: 'Tran Nhu',
-        address: 'Q12',
-        phone: '0355983234'
+        serviceId: uuid() ,
+        name: "Điện" 
     }
 };
 docClient.put(params1, (err, data) => {
@@ -63,3 +57,40 @@ docClient.put(params1, (err, data) => {
         console.log("Added item:", JSON.stringify(data, null, 2))
     }
 });
+
+let params2 = {
+    TableName: 'Service',
+    Item: {
+        serviceId: uuid() ,
+        name: "Nước" 
+    }
+};
+
+docClient.put(params2, (err, data) => {
+    if (err) {
+        console.err(err)
+    }
+    else {
+        console.log("Added item:", JSON.stringify(data, null, 2))
+    }
+});
+// let params1 = {
+//     TableName: 'User_TransactionHistory',
+//     Item: {
+//         username: 'member1' ,
+//         type: 'member' ,
+//         password: '12345678',
+//         userId: uuid(),
+//         name: 'Tran Nhu',
+//         address: 'Q12',
+//         phone: '0355983234'
+//     }
+// };
+// docClient.put(params1, (err, data) => {
+//     if (err) {
+//         console.err(err)
+//     }
+//     else {
+//         console.log("Added item:", JSON.stringify(data, null, 2))
+//     }
+// });
