@@ -11,10 +11,10 @@ const dynamodb = new AWS.DynamoDB()
 dynamodb.createTable({
     TableName: "Service",
     KeySchema: [
-        { AttributeName: "name", KeyType: "HASH" },
+        { AttributeName: "serviceId", KeyType: "HASH" },
     ],
     AttributeDefinitions: [
-        { AttributeName: "name", AttributeType: "S" },
+        { AttributeName: "serviceId", AttributeType: "S" },
     ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 10,
@@ -67,5 +67,26 @@ dynamodb.createTable({
         console.dir(err);
     } else {
         console.dir(`Created table 1`);
+    }
+});
+dynamodb.createTable({
+    TableName: "Bill",
+    KeySchema: [
+        { AttributeName: "billId", KeyType: "HASH" },
+        { AttributeName:'phone', KeyType:'RANGE'}
+    ],
+    AttributeDefinitions: [
+        { AttributeName: "billId", AttributeType: "S" },
+        { AttributeName: 'phone', AttributeType: 'S'}
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10
+    },
+}, (err, data) => {
+    if (err) {
+        console.dir(err);
+    } else {
+        console.dir(`Created table`);
     }
 });

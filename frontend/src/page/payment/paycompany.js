@@ -54,7 +54,7 @@ class Paycompany extends React.Component {
         return (
             <>
             <h1 style={{ textAlign: 'center' }}><b>CÔNG TY</b></h1>
-            {companies.length == 0 && <Empty description={false}></Empty>}
+            {companies.length === 0 && <Empty description={false}></Empty>}
             <div style={{ margin: '40px' }}>
                 <Row type="flex" justify="center" align="top" >
                     {

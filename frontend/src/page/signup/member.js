@@ -4,13 +4,8 @@ import {
   Input,
   Tooltip,
   Icon,
-  Cascader,
   Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
+  Button
 } from 'antd';
 import gql from 'graphql-tag'
 
@@ -18,7 +13,7 @@ import { graphql } from 'react-apollo'
 
 import openNotificationWithIcon from '../../component/openNotification'
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
+// const AutoCompleteOption = AutoComplete.Option;
 
 
 
@@ -113,7 +108,7 @@ handleConfirmBlur = e => {
 
     render() {
       const { getFieldDecorator } = this.props.form;
-      const { autoCompleteResult } = this.state;
+      // const { autoCompleteResult } = this.state;
 console.log("props", this.props)
       const formItemLayout = {
         labelCol: {
@@ -145,11 +140,6 @@ console.log("props", this.props)
           <Option value="87">+87</Option>
         </Select>,
       );
-
-      const websiteOptions = autoCompleteResult.map(website => (
-        <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-      ));
-
       return (
         <div style={{ width: '60%', margin: ' 0 auto' }}>
           <Form style={{

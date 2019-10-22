@@ -1,24 +1,13 @@
 import React from 'react'
-// import {
-//     Switch, Route
-//     , Redirect
-// } from 'react-router-dom'
-
 import gql from 'graphql-tag'
-// import { inject, observer } from 'mobx-react'
 import { graphql } from 'react-apollo'
-import { Row, Col, Form, Icon, Input, Button, Typography } from 'antd'
-// import bg from '../../assets/images/paybillLogo.PNG'
-// import { routers } from '../../routes'
+import { Row, Col, Form, Icon, Input, Button } from 'antd'
 import openNotificationWithIcon from '../../component/openNotification'
-// import { from } from 'zen-observable'
-// import LayoutPage from '../layout'
 function Login(props) {
     console.log('prop login', props)
-    const { Title } = Typography
+    // const { Title } = Typography
     const { form, history } = props
     const { getFieldDecorator } = form
-    // const { Link } = Anchor
     function handleSubmit(e) {
         e.preventDefault()
         // setLoading(true)
@@ -40,7 +29,6 @@ function Login(props) {
                             localStorage.setItem('username', username)
                             localStorage.setItem('type', type)
                             openNotificationWithIcon('success', 'login', 'Login Success', 'Login Success')
-                            console.log("sadsadsad")
                             const header = localStorage.getItem('type') === 'member'
                                 ? '/payment'
                                 : localStorage.getItem('type') === 'admin'
@@ -69,7 +57,6 @@ function Login(props) {
         })
     }
     return (
-        // <div style={{backgroundColor: '#89d1be', height:'100%', width:'100%'}} >
         <div style={{ textAlign: 'center', marginTop: '100px' }}>
             <Row id="layout-login">
                 <Col
@@ -84,8 +71,16 @@ function Login(props) {
                                 borderRadius: '6px'
                             }}
                             className="login-form">
+                            
                             <div className="login-form-header">
-                                <Title level={1}>Hello</Title>
+                            <img alt="logo PayBill" src="https://doancnm.s3.amazonaws.com/paybillLogo1.PNG" style={{
+                                display: 'block',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                                paddingBottom:'20px',
+                                width: '70%'
+                            }} />
+                                <h4>Hello :)</h4>
                             </div>
                             <Form.Item>
                                 {getFieldDecorator('username', {

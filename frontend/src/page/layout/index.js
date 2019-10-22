@@ -1,13 +1,10 @@
-import React, { Suspense, lazy } from 'react'
+import React from 'react'
 import { Layout, Icon, Menu, Dropdown, Avatar , Breadcrumb} from 'antd'
-import bg from '../../assets/images/paybillLogo.PNG'
+// import bg from '../../assets/images/paybillLogo1.PNG'
 import {
-    Switch, Redirect, Route, Link
+     Link
 } from 'react-router-dom'
-import Signup from '../signup'
 import Breadcrumbs from '../../component/breadcrumb'
-
-import { routers } from '../../routes'
 function LayoutPage(props) {
     const { menuKey } = props
     console.log("kr", menuKey)
@@ -53,10 +50,10 @@ function LayoutPage(props) {
 
     return (
         <Layout style={{background: '#f6f8f6'}}>
-            <Header className="header" style={{ display: 'flex', backgroundColor: 'white', height: '60px' }}
+            <Header className="header" style={{ display: 'flex', backgroundColor: 'white', position: 'fixed', zIndex: 1, width: '100%' }}
             >
-                    <img alt='' src={bg} style={{
-                    marginLeft: '24px',
+                    <img alt='' src="https://doancnm.s3.amazonaws.com/paybillLogo1.PNG" style={{
+                    // marginLeft: '24px',
                     float: 'left',
                     width: '200px',
                     height: '60px'
@@ -96,7 +93,7 @@ function LayoutPage(props) {
                 </Dropdown>
                 <span><p >{username}</p>  </span>
             </Header>
-            <Content style={{ padding: '0 50px', marginTop: 20 }}>
+            <Content style={{ padding: '0 50px', marginTop: 64 }}>
                 <div style={{ margin: '16px 0' }}>
                 <Breadcrumbs >
                     {header.map(({title, navigateTo }) => (
@@ -107,16 +104,12 @@ function LayoutPage(props) {
                     ))}
                 </Breadcrumbs>
                 </div>
-                {/* <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>List</Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb> */}
                 <div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
                     {props.children}
                 </div>
 
             </Content>
+            <Footer style={{ textAlign: 'center',background: '#f6f8f6'}} >PayBill ©2019 Created by Team25</Footer>
         </Layout >
     )
 }

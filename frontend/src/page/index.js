@@ -2,14 +2,14 @@ import React, { lazy, Suspense } from 'react'
 // import { inject, observer } from 'mobx-react'
 import {
   Switch, Route, withRouter
-  , Redirect, Link
+  , Redirect
 }
   from 'react-router-dom'
 import Login from './login'
 import LayoutPage from './layout'
 import { routers } from '../routes'
 import Signup from './signup'
- import Breadcrumbs from '../component/breadcrumb'
+//  import Breadcrumbs from '../component/breadcrumb'
 function Root(props) {
   
   const username = localStorage.getItem('username')

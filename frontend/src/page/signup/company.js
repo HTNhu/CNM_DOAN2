@@ -4,19 +4,17 @@ import {
   Input,
   Tooltip,
   Icon,
-  Cascader,
   Select,
   Upload,
   message,
-  Button,
-  AutoComplete,
+  Button
 } from 'antd'
 import gql from 'graphql-tag'
 import { Client } from '../../tools/apollo'
 import { graphql } from 'react-apollo'
 import openNotificationWithIcon from '../../component/openNotification'
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
+// const AutoCompleteOption = AutoComplete.Option;
 
 class Company extends React.Component {
   constructor(props) {
@@ -35,12 +33,20 @@ query{
   }
 }
 `
+ s3SignMutation = gql`
+  mutation($filename: String!, $filetype: String!) {
+    signS3(filename: $filename, filetype: $filetype) {
+      url
+      signedRequest
+    }
+  }
+`;
+
   componentDidMount = async () => {
     // const { currentPage, inputSearch } = this.state
     this.refetchData()
     // this.setupCount()
   }
-
   refetchData = async () => {
     await Client.query({
       query: this.GET_ALL_SERVICE
@@ -65,7 +71,7 @@ query{
       if (!err) {
         
         const { phone, name, address, username, password, service  } = values
-        const logo = values.logo === undefined ? '' : values.logo[0].response.url
+        const logo= this.state.imageUrl
         console.log('Received values of form: ', values,logo)
         await this.props.createCompany({
           mutation: CREATE_COMPANY,
@@ -209,7 +215,7 @@ query{
       </div>
     );
     const { imageUrl } = this.state
-
+console.log("state" , this.state)
     return (
       <div style={{ width: '60%', margin: ' 0 auto' }}>
         <Form {...formItemLayout} onSubmit={this.handleSubmit} style={{
@@ -328,22 +334,12 @@ query{
               ],
             })(<Input.Password onBlur={this.handleConfirmBlur} style={{ width: '50%' }} />)}
           </Form.Item>
-
-          {/* <Form.Item {...tailFormItemLayout}>
-          {getFieldDecorator('agreement', {
-            valuePropName: 'checked',
-          })(
-            <Checkbox>
-              I have read the <a href="">agreement</a>
-            </Checkbox>,
-          )}
-        </Form.Item> */}
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-              Register
+              Đăng ký
           </Button>
             <Button type="primary" htmlType="button" style={{ margin: 20 }}>
-              <a href="http://localhost:3006/signup">Trở về</a>
+              <a href="http://localhost:3006/login">Trở về</a>
             </Button>
           </Form.Item>
         </Form>

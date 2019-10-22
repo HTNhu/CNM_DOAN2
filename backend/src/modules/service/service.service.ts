@@ -28,6 +28,8 @@ export class ServiceService {
 			const service = new Service();
 			service.id = element.serviceId
 			service.name = element.name
+			service.logo = element.logo;
+			
 			// typebill.description = element.description
 			
 			lst.push(service)
