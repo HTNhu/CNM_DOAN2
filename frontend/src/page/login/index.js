@@ -11,6 +11,7 @@ import { Row, Col, Form, Icon, Input, Button, Typography } from 'antd'
 // import bg from '../../assets/images/paybillLogo.PNG'
 // import { routers } from '../../routes'
 import openNotificationWithIcon from '../../component/openNotification'
+import bg from '../../assets/images/paybillLogo.PNG'
 // import { from } from 'zen-observable'
 // import LayoutPage from '../layout'
 function Login(props) {
@@ -84,8 +85,13 @@ function Login(props) {
                                 borderRadius: '6px'
                             }}
                             className="login-form">
-                            <div className="login-form-header">
-                                <Title level={1}>Hello</Title>
+                            <div className="login-form-header" >
+                                <img alt='' src={bg} style={{
+                                    margin: '20px',
+                                    
+                                    width: '200px',
+                                    height: '60px'
+                                }} ></img>
                             </div>
                             <Form.Item>
                                 {getFieldDecorator('username', {
