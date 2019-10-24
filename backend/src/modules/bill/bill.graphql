@@ -1,3 +1,70 @@
+
+type WaterBill {
+    billId: String
+    type: String
+    companyId: String 
+    companyname: String
+    name: String
+    phone: String
+    address: String
+    createdAt: String
+    updatedAt: String
+    isPaid: Boolean
+    description: Water
+    total: Int
+}
+type ElectricBill {
+    billId: String
+    type: String
+    companyId: String 
+    companyname: String
+    name: String
+    phone: String
+    address: String
+    createdAt: String
+    updatedAt: String
+    iSPaid: Boolean
+    description: Electric
+    total: Int
+}
+input ElectricBillInput {
+    companyId: String 
+    companyname: String
+    name: String
+    phone: String
+    address: String
+    description: ElectricInput
+}
+input WaterBillInput {
+    companyId: String 
+    companyname: String
+    name: String
+    phone: String
+    address: String
+    description: WaterInput
+}
+type Water {
+  LNTT: Int
+  unitPrice: Int
+}
+type Electric {
+   DNTT: Int
+    unitPrice: Int
+}
+input WaterInput {
+  LNTT: Int
+  unitPrice: Int
+}
+input ElectricInput {
+    DNTT: Int
+    unitPrice: Int
+}
 type Query{
     getHello: String!
+    getElectricBillsByCompany(companyId: String): [ElectricBill]
+    getElectricBillsByCompanyPhone(companyId: String, phone: String): ElectricBill
+}
+type Mutation{
+    createWaterBill(waterbillInput: WaterBillInput): Boolean
+    createElectricBill(electricbillInput: ElectricBillInput): Boolean
 }

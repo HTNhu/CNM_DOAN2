@@ -28,6 +28,27 @@ dynamodb.createTable({
     }
 });
 dynamodb.createTable({
+    TableName: "Bill",
+    KeySchema: [
+        { AttributeName: "companyId", KeyType: "HASH" },
+        { AttributeName: "phone", KeyType: "RANGE"}
+    ],
+    AttributeDefinitions: [
+        { AttributeName: "companyId", AttributeType: "S" },
+        { AttributeName: "phone", AttributeType: "S" }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10
+    },
+}, (err, data) => {
+    if (err) {
+        console.dir(err);
+    } else {
+        console.dir(`Created table`);
+    }
+});
+dynamodb.createTable({
     TableName: "User_TransactionHistory",
     KeySchema: [
         { AttributeName: "username", KeyType: "HASH" },

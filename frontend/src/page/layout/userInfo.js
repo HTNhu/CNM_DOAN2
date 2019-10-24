@@ -82,6 +82,8 @@ import gql from 'graphql-tag'
                   
                 })
                 .catch(() => { })
+                // console.log("info ", this.state.info)
+           localStorage.setItem('info', JSON.stringify(this.state.info))
      }
   render() {
     const pStyle = {

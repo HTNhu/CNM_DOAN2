@@ -9,9 +9,9 @@ function Login(props) {
     // const { Title } = Typography
     const { form, history } = props
     const { getFieldDecorator } = form
-    useEffect(() => {
-       localStorage.removeItem('username')
-      });
+    // useEffect(() => {
+    //    localStorage.removeItem('username')
+    //   });
     
     function handleSubmit(e) {
         e.preventDefault()

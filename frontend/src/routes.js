@@ -67,7 +67,7 @@ export const routers = [
 	},
 	{
 		// isParams: true,
-		path: '/payment/:serviceId/:companyId',
+		path: '/payment/:service/:companyId',
 		component: 'payment/paybill',
 		key: 'paybill',
 		breadcrumbName: 'Tìm kiếm hóa đơn',

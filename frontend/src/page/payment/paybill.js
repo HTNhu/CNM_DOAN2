@@ -1,7 +1,6 @@
 import React from 'react'
-import { Input } from 'antd';
 import { Modal, Button } from 'antd';
-import { Table } from 'antd';
+import { Table, Input } from 'antd';
 import { withRouter } from 'react-router-dom'
 const columns = [
     {
@@ -32,16 +31,21 @@ const data = [
     },
     {
         key: '3',
-       congty: 'Công Ty ABC',
+        congty: 'Công Ty ABC',
         age: 32,
         address: 'Sidney No. 1 Lake Park',
     },
 ];
 
 
-class App extends React.Component {
-    state = { visible: false };
-
+class Paybill extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            visible: false,
+            value: ''
+        }
+    }
     showModal = () => {
         this.setState({
             visible: true,
@@ -64,38 +68,39 @@ class App extends React.Component {
 
 
     render() {
+        console.log("value", this.state.phone)
+        const { Search} = Input
         return (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Input placeholder="Nhập mã khách hàng, số điện thoại...."
-                    style={{ width: 500, margin: 20 }} />
-                <Button type="primary" style={{ margin: 20 }} onClick={this.showModal}>
-                    Tiếp tục</Button>
-                <Modal
-                    title="HÓA ĐƠN THANH TOÁN"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                >
-                    <div>
-                        <h4>Tên: Phan Hữu Quý</h4>
-                        <h4>Địa chỉ: HCM</h4>
-                        <h4>Số điện thoại: 0933323622</h4>
-                        <Table columns={columns} dataSource={data} size="small" />
-                    </div>
-                </Modal>
-            </div>
+                <Search 
+                style={{ width: 500, margin: 20 }}
+                placeholder="Nhập mã khách hàng, số điện thoại...." 
+                onSearch={value => this.setState({
+                    phone: value
+                })} enterButton />
+                
+            {/* </div> */}
+         {/* <Input placeholder= */}
+        {/* //     style={{ width: 500, margin: 20 }}
+        //     onChange={(value) => { console.log(value) }} />
+        //     <Button type="primary" style={{ margin: 20 }} onClick={this.showModal}>
+        //         Tiếp tục</Button> */}
+            <Modal
+                title="HÓA ĐƠN THANH TOÁN"
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+            >
+                <div>
+                    <h4>Tên: Phan Hữu Quý</h4>
+                    <h4>Địa chỉ: HCM</h4>
+                    <h4>Số điện thoại: 0933323622</h4>
+                    <Table columns={columns} dataSource={data} size="small" />
+                </div>
+            </Modal>
+            </div >
         );
     }
 }
 
-function Paybill(props) {
-    console.log('prop history', props)
-    return (
-        <>
-            <h1 style={{ textAlign: 'center' }}><b>HÓA ĐƠN</b></h1>
-            <App />
-        </>
-
-    )
-}
 export default withRouter(Paybill)
