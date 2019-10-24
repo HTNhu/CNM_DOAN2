@@ -1,11 +1,13 @@
-import React from 'react'
-import { Layout, Icon, Menu, Dropdown, Avatar , Breadcrumb} from 'antd'
+import React, { useState } from 'react'
+import { Layout, Icon, Menu, Dropdown, Avatar, Breadcrumb, Badge } from 'antd'
 // import bg from '../../assets/images/paybillLogo1.PNG'
 import {
-     Link
+    Link
 } from 'react-router-dom'
 import Breadcrumbs from '../../component/breadcrumb'
+import UserInfo from './userInfo';
 function LayoutPage(props) {
+
     const { menuKey } = props
     console.log("kr", menuKey)
     const dataTopMenuMem = [
@@ -23,21 +25,33 @@ function LayoutPage(props) {
     const { Content, Header, Footer } = Layout
 
     const header = localStorage.getItem('type') === 'member'
-        ? dataTopMenuMem 
+        ? dataTopMenuMem
         : localStorage.getItem('type') === 'admin'
-        ? dataTopMenuAdmin
-        : dataTopMenuCompany
+            ? dataTopMenuAdmin
+            : dataTopMenuCompany
 
     const onLogout = () => {
         localStorage.removeItem('username')
         props.history.push('/login')
     }
     const username = localStorage.getItem('username')
+    const [visible, setVisible] = useState(false)
+    const showDrawer = () => {
+        setVisible(true)
+    };
+    const onClose = () => {
+        setVisible(false)
+    };
     const menu = (
         <Menu>
-            <Menu.Item>
-                <Icon type="info" />
-                <span>{username}</span>
+            <Menu.Item onClick={showDrawer}>
+                <Icon type="info" onClick={showDrawer} />
+                <span onClick={showDrawer}>{username}</span>
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item >
+                <Icon type="setting" />
+                <span>Đổi mật khẩu</span>
             </Menu.Item>
             <Menu.Divider />
             <Menu.Item onClick={onLogout}>
@@ -46,13 +60,12 @@ function LayoutPage(props) {
             </Menu.Item>
         </Menu>
     )
-    // const auth = () =>
 
     return (
-        <Layout style={{background: '#f6f8f6'}}>
+        <Layout style={{ background: '#f6f8f6' }}>
             <Header className="header" style={{ display: 'flex', backgroundColor: 'white', position: 'fixed', zIndex: 1, width: '100%' }}
             >
-                    <img alt='' src="https://doancnm.s3.amazonaws.com/paybillLogo1.PNG" style={{
+                <img alt='' src="https://doancnm.s3.amazonaws.com/paybillLogo1.PNG" style={{
                     // marginLeft: '24px',
                     float: 'left',
                     width: '200px',
@@ -63,7 +76,7 @@ function LayoutPage(props) {
                     defaultSelectedKeys={header[0].name}
                     mode='horizontal'
                     className='menu'
-                    style={{ marginLeft: '300px'}}
+                    style={{ marginLeft: '300px' }}
                 >
                     {header.map(item => (
                         <Menu.Item
@@ -77,6 +90,14 @@ function LayoutPage(props) {
                         </Menu.Item>
                     ))}
                 </Menu>
+                {localStorage.getItem('type') === 'member' && <Badge count={1} style={{ marginTop: '10px' }}>
+                    <Avatar icon='bell' size='large'
+                        style={{
+                            color: '#000000',
+                            backgroundColor: '#ffffff',
+                            marginLeft: '60px'
+                        }} />
+                </Badge>}
 
                 <Dropdown
                     key='0'
@@ -95,22 +116,24 @@ function LayoutPage(props) {
             </Header>
             <Content style={{ padding: '0 50px', marginTop: 64 }}>
                 <div style={{ margin: '16px 0' }}>
-                <Breadcrumbs >
-                    {header.map(({title, navigateTo }) => (
-                        <Link key={navigateTo} to={navigateTo}>
-                            <Breadcrumb.Item> {title}</Breadcrumb.Item>
-                        </Link>
-                        
-                    ))}
-                </Breadcrumbs>
+                    <Breadcrumbs >
+                        {header.map(({ title, navigateTo }) => (
+                            <Link key={navigateTo} to={navigateTo}>
+                                <Breadcrumb.Item> {title}</Breadcrumb.Item>
+                            </Link>
+
+                        ))}
+                    </Breadcrumbs>
                 </div>
                 <div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
                     {props.children}
                 </div>
 
             </Content>
-            <Footer style={{ textAlign: 'center',background: '#f6f8f6'}} >PayBill ©2019 Created by Team25</Footer>
+            <Footer style={{ textAlign: 'center', background: '#f6f8f6' }} >PayBill ©2019 Created by Team25</Footer>
+            <UserInfo visible={visible} onClose={onClose} ></UserInfo>
         </Layout >
+
     )
 }
 export default LayoutPage

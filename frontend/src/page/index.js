@@ -44,7 +44,7 @@ function Root(props) {
           ></Route>))
 
         : <>
-          <Route
+         <Route
             path='/login'
             render={() => {
               const Component = lazy(() => import(`./login`))

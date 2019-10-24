@@ -12,10 +12,10 @@ export class CompanyResolver {
     return this.companyService.findCompanyByUsername(username)
   }
   @Query(() => [Company])
-  async getCompanyByServiceId(
-    @Args('serviceId') serviceId: string
+  async getCompanyByService(
+    @Args('service') service: string
   ) {
-    return this.companyService.findCompanyByService(serviceId)
+    return this.companyService.findCompanyByService(service)
   }
   @Mutation(() => Boolean)
   async createCompany(@Args('compInput') companyInput: CompanyInput) {

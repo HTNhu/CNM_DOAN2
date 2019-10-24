@@ -113,11 +113,11 @@ export class AccountService {
 	// }
 	async updateAccount(type,username,password): Promise<Boolean> {
 		try{
-			await dynamoDB.updateItem({
+			const a =await dynamoDB.updateItem({
 				TableName: 'User_TransactionHistory',
 				Key: {
-					"username": String(username),
-					"type": String(type)
+					"username": username,
+					"type": type
 				},
 				UpdateExpression: 'set #pw = :pw, #updatedAt = :updatedAt',
 				ExpressionAttributeNames: {
@@ -130,6 +130,8 @@ export class AccountService {
 				},
 				ReturnValues: "UPDATED_NEW"
 			})
+			console.log("UPDATE")
+			console.log(a)
 			return true
 		}catch (err){
 			console.error(err)

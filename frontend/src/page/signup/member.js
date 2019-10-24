@@ -5,7 +5,9 @@ import {
   Tooltip,
   Icon,
   Select,
-  Button
+  Button,
+  Col,
+  Row
 } from 'antd';
 import gql from 'graphql-tag'
 
@@ -141,14 +143,34 @@ console.log("props", this.props)
         </Select>,
       );
       return (
-        <div style={{ width: '60%', margin: ' 0 auto' }}>
-          <Form style={{
-            padding: '12px',
-            background: '#fbfbfb',
-            border: '2px solid #89d1be',
-            borderRadius: '6px'
-          }}  {...formItemLayout} onSubmit={this.handleSubmit}>
-            <h3><center>ĐĂNG KÝ THÀNH VIÊN</center></h3>
+        <div style={{ textAlign: 'center', marginTop: '10px' }}>
+        <Row id="layout-login" >
+            <Col
+                span={12} push={6}
+            >
+                <div id="components-form-demo-normal-login" style={{ margin: '0 auto' }}>
+          <Form   style={{
+                                marginBottom:'20px',
+                                padding: '24px',
+                                paddingBottom: '5px',
+                                background: '#fbfbfb',
+                                border: '2px solid #89d1be',
+                                borderRadius: '6px',
+                                height: 'auto',
+                                width: '100%'
+                            }}
+           {...formItemLayout} onSubmit={this.handleSubmit}>
+              <div className="login-form-header">
+                            <img alt="logo PayBill" src="https://doancnm.s3.amazonaws.com/paybillLogo1.PNG" style={{
+                                display: 'block',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                                paddingBottom:'20px',
+                                width: '50%'
+                            }} />
+                              <h2><center>ĐĂNG KÝ THÀNH VIÊN</center></h2>
+                            </div>
+            
             <Form.Item label="Số điện thoại">
               {getFieldDecorator('phone', {
                 rules: [{ required: true, message: 'Bạn cần nhập số điện thoại!' }],
@@ -218,18 +240,21 @@ console.log("props", this.props)
                 ],
               })(<Input.Password onBlur={this.handleConfirmBlur} style={{ width: '50%' }} />)}
             </Form.Item>
-
+           
             <Form.Item {...tailFormItemLayout} >
               <Button type="primary" htmlType="submit">
-                Register
+                Đăng ký
             </Button>
               <Button type="primary" htmlType="button" style={{ margin: 20 }}>
-                <a href="http://localhost:3000/signup">Trở về</a>
+                <a href="http://localhost:3006/login">Trở về</a>
               </Button>
 
 
             </Form.Item>
           </Form>
+          </div>
+          </Col>
+          </Row>
         </div>
       );
     }

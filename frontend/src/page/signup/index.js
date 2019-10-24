@@ -4,14 +4,8 @@ import Member from './member'
 import Company from './company'
 // import { withRouter } from 'react-router-dom'
 function Signup(props) {
-    const [type, setType] = useState('');
-    // const RadioGroup = Radio.Group
+    const [type, setType] = useState('member');
     console.log('props signup', props)
-    // const radioStyle = {
-    //     display: 'block',
-    //     height: '50px',
-    //     lineHeight: '50px',
-    // }
     const onChange = (e) => {
         console.log("ưedwef", e.target.value, props)
         setType(e.target.value)

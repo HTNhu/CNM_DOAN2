@@ -12,33 +12,33 @@ class Paycompany extends React.Component {
     }
 
     GET_COMPANY_BYSERVICE = gql`
-    query($serviceId: String!){
-        getCompanyByServiceId(serviceId: $serviceId){
+    query($service: String!){
+        getCompanyByService(service: $service){
         userId
           name
-          serviceId
+          service
           logo
         }
       }
         `
     componentDidMount = async () => {
         // const { currentPage, inputSearch } = this.state
-        this.refetchData(this.props.match.params.serviceId)
+        this.refetchData(this.props.match.params.service)
         // this.setupCount()
     }
 
-    refetchData = async (serviceId) => {
+    refetchData = async (service) => {
         await Client.query({
             query: this.GET_COMPANY_BYSERVICE,
             // fetchPolicy: 'no-cache',
             variables: {
-                serviceId
+                service
             }
         })
             .then(async result => {
                 console.log("sds", result)
                 await this.setState({
-                    companies: result.data.getCompanyByServiceId
+                    companies: result.data.getCompanyByService
                 })
                 console.log("sd", this.state.companies)
             })
@@ -50,7 +50,7 @@ class Paycompany extends React.Component {
         const { companies } = this.state
 
         const { history, match } = this.props
-        const { serviceId } = match.params
+        const { service } = match.params
         return (
             <>
             <h1 style={{ textAlign: 'center' }}><b>CÔNG TY</b></h1>
@@ -62,7 +62,7 @@ class Paycompany extends React.Component {
                         return (
                             <Col span={6}
                                 onClick={() => {
-                                    history.push(`/payment/${serviceId}/${item.userId}`)
+                                    history.push(`/payment/${service}/${item.userId}`)
                                 }}
                             >
                                 <Card style={{ width: '300px' }}>

@@ -31,6 +31,8 @@ export class MemberService {
             mem.address = a.Items[0].address
             mem.username = a.Items[0].username
             mem.password = a.Items[0].password
+            mem.createdAt = a.Items[0].createdAt
+            mem.updatedAt = a.Items[0].updatedAt
         }
         return mem
     }

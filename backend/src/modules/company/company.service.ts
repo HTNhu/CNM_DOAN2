@@ -30,7 +30,13 @@ export class CompanyService {
             comp.name = a.Items[0].name
             comp.address = a.Items[0].address
             comp.logo = a.Items[0].logo
-            comp.serviceId = a.Items[0].serviceId
+            comp.service = a.Items[0].service
+            comp.username = a.Items[0].username
+            comp.password = a.Items[0].password
+            comp.createdAt = a.Items[0].createdAt
+            comp.updatedAt = a.Items[0].updatedAt
+            comp.lstCustomer = a.Items[0].lstCustomer
+            
         }
         return comp
     }
@@ -54,6 +60,8 @@ export class CompanyService {
         const existUsername = await this.findCompanyByUsername(compInput.username)
         if (existCompany.Count !== 0 || existUsername) throw new ApolloError('Company existed', '401')
         // const id = await this.accService.signup({username: compInput.username, password: compInput.password, type: "company" })
+       
+       
         await dynamoDB.putItem({
             TableName: 'User_TransactionHistory',
             Item: {
@@ -66,24 +74,25 @@ export class CompanyService {
                 "address": compInput.address,
                 "phone": compInput.phone,
                 "logo": compInput.logo,
-                "serviceId": compInput.serviceId,
+                "service": compInput.service,
                 "createdAt": Date.now(),
-                "updatedAt": Date.now()
+                "updatedAt": Date.now(),
+                "lstCustomer" : compInput.lstCustomer
             }
         })
 
         return true
     }
-    async findCompanyByService(serviceId) : Promise<Company[]> {
+    async findCompanyByService(service) : Promise<Company[]> {
        const a=  await dynamoDB.scan({
             TableName: 'User_TransactionHistory',
-            FilterExpression: '#serviceId = :serviceId and #type= :type',
+            FilterExpression: '#service = :service and #type= :type',
             ExpressionAttributeNames: {
-                '#serviceId': 'serviceId',
+                '#service': 'service',
                 '#type': 'type'
             },
             ExpressionAttributeValues: {
-                ':serviceId': serviceId,
+                ':service': service,
                 ':type': 'company'
             }
         })
@@ -97,7 +106,7 @@ export class CompanyService {
             comp.name = element.name
             comp.address = element.address
             comp.logo = element.logo
-            comp.serviceId = element.serviceId
+            comp.service = element.service
             lst.push(comp)
         })
         console.log(lst)

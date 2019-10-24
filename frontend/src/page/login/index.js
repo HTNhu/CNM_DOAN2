@@ -1,13 +1,18 @@
-import React from 'react'
+import React , { useEffect } from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { Row, Col, Form, Icon, Input, Button } from 'antd'
 import openNotificationWithIcon from '../../component/openNotification'
+import bgBill from '../../assets/images/bgBill.jpg' 
 function Login(props) {
     console.log('prop login', props)
     // const { Title } = Typography
     const { form, history } = props
     const { getFieldDecorator } = form
+    useEffect(() => {
+       localStorage.removeItem('username')
+      });
+    
     function handleSubmit(e) {
         e.preventDefault()
         // setLoading(true)
@@ -57,14 +62,16 @@ function Login(props) {
         })
     }
     return (
+        // <div style={{backgroundImage: `url(${bgBill})`, width: '100%', height: '100%'}}>
         <div style={{ textAlign: 'center', marginTop: '100px' }}>
             <Row id="layout-login">
                 <Col
                     span={8} push={8}
                 >
-                    <div id="components-form-demo-normal-login" style={{ margin: '0 auto' }}>
+                    <div id="components-form-demo-normal-login"  style={{ margin: '0 auto' }}>
                         <Form
                             style={{
+                                // opacity: 1.9,
                                 padding: '24px',
                                 background: '#fbfbfb',
                                 border: '2px solid #89d1be',
@@ -110,14 +117,14 @@ function Login(props) {
                                             required: true,
                                             message: 'Please input your Password!'
                                         },
-                                        {
-                                            min: 1,
-                                            message: 'Your password must be between 1 and 8 characters'
-                                        },
-                                        {
-                                            max: 8,
-                                            message: 'Your password must be between 1 and 8 characters'
-                                        }
+                                        // {
+                                        //     min: 1,
+                                        //     message: 'Your password must be between 1 and 8 characters'
+                                        // },
+                                        // {
+                                        //     max: 8,
+                                        //     message: 'Your password must be between 1 and 8 characters'
+                                        // }
                                     ]
                                 })(
                                     <Input
@@ -140,7 +147,7 @@ function Login(props) {
                                             history.push('./signup')
                                         }}
                                     >
-                                        Đăng kí
+                                        Đăng ký
                                 </Button>
                                 </p>
                                 <Button
@@ -150,7 +157,7 @@ function Login(props) {
                                     onClick={handleSubmit}
                                 >
                                     <Icon type="login" />
-                                    Log in
+                                    Đăng nhập
                             </Button>
                             </Form.Item>
                         </Form>
@@ -159,7 +166,7 @@ function Login(props) {
                 </Col>
             </Row>
         </div>
-        // </div>
+    // </div>
     )
 }
 const USER_LOGIN = gql`

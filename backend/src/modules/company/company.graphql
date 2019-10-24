@@ -1,15 +1,27 @@
+input CustomerInput {
+        name: String
+        phone: String!
+        address: String
+}
+type Customer {
+        name: String
+        phone: String!
+        address: String
+}
 type Company {
     userId: ID!
     name: String!
     phone: String!
     address: String
     logo: String
-    serviceId: String
+    service: String
     username: String!
     password: String
     createdAt: String
     updatedAt: String
+    lstCustomer: [Customer]
 }
+
 input CompanyInput {
     name: String!
     phone: String!
@@ -17,11 +29,14 @@ input CompanyInput {
     logo: String
     username: String!
     password: String
-    serviceId: String
+    service: String
+    lstCustomer: [CustomerInput]
 }
+
+
 type Query {
     getCompanyByUsername(username: String): Company
-    getCompanyByServiceId(serviceId: String): [Company]
+    getCompanyByService(service: String): [Company]
 }
 type Mutation {
   createCompany(compInput: CompanyInput): Boolean

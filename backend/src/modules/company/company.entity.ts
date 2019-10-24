@@ -4,11 +4,22 @@ export class Company {
     phone: string
     address: string
     logo: string
-    serviceId: string
+    service: string
     username: string
     password: string
     createdAt: Date
     updatedAt: Date
+    lstCustomer: [Customer]
+}
+export class Customer{
+    name: string
+    address: string
+    phone: string
+}
+export class CustomerInput{
+    name: string
+    address: string
+    phone: string
 }
 export class CompanyInput {
     name: string
@@ -17,5 +28,6 @@ export class CompanyInput {
     username: string
     password: string
     logo: string
-    serviceId: string
+    service: string
+    lstCustomer: [CustomerInput]
 }
