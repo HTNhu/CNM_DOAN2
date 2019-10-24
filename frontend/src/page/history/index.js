@@ -1,80 +1,8 @@
 import React from 'react'
 // import { withRouter } from 'react-router-dom'
 
-import { Table, Tag } from 'antd';
-
-import { Select } from 'antd';
-
-const { Option } = Select;
-
-function onChange(value) {
-    console.log(`selected ${value}`);
-}
-
-function onBlur() {
-    console.log('blur');
-}
-
-function onFocus() {
-    console.log('focus');
-}
-
-function onSearch(val) {
-    console.log('search:', val);
-}
-
-const columns = [
-    {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-    },
-    {
-        title: 'TÊN KHÁCH HÀNG',
-        dataIndex: 'tenkh',
-        key: 'tenkh',
-    },
-    {
-        title: 'LOẠI HÓA ĐƠN',
-        dataIndex: 'loaihd',
-        key: 'loaihd',
-    },
-    {
-        title: 'TỔNG',
-        dataIndex: 'tong',
-        key: 'tong',
-    },
-    {
-        title: 'NGÀY',
-        dataIndex: 'ngay',
-        key: 'ngay',
-    },
-    {
-        title: 'CÔNG TY',
-        key: 'congty',
-        dataIndex: 'congty',
-        render: congty => (
-            <span>
-                {congty.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </span>
-        ),
-    },
-    {
-        title: 'NGÀY TRẢ',
-        dataIndex: 'ngaytra',
-        key: 'ngaytra',
-    },
-];
+import { Table, Tag, Icon, Input, Button } from 'antd';
+import Highlighter from 'react-highlight-words';
 
 const data = [
     {
@@ -108,29 +36,141 @@ const data = [
         ngaytra: '12-11-2020',
     },
 ];
+class App extends React.Component {
+    state = {
+        searchText: '',
+    };
+
+    getColumnSearchProps = dataIndex => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+            <div style={{ padding: 8 }}>
+                <Input
+                    ref={node => {
+                        this.searchInput = node;
+                    }}
+                    placeholder={`Tìm`}
+                    value={selectedKeys[0]}
+                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+                    style={{ width: 188, marginBottom: 8, display: 'block' }}
+                />
+                <Button
+                    type="primary"
+                    onClick={() => this.handleSearch(selectedKeys, confirm)}
+                    icon="search"
+                    size="small"
+                    style={{ width: 90, marginRight: 8 }}
+                >
+                    Tìm
+          </Button>
+                <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+                    Đặt lại
+          </Button>
+            </div>
+        ),
+        filterIcon: filtered => (
+            <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex]
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase()),
+        onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+                setTimeout(() => this.searchInput.select());
+            }
+        },
+        render: text => (
+            <Highlighter
+                highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                searchWords={[this.state.searchText]}
+                autoEscape
+                textToHighlight={text.toString()}
+            />
+        ),
+    });
+
+    handleSearch = (selectedKeys, confirm) => {
+        confirm();
+        this.setState({ searchText: selectedKeys[0] });
+    };
+
+    handleReset = clearFilters => {
+        clearFilters();
+        this.setState({ searchText: '' });
+    };
+    render() {
+        const columns = [
+            {
+                title: 'ID',
+                dataIndex: 'id',
+                key: 'id',
+                ...this.getColumnSearchProps('id'),
+            },
+            {
+                title: 'TÊN KHÁCH HÀNG',
+                dataIndex: 'tenkh',
+                key: 'tenkh',
+                ...this.getColumnSearchProps('tenkh'),
+            },
+            {
+                title: 'LOẠI HÓA ĐƠN',
+                dataIndex: 'loaihd',
+                key: 'loaihd',
+                ...this.getColumnSearchProps('loaihd'),
+            },
+            {
+                title: 'TỔNG',
+                dataIndex: 'tong',
+                key: 'tong',
+            },
+            {
+                title: 'NGÀY',
+                dataIndex: 'ngay',
+                key: 'ngay',
+                ...this.getColumnSearchProps('ngay'),
+            },
+            {
+                title: 'CÔNG TY',
+                key: 'congty',
+                dataIndex: 'congty',
+                render: congty => (
+                    <span>
+                        {congty.map(tag => {
+                            let color = tag.length > 5 ? 'geekblue' : 'green';
+                            if (tag === 'loser') {
+                                color = 'volcano';
+                            }
+                            return (
+                                <Tag color={color} key={tag}>
+                                    {tag.toUpperCase()}
+                                </Tag>
+                            );
+                        })}
+                    </span>
+                ),
+                ...this.getColumnSearchProps('congty'),
+            },
+            {
+                title: 'NGÀY TRẢ',
+                dataIndex: 'ngaytra',
+                key: 'ngaytra',
+                ...this.getColumnSearchProps('ngaytra'),
+            },
+        ];
+        return <Table columns={columns} dataSource={data} />;
+
+    }
+}
+
 
 function History(props) {
     console.log('prop history', props)
     return (
         <>
-            <Select
-                showSearch
-                style={{ width: 200, margin: 30 }}
-                placeholder="Chọn loại hóa đơn"
-                optionFilterProp="loaihd"
-                onChange={onChange}
-                onFocus={onFocus}
-                onBlur={onBlur}
-                onSearch={onSearch}
-                filterOption={(input, option) =>
-                    option.props.loaihd.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-            >
-                <Option value="1">Wifi</Option>
-                <Option value="2">Điện</Option>
-                <Option value="3">Nước</Option>
-            </Select>
-            <Table columns={columns} dataSource={data} />
+            <br></br>
+            <App />
         </>
 
     )

@@ -16,8 +16,11 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
           cancelText="Hủy"
           onCancel={onCancel}
           onOk={onCreate}
+          width = '600px'
         >
-          <Form layout="vertical">
+          <Form layout="inline" style={{}}>
+            <h3>Thông tin khách hàng</h3>
+            <br></br>
             <Form.Item label="Tên khách hàng">
               {getFieldDecorator('ten', {
                 rules: [{ required: true, message: 'Nhập tên!' }],
@@ -35,8 +38,11 @@ const CollectionCreateForm = Form.create({ name: 'form_in_modal' })(
                 rules: [{ required: true, message: 'Nhập địa chỉ!' }],
               })(<Input />)}
             </Form.Item>
-
-            <Form.Item label="Số Khối">
+            <br></br>
+            <br></br>
+            <h3>Thông tin công ty</h3>
+            <br></br>
+            <Form.Item label="Số khối">
               {getFieldDecorator('sokhoi', {
                 rules: [{ required: true, message: 'Không để trống!' }],
               })(<Input />)}
