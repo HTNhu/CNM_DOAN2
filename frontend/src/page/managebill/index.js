@@ -8,41 +8,6 @@ import Modal_Water from './modal_water'
 import gql from 'graphql-tag'
 import { Client } from '../../tools/apollo'
 
-// const data = 
-// [
-//     {
-//         key: '1',
-//         id: 'HD001',
-//         loaihd: 'Wifi',
-//         cuocphi: '300000vnđ',
-//         tenkh: 'Phan Hữu Quý',
-//         sdt: '0933323622',
-//         diachi: 'HCM',
-//         tongtien: '200000vnd',
-
-//     },
-//     {
-//         key: '2',
-//         id: 'HD002',
-//         loaihd: 'Wifi',
-//         cuocphi: '300000vnđ',
-//         tenkh: 'Hồ Trần Như',
-//         sdt: '0933323622',
-//         diachi: 'HCM',
-//         tongtien: '200000vnd',
-
-//     },
-//     {
-//         key: '3',
-//         id: 'HD003',
-//         loaihd: 'Wifi',
-//         cuocphi: '300000vnđ',
-//         tenkh: 'Trần Quang Phúc',
-//         sdt: '0933323622',
-//         diachi: 'HCM',
-//         tongtien: '200000vnd',
-//     },
-// ];
 class ManageBill extends React.Component {
     constructor(props){
         super(props)
@@ -233,7 +198,8 @@ return (
     
 </Button>
 { info.service === 'Điện' ? 
-<Modal_Electric history={this.props.history} visible= { this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Electric>
+<Modal_Electric 
+history={this.props.history} visible= { this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Electric>
 :  info.service === 'Nước' ?
 <Modal_Water visible ={ this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Water>
 :<Modal_Internet visible={this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Internet>

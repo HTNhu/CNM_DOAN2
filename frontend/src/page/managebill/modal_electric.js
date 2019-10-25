@@ -36,7 +36,7 @@ class Modal_Electric extends React.Component {
         })
           .then(res => {
             console.log(res)
-
+            
             openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
             this.props.history.push('./managebill')
           })

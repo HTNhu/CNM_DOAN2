@@ -23,7 +23,7 @@ type ElectricBill {
     address: String
     createdAt: String
     updatedAt: String
-    iSPaid: Boolean
+    isPaid: Boolean
     description: Electric
     total: Int
 }
@@ -65,6 +65,7 @@ type Query{
     getElectricBillsByCompanyPhone(companyId: String, phone: String): ElectricBill
 }
 type Mutation{
+    updateStatusBill(billId: String!, companyId: String!): Boolean
     createWaterBill(waterbillInput: WaterBillInput): Boolean
     createElectricBill(electricbillInput: ElectricBillInput): Boolean
 }

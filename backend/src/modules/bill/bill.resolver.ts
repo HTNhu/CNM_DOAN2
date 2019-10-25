@@ -27,4 +27,10 @@ export class BillResolver {
   async createElectricBill(@Args('electricbillInput') electricbillInput: ElectricBillInput) {
     return this.billService.createElectricBill(electricbillInput)
   }
+  @Mutation(() => Boolean)
+  async updateStatusBill(
+    @Args('billId') billId: string,
+  @Args('companyId') companyId: string) {
+    return this.billService.update(billId,companyId)
+  }
 }

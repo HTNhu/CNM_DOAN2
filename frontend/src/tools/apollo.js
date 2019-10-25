@@ -8,18 +8,18 @@ const Client = new ApolloClient({
   link: createHttpLink({ uri: 'http://localhost:3000/graphql' }),
   cache,
     defaultOptions: {
-      mutate: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
-      },
-      query: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
-      },
-      watchQuery: {
-        fetchPolicy: 'network-only',
-        errorPolicy: 'ignore'
-      }
+    //   mutate: {
+    //     fetchPolicy: 'no-cache',
+    //     errorPolicy: 'all'
+    //   },
+    //   query: {
+    //     fetchPolicy: 'no-cache',
+    //     errorPolicy: 'all'
+    //   },
+    //   watchQuery: {
+    //     fetchPolicy: 'network-only',
+    //     errorPolicy: 'ignore'
+    //   }
     }
   })
   export { Client }

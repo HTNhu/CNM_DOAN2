@@ -3,21 +3,23 @@ type History {
   type: String
   company: String 
   name: String
-  member: String
+  username: String
   total: Int
   paidAt: String
+  companyname: String
 }
 input HistoryInput {
   billId: ID
   company: String 
-  member: String
+  username: String
   type: String
   total: Int
   name: String
+  companyname: String
 }
 type Query{
     getHistoryByCompany(company: String): [History]
-    getHistoryByMember(member: String ): [History]
+    getHistoryByMember(username: String ): [History]
 }
 type Mutation{
     createHistory(hisInput: HistoryInput): Boolean

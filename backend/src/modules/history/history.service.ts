@@ -12,13 +12,14 @@ export class HistoryService {
     async create(hisInput: HistoryInput): Promise<Boolean> {
         try {
             await dynamoDB.putItem({
-                TableName: 'History',
+                TableName: "History",
                 Item: {
                     "billId": hisInput.billId,
                     "type": hisInput.type,
-                    "company": hisInput.company, 
+                    "company": hisInput.company,
+                    "companyname": hisInput.companyname,
                     "name": hisInput.name,
-                    "member": hisInput.member,
+                    "username": hisInput.username,
                     "total": hisInput.total,
                     "paidAt": Date.now()
                 }
@@ -27,19 +28,17 @@ export class HistoryService {
         } catch (err) {
             return false
         }
-        return true
-
     }
     async findHistoryByCompany(company: string): Promise<History[]> {
         try {
             const a = await dynamoDB.scan({
-                TableName: 'History',
-                FilterExpression: ' #company = :company',
+                TableName: "History",
+                FilterExpression: " #company = :company",
                 ExpressionAttributeNames: {
-                    '#company': 'company'
+                    "#company": "company"
                 },
                 ExpressionAttributeValues: {
-                    ':company': company,
+                    ":company": company
                 },
             })
             return a.Items
@@ -48,15 +47,15 @@ export class HistoryService {
         }
 
     }
-    async findHistoryByMember(member: string): Promise<History[]> {
+    async findHistoryByMember(username: string): Promise<History[]> {
         const a = await dynamoDB.scan({
-            TableName: 'History',
-            FilterExpression: ' #member = :member',
+            TableName: "History",
+            FilterExpression: " #username = :username",
             ExpressionAttributeNames: {
-                '#member': 'member'
+                "#username": "username"
             },
             ExpressionAttributeValues: {
-                ':member': member,
+                ":username": username
             },
         })
         console.log("kq", a)

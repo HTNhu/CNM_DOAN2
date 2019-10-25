@@ -10,6 +10,7 @@ import { CompanyModule } from '../src/modules/company/company.module'
 import { ServiceModule } from '../src/modules/service/service.module'
 import { UploadModule } from '../src/modules/S3/upload.module'
 import { BillModule } from '../src/modules/bill/bill.module'
+import { HistoryModule} from '../src/modules/history/history.module'
 import * as path from 'path';
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import * as path from 'path';
     CompanyModule,
     ServiceModule,
     UploadModule,
-    BillModule
+    BillModule,
+    HistoryModule
   ],
   controllers: [AppController],
   providers: [AppService],

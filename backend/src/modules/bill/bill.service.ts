@@ -48,7 +48,7 @@ export class BillService {
                  "phone": wInput.phone,
                  "name": wInput.name,
                  "address": wInput.address,
-                 "isPaid": true,
+                 "isPaid": false,
                  "description": wInput.description
              }
          })
@@ -61,12 +61,14 @@ export class BillService {
     async findBillByCompany(companyId: string) : Promise<ElectricBill>  {
         const a= await dynamoDB.scan({
             TableName: 'Bill',
-            FilterExpression: ' #companyId = :companyId',
+            FilterExpression: ' #companyId = :companyId and #isPaid = :isPaid',
             ExpressionAttributeNames: {
-                '#companyId': 'companyId'
+                '#companyId': 'companyId',
+                '#isPaid': 'isPaid'
             },
             ExpressionAttributeValues: {
                 ':companyId': companyId,
+                ':isPaid': false
             },
         })
         console.log("kq", a)
@@ -91,26 +93,30 @@ export class BillService {
         if(a.Count ===0) return null
         return a.Items[0]
     }
-    async update(billId: string, phone: string): Promise<Boolean> {
-        await dynamoDB.putItem({
-            TableName: 'Bill',
+    async update(billId: string, companyId: string): Promise<Boolean> {
+        await dynamoDB.updateItem({
+            TableName: "Bill",
             Key: {
                 "billId": billId,
-                "phone": phone
+                "companyId": companyId
             },
-            UpdateExpression: 'set #isPaid = :isPaid, #updatedAt = :updatedAt',
+            UpdateExpression: "set #isPaid = :isPaid, #updatedAt = :updatedAt",
             ExpressionAttributeNames: {
-                '#isPaid': 'isPaid',
-                '#updatedAt': 'updatedAt'
+                "#isPaid": "isPaid",
+                "#updatedAt": "updatedAt"
             },
             ExpressionAttributeValues: {
-                ':isPaid': true,
-                ':updatedAt': Date.now()
+                ":isPaid": true,
+                ":updatedAt": Date.now()
             },
             ReturnValues: "UPDATED_NEW"
         })
-
+        console.log("UPDATE")
+        console.log('ok')
         return true
+    }catch (err){
+        console.error("sdfd",err)
+    }
+        // return true
     }
 
-}

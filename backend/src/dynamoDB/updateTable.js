@@ -21,7 +21,7 @@ dynamodb.updateTable({
         
     ],
     GlobalSecondaryIndexUpdates: [{
-        Create: {
+        Delete: {
             IndexName: 'History',
         }
     }]

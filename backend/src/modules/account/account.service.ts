@@ -114,19 +114,19 @@ export class AccountService {
 	async updateAccount(type,username,password): Promise<Boolean> {
 		try{
 			const a =await dynamoDB.updateItem({
-				TableName: 'User_TransactionHistory',
+				TableName: "User_TransactionHistory",
 				Key: {
 					"username": username,
 					"type": type
 				},
-				UpdateExpression: 'set #pw = :pw, #updatedAt = :updatedAt',
+				UpdateExpression: "set #pw = :pw, #updatedAt = :updatedAt",
 				ExpressionAttributeNames: {
-					'#pw': 'password',
-					'#updatedAt': 'updatedAt'
+					"#pw": "password",
+					"#updatedAt": "updatedAt"
 				},
 				ExpressionAttributeValues: {
-					':pw': await this.hashPassword(password),
-					':updatedAt': Date.now()
+					":pw": await this.hashPassword(password),
+					":updatedAt": Date.now()
 				},
 				ReturnValues: "UPDATED_NEW"
 			})

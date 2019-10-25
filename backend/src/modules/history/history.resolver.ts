@@ -12,8 +12,8 @@ export class HistoryResolver {
   }
   @Query(() => [History])
   async getHistoryByMember(
-    @Args('member') member: string) {
-    return this.hisService.findHistoryByMember(member)
+    @Args('username') username: string) {
+    return this.hisService.findHistoryByMember(username)
   }
   @Mutation(() => Boolean)
   async createHistory(

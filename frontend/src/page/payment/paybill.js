@@ -25,6 +25,7 @@ class Paybill extends React.Component {
             phone
             address
             name
+            companyId
             companyname
            total 
             description{
@@ -143,7 +144,11 @@ class Paybill extends React.Component {
                         <h4>Địa chỉ: {this.state.bills.address}</h4>
                         <h4>Số điện thoại:  {this.state.bills.phone}</h4>
                         {this.state.bills !== {} &&<Table columns={columns} dataSource={data} size="small" />}
-                        <PaypalButton amount = {this.state.bills.total}>Thanh toán</PaypalButton >
+                        <PaypalButton 
+                            bill ={this.state.bills}
+                            companyId= {this.state.bills.companyId} 
+                            billId ={this.state.bills.billId}
+                            amount = {this.state.bills.total}>Thanh toán</PaypalButton >
                     </div>
                 </Modal>
                 {this.state.isEmpty && <Empty></Empty>}
