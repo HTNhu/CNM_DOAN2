@@ -75,7 +75,7 @@ export class BillService {
     async findBillByCompanyPhone(companyId: string, phone: string) : Promise<ElectricBill>  {
         const a = await dynamoDB.scan({
             TableName: 'Bill',
-            FilterExpression: ' #companyId = :companyId && #phone = :phone && #isPaid = #isPaid' ,
+            FilterExpression: ' #companyId = :companyId and #phone = :phone and #isPaid = :isPaid' ,
             ExpressionAttributeNames: {
                 '#companyId': 'companyId',
                 '#phone': 'phone',
@@ -84,10 +84,11 @@ export class BillService {
             ExpressionAttributeValues: {
                 ':companyId': companyId,
                 ':phone': phone,
-                '#isPaid': false
+                ':isPaid': false
             },
         })
         console.log("kqby phone", a)
+        if(a.Count ===0) return null
         return a.Items[0]
     }
     // async create(memInput): Promise<Boolean> {

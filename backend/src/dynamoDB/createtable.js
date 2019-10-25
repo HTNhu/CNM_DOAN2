@@ -31,7 +31,7 @@ dynamodb.createTable({
     TableName: "Bill",
     KeySchema: [
         { AttributeName: "companyId", KeyType: "HASH" },
-        { AttributeName: "phone", KeyType: "RANGE"}
+        { AttributeName: "phone", KeyType: "RANGE" }
     ],
     AttributeDefinitions: [
         { AttributeName: "companyId", AttributeType: "S" },
@@ -48,6 +48,7 @@ dynamodb.createTable({
         console.dir(`Created table`);
     }
 });
+
 dynamodb.createTable({
     TableName: "User_TransactionHistory",
     KeySchema: [
@@ -94,11 +95,11 @@ dynamodb.createTable({
     TableName: "Bill",
     KeySchema: [
         { AttributeName: "billId", KeyType: "HASH" },
-        { AttributeName:'phone', KeyType:'RANGE'}
+        { AttributeName: 'phone', KeyType: 'RANGE' }
     ],
     AttributeDefinitions: [
         { AttributeName: "billId", AttributeType: "S" },
-        { AttributeName: 'phone', AttributeType: 'S'}
+        { AttributeName: 'phone', AttributeType: 'S' }
     ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 10,

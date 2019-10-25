@@ -6,6 +6,7 @@ endpoint: 'http://localhost:8000',
 const docClient = new AWS.DynamoDB.DocumentClient();
 const params = {
     TableName: 'User_TransactionHistory',
+    // IndexName: 'TransactionHistory',
 };
 console.log('Scan ... ');
 docClient.scan(params, onScan);

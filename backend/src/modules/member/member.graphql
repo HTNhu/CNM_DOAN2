@@ -7,6 +7,13 @@ type Member {
     password: String
     createdAt: String
     updatedAt: String
+    lstHistory: []
+}
+input History{
+    billId: ID
+    name: String
+    paidAt: String
+    type: Stirng
 }
 input MemberInput {
     name: String!
