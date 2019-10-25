@@ -26,6 +26,7 @@ class Company extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      pre: false,
       services: [],
       confirmDirty: false,
       autoCompleteResult: [],
@@ -179,14 +180,7 @@ query{
         },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>,
-    );
+    
     const getBase64 = (img, callback) => {
       const reader = new FileReader();
       reader.addEventListener('load', () => callback(reader.result));
@@ -204,6 +198,18 @@ query{
         message.error('Image must smaller than 2MB!');
       }
       return isJpgOrPng && isLt2M;
+    }
+    const beforeUploadExel = (file) => {
+      console.log(file, "file before")
+      const isJpgOrPng = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      if (!isJpgOrPng) {
+        message.error('You can only upload exel file!');
+      }
+      // const isLt2M = file.size / 1024 / 1024 < 2;
+      // if (!isLt2M) {
+      //   message.error('Image must smaller than 2MB!');
+      // }
+      return isJpgOrPng ;
     }
  
     const handleChange = async(info, e) => {
@@ -255,10 +261,7 @@ const props = {
     }
     jsonData.push(data)
   }
-  const arrCus = []
-  console.log("json", jsonData)
-
-    
+  console.log("json", jsonData) 
   return jsonData;
 };
   const readExel = async(info) => {
@@ -350,14 +353,20 @@ const props = {
           </Form.Item>
           <Form.Item label="Số điện thoại">
             {getFieldDecorator('phone', {
-              rules: [{ required: true, message: 'Bạn cần nhập số điện thoại!' }],
-            })(<Input addonBefore={prefixSelector} style={{ width: '50%' }} />)}
+              rules: [
+                { required: true, message: 'Bạn cần nhập số điện thoại!' },
+                {
+                  pattern: new RegExp(/^0+\d{9}$/g),
+                  message: "Không đúng định dạng!" 
+                },
+              ],
+            })(<Input style={{ width: '50%' }} />)}
           </Form.Item>
 
           <Form.Item
             label={
               <span>
-                Họ và Tên&nbsp;
+                Tên Công Ty&nbsp;
   
             </span>
             }
@@ -420,15 +429,22 @@ const props = {
               ],
             })(<Input.Password onBlur={this.handleConfirmBlur} style={{ width: '50%' }} />)}
           </Form.Item>
-          <Form.Item>
-          <Upload {...props} onChange={readExel}>
+          <Form.Item label="Danh sách khách hàng" >
+          <Upload 
+          multiple= {false}
+          onPreview ={() => this.setState({
+            pre: true
+          }) }
+          accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          beforeUpload={beforeUploadExel}
+          {...props} onChange={readExel}>
     <Button>
       <Icon type="upload" /> Click to Upload List Customer
     </Button>
   </Upload> 
-  <OutTable data={this.state.rows} 
-  columns={this.state.cols} 
-  tableClassName="ExcelTable2007" tableHeaderRowClass="heading" />
+  {this.state.pre && <OutTable data={this.state.rows} 
+          columns={this.state.cols} 
+          tableClassName="ExcelTable2007" tableHeaderRowClass="heading" />}
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">

@@ -7,7 +7,8 @@ import {
   Select,
   Button,
   Col,
-  Row
+  Row,
+  InputNumber
 } from 'antd';
 import gql from 'graphql-tag'
 
@@ -134,14 +135,6 @@ console.log("props", this.props)
           },
         },
       };
-      const prefixSelector = getFieldDecorator('prefix', {
-        initialValue: '86',
-      })(
-        <Select style={{ width: 70 }}>
-          <Option value="86">+86</Option>
-          <Option value="87">+87</Option>
-        </Select>,
-      );
       return (
         <div style={{ textAlign: 'center', marginTop: '10px' }}>
         <Row id="layout-login" >
@@ -173,8 +166,14 @@ console.log("props", this.props)
             
             <Form.Item label="Số điện thoại">
               {getFieldDecorator('phone', {
-                rules: [{ required: true, message: 'Bạn cần nhập số điện thoại!' }],
-              })(<Input addonBefore={prefixSelector} style={{ width: '50%' }} />)}
+                rules: [
+                  { required: true, message: 'Bạn cần nhập số điện thoại!' },
+                  {
+                    pattern: new RegExp(/^0+\d{9}$/g),
+                    message: "Không đúng định dạng!" 
+                  }
+                ],
+              })(<Input  style={{ width: '50%' }} />)}
             </Form.Item>
             <Form.Item
               label={

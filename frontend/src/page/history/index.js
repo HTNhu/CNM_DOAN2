@@ -1,6 +1,6 @@
 import React from 'react'
 // import { withRouter } from 'react-router-dom'
-
+import NumberFormat from 'react-number-format'
 import { Table, Tag, Icon, Input, Button } from 'antd';
 import Highlighter from 'react-highlight-words';
 import gql from 'graphql-tag'
@@ -150,7 +150,7 @@ class History extends React.Component {
                 // billId: (item.billId).toString(),
                 name: item.name.toString(),
                 type: item.type.toString(),
-                total: item.total.toString(),
+                total: <NumberFormat defaultValue ={item.total} thousandSeparator={true}  displayType='text'/>,
                 paidAt: Date(item.paidAt),
                 username: item.username.toString(),
                 companyname: item.companyname.toString()
