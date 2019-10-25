@@ -9,19 +9,20 @@ AWS.config.update({
 const dynamodb = new AWS.DynamoDB()
 
 dynamodb.updateTable({
-    TableName: 'User_TransactionHistory',
+    TableName: 'Bill',
     AttributeDefinitions: [
-        {AttributeName: 'username', AttributeType: 'S'},
-        {AttributeName: 'type', AttributeType: 'S'},
         {AttributeName: 'billId', AttributeType: 'S'},
-        {AttributeName: 'total', AttributeType: 'S'},
-        {AttributeName: 'paidAt', AttributeType: 'S' },
-        {AttributeName: 'name', AttributeType: 'S'}
+        {AttributeName: 'isPaid', AttributeType: 'B'},
+        {AttributeName: 'paidDate', AttributeType: 'S'},
+        {AttributeName: 'company', AttributeType: 'S'},
+        {AttributeName: 'member', AttributeType: 'S' },
+        {AttributeName: 'name', AttributeType: 'S'},
+        {AttributeName: 'total', AttributeType: 'D'}
         
     ],
     GlobalSecondaryIndexUpdates: [{
-        Delete: {
-            IndexName: 'TransactionHistory',
+        Create: {
+            IndexName: 'History',
         }
     }]
 },(err, data) => {

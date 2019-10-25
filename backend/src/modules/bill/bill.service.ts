@@ -91,29 +91,26 @@ export class BillService {
         if(a.Count ===0) return null
         return a.Items[0]
     }
-    // async create(memInput): Promise<Boolean> {
-    //     const existMember = await this.findUserByPhoneUsername(memInput.phone)
-    //     const existUsername = await this.findMemberByUsername(memInput.username)
-    //     console.log("sfdg",existMember, existUsername)
-    //     if (existMember.Count !== 0 || existUsername) throw new ApolloError('Member existed', '401')
-    //     // const id = await this.accService.signup({ username: memInput.username, password: memInput.password, type: "member" })
-    //     // console.log("idđ", id)
-    //     await dynamoDB.putItem({
-    //         TableName: 'User_TransactionHistory',
-    //         Item: {
-    //             "userId": uuid.v4(),
-	// 			"username":  memInput.username,
-	// 			"password": await this.accService.hashPassword(memInput.password),
-	// 			"type":'member',
-	// 			"createdAt": Date.now(),
-    //             "updatedAt": Date.now(),
-    //             "phone": memInput.phone,
-    //             "name": memInput.name,
-    //             "address": memInput.address
-    //         }
-    //     })
+    async update(billId: string, phone: string): Promise<Boolean> {
+        await dynamoDB.putItem({
+            TableName: 'Bill',
+            Key: {
+                "billId": billId,
+                "phone": phone
+            },
+            UpdateExpression: 'set #isPaid = :isPaid, #updatedAt = :updatedAt',
+            ExpressionAttributeNames: {
+                '#isPaid': 'isPaid',
+                '#updatedAt': 'updatedAt'
+            },
+            ExpressionAttributeValues: {
+                ':isPaid': true,
+                ':updatedAt': Date.now()
+            },
+            ReturnValues: "UPDATED_NEW"
+        })
 
-    //     return true
-    // }
+        return true
+    }
 
 }

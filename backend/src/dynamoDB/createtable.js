@@ -112,3 +112,24 @@ dynamodb.createTable({
         console.dir(`Created table`);
     }
 });
+dynamodb.createTable({
+    TableName: "History",
+    KeySchema: [
+        { AttributeName: "username", KeyType: "HASH" },
+        { AttributeName: "billId", KeyType: "RANGE" }
+    ],
+    AttributeDefinitions: [
+        { AttributeName: "username", AttributeType: "S" },
+        { AttributeName: "billId", AttributeType: "S" }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10
+    },
+}, (err, data) => {
+    if (err) {
+        console.dir(err);
+    } else {
+        console.dir(`Created table History`);
+    }
+});

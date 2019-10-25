@@ -1,0 +1,24 @@
+type History {
+  billId: ID
+  type: String
+  company: String 
+  name: String
+  member: String
+  total: Int
+  paidAt: String
+}
+input HistoryInput {
+  billId: ID
+  company: String 
+  member: String
+  type: String
+  total: Int
+  name: String
+}
+type Query{
+    getHistoryByCompany(company: String): [History]
+    getHistoryByMember(member: String ): [History]
+}
+type Mutation{
+    createHistory(hisInput: HistoryInput): Boolean
+}
