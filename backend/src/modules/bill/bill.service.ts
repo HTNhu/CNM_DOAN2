@@ -40,7 +40,7 @@ export class BillService {
              TableName: 'Bill',
              Item: {
                  "billId": uuid.v4(),
-                 "type":  'Điện',
+                 "type":  'Nước',
                  "companyId": wInput.companyId,
                  "companyname": wInput.companyname,
                  "createdAt": Date.now(),
@@ -49,7 +49,8 @@ export class BillService {
                  "name": wInput.name,
                  "address": wInput.address,
                  "isPaid": false,
-                 "description": wInput.description
+                 "description": wInput.description,
+                 "total": wInput.description.LNTT * wInput.description.unitPrice
              }
          })
          return true
@@ -74,6 +75,7 @@ export class BillService {
         console.log("kq", a)
         return a.Items
     }
+    
     async findBillByCompanyPhone(companyId: string, phone: string) : Promise<ElectricBill>  {
         const a = await dynamoDB.scan({
             TableName: 'Bill',

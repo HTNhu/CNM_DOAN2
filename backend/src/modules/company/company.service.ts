@@ -98,19 +98,19 @@ export class CompanyService {
         })
         if (a.Count === 0) return []
         console.log(a.Items,"sà")
-        const lst = []
-        await a.Items.forEach(async element => {
-            const comp = new Company();
-            comp.userId = element.userId
-            comp.username = element.username
-            comp.name = element.name
-            comp.address = element.address
-            comp.logo = element.logo
-            comp.service = element.service
-            lst.push(comp)
-        })
-        console.log(lst)
-     return lst
+        // const lst = []
+        // await a.Items.forEach(async element => {
+        //     const comp = new Company();
+        //     comp.userId = element.userId
+        //     comp.username = element.username
+        //     comp.name = element.name
+        //     comp.address = element.address
+        //     comp.logo = element.logo
+        //     comp.service = element.service
+        //     lst.push(comp)
+        // })
+        // console.log(lst)
+     return a.Items
 
     }
 }

@@ -38,27 +38,6 @@ dynamodb.createTable({
         { AttributeName: "username", AttributeType: "S" },
         { AttributeName: "type", AttributeType: "S" }
     ],
-    // GlobalSecondaryIndexes: [{
-    //     IndexName: 'User_History',
-    //     KeySchema: [
-    //         {
-    //             AttributeName: 'username',
-    //             KeyType: 'HASH',
-    //         },
-    //         {
-    //             AttributeName: 'historyId',
-    //             KeyType: 'RANGE',
-    //         }
-    //     ],
-    //     Projection: {
-    //       ProjectionType: 'ALL'
-    //     },
-    //     ProvisionedThroughput: {
-    //         ReadCapacityUnits: 10,
-    //         WriteCapacityUnits: 10
-    //     }
-    // }
-    // ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 10,
         WriteCapacityUnits: 10
@@ -110,5 +89,26 @@ dynamodb.createTable({
         console.dir(err);
     } else {
         console.dir(`Created table History`);
+    }
+});
+dynamodb.createTable({
+    TableName: "ScheduleReminder",
+    KeySchema: [
+        { AttributeName: "id", KeyType: "HASH" },
+        { AttributeName: "companyId", KeyType: "RANGE" }
+    ],
+    AttributeDefinitions: [
+        { AttributeName: "id", AttributeType: "S" },
+        { AttributeName: "companyId", AttributeType: "S" }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10
+    },
+}, (err, data) => {
+    if (err) {
+        console.dir(err);
+    } else {
+        console.dir(`Created table schedule`);
     }
 });

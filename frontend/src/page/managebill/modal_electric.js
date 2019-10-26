@@ -3,43 +3,50 @@ import { Button, Modal, Form, Input, InputNumber, AutoComplete } from 'antd';
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import openNotificationWithIcon from '../../component/openNotification'
+import { Client } from '../../tools/apollo'
+import * as compose from 'lodash.flowright'
 // const { Option } = Select
 // eslint-disable-next-line
 class Modal_Electric extends React.Component {
   constructor(props) {
     super(props)
   }
-
-  onCreate = (e) => {
+  
+  onCreate = async(e) => {
     e.preventDefault()
     // setLoading(true)
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async(err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
         const { phone, name, address, DNTT } = values
-        this.props.createElectricBill({
+        await this.props.createElectricBill({
           mutation: CREATE_ELECTRICBILL,
           variables: {
-            electricbillInput:{
+            electricbillInput: {
               name,
-            phone,
-            address,
-            companyId: this.props.companyId,
-            companyname: this.props.companyname,
-            description: {
-              DNTT,
-              unitPrice: 3000
+              phone,
+              address,
+              companyId: this.props.companyId,
+              companyname: this.props.companyname,
+              description: {
+                DNTT,
+                unitPrice: 3000
+              }
             }
-            }
-            
           }
         })
-          .then(res => {
+          .then( async res => {
             console.log(res)
-            
-            openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
-            this.props.history.push('./managebill')
+            if(res.data.createElectricBill){
+              await this.props.getBillByCompany.refetch()
+              this.props.onCancel()
+             
+              // window.location.reload()
+              openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
+            }
+           
           })
+
           .catch(err1 => {
             let mess = ''
             mess = 'Fail'
@@ -67,7 +74,7 @@ class Modal_Electric extends React.Component {
           name: item.name,
           address: item.address
         })
-      }else {
+      } else {
         this.props.form.setFieldsValue({
           name: "",
           address: ""
@@ -151,10 +158,31 @@ mutation ($electricbillInput: ElectricBillInput!){
   createElectricBill(electricbillInput: $electricbillInput)
   }
 `
-export default graphql(
+const GET_BILL_BYCOMPANY = gql`query($companyId: String){
+  getElectricBillsByCompany(companyId:$companyId){
+      billId
+      type
+      name
+      phone
+      address
+     total 
+      description{
+        DNTT
+      }
+
+}
+}
+`
+export default compose(
+  graphql(
   CREATE_ELECTRICBILL, {
   name: 'createElectricBill',
   options: {}
-}
+}),
+graphql(
+  GET_BILL_BYCOMPANY, {
+  name: 'getBillByCompany',
+  options: {}
+}),
 )(Form.create({ name: 'form_in_modal' })(Modal_Electric))
 // export default Form.create({ name: 'form_in_modal' })(Modal_Electric)

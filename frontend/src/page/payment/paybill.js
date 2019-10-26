@@ -45,7 +45,7 @@ class Paybill extends React.Component {
     refetchData = async (companyId,phone) => {
         await Client.query({
             query: this.GET_BILL_BYCOMPANYPHONE,
-            // fetchPolicy: 'no-cache',
+            fetchPolicy: 'no-cache',
             variables: {
                 companyId,
                 phone
@@ -145,6 +145,7 @@ class Paybill extends React.Component {
                         <h4>Số điện thoại:  {this.state.bills.phone}</h4>
                         {this.state.bills !== {} &&<Table columns={columns} dataSource={data} size="small" />}
                         <PaypalButton 
+                            onCancel={this.handleCancel}
                             bill ={this.state.bills}
                             companyId= {this.state.bills.companyId} 
                             billId ={this.state.bills.billId}

@@ -92,7 +92,7 @@ function Login(props) {
                             <Form.Item>
                                 {getFieldDecorator('username', {
                                     valuePropName: 'defaultValue',
-                                    initialValue: 'admin',
+                                    initialValue: 'mem33',
                                     rules: [
                                         {
                                             required: true,

@@ -17,7 +17,8 @@ class ManageBill extends React.Component {
             bills: []
         }
     }
-     GET_BILL_BYCOMPANY = gql`query($companyId: String){
+    GET_BILL_BYCOMPANY = JSON.parse(localStorage.getItem('info')).service === "Điện"
+    ? gql`query($companyId: String){
         getElectricBillsByCompany(companyId:$companyId){
             billId
             type
@@ -32,9 +33,24 @@ class ManageBill extends React.Component {
       }
     }
 `
+:
+gql`query($companyId: String){
+    getWaterBillsByCompany(companyId:$companyId){
+        billId
+        type
+        name
+        phone
+        address
+       total 
+        description{
+          LNTT
+        }
+
+  }
+}`
 componentDidMount = async () => {
     // const { currentPage, inputSearch } = this.state
-    console.log(JSON.parse(localStorage.getItem('info')).userId)
+    // console.log(JSON.parse(localStorage.getItem('info')).userId)
     await this.refetchData(JSON.parse(localStorage.getItem('info')).userId)
     // this.setupCount()
 }
@@ -42,7 +58,7 @@ componentDidMount = async () => {
 refetchData = async (companyId) => {
     await Client.query({
         query: this.GET_BILL_BYCOMPANY,
-        // fetchPolicy: 'no-cache',
+        fetchPolicy: 'no-cache',
         variables: {
             companyId
         }
@@ -50,7 +66,9 @@ refetchData = async (companyId) => {
         .then(async result => {
             console.log("getBoll", result)
              this.setState({
-                bills: result.data.getElectricBillsByCompany
+                bills: JSON.parse(localStorage.getItem('info')).service === "Điện"
+                ?  result.data.getElectricBillsByCompany
+                : result.data.getWaterBillsByCompany
             })
             console.log("sd", this.state.bills)
         })
@@ -124,12 +142,12 @@ refetchData = async (companyId) => {
             data.push({
             key: (idx+1).toString(),
             id: item.billId,
-            type: 'Điện',
-            DNTT: item.description.DNTT.toString(),
+            type: item.type,
+            TT: item.type === 'Điện' ? item.description.DNTT.toString() : item.description.LNTT.toString() ,
             name: item.name,
             phone: item.phone,
             address: item.address,
-            total: item.total.toString()
+            total: item.total && item.total.toString()
             })
         } )
         console.log(data, "data nha")
@@ -145,10 +163,16 @@ refetchData = async (companyId) => {
         dataIndex: 'type',
         key: 'type',
     },
-    {
+   this.state.bills && this.state.bills.type === 'Điện' 
+   ? {
         title: 'Điện năng tiêu thụ',
-        dataIndex: 'DNTT',
-        key: 'DNTT',
+        dataIndex: 'TT',
+        key: 'TT',
+    }
+    :{
+        title: 'Lượng nước tiêu thụ',
+        dataIndex: 'TT',
+        key: 'TT',
     },
     {
         title: 'TÊN KHÁCH HÀNG',
@@ -201,7 +225,7 @@ return (
 <Modal_Electric 
 history={this.props.history} visible= { this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Electric>
 :  info.service === 'Nước' ?
-<Modal_Water visible ={ this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Water>
+<Modal_Water history={this.props.history} visible ={ this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Water>
 :<Modal_Internet visible={this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Internet>
 }
 </>

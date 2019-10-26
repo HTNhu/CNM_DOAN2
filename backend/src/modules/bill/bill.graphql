@@ -62,6 +62,7 @@ input ElectricInput {
 type Query{
     getHello: String!
     getElectricBillsByCompany(companyId: String): [ElectricBill]
+    getWaterBillsByCompany(companyId: String): [WaterBill]
     getElectricBillsByCompanyPhone(companyId: String, phone: String): ElectricBill
 }
 type Mutation{

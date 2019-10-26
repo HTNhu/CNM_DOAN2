@@ -5,7 +5,8 @@ import {
     Link
 } from 'react-router-dom'
 import Breadcrumbs from '../../component/breadcrumb'
-import UserInfo from './userInfo';
+import UserInfo from './userInfo'
+import ModalChangePassword from './changePassword'
 function LayoutPage(props) {
 
     const { menuKey } = props
@@ -36,11 +37,16 @@ function LayoutPage(props) {
     }
     const username = localStorage.getItem('username')
     const [visible, setVisible] = useState(false)
+    const [visibleModal, setVisibleModal] = useState(false)
     const showDrawer = () => {
         setVisible(true)
     };
+    const showModal = () => {
+        setVisibleModal(true)
+    };
     const onClose = () => {
         setVisible(false)
+        setVisibleModal(false)
     };
     const menu = (
         <Menu>
@@ -49,8 +55,8 @@ function LayoutPage(props) {
                 <span onClick={showDrawer}>{username}</span>
             </Menu.Item>
             <Menu.Divider />
-            <Menu.Item >
-                <Icon type="setting" />
+            <Menu.Item onClick={showModal}>
+                <Icon type="setting" onClick={showModal} />
                 <span>Đổi mật khẩu</span>
             </Menu.Item>
             <Menu.Divider />
@@ -131,6 +137,7 @@ function LayoutPage(props) {
 
             </Content>
             <Footer style={{ textAlign: 'center', background: '#f6f8f6' }} >PayBill ©2019 Created by Team25</Footer>
+            <ModalChangePassword visible={visibleModal} onClose={onClose}></ModalChangePassword>
             <UserInfo visible={visible} onClose={onClose} ></UserInfo>
         </Layout >
 

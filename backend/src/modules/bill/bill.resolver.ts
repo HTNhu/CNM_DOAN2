@@ -10,6 +10,12 @@ export class BillResolver {
   ) {
     return this.billService.findBillByCompany(companyId)
   }
+  @Query(() => [ElectricBill])
+  async getWaterBillsByCompany(
+    @Args('companyId') companyId: string
+  ) {
+    return this.billService.findBillByCompany(companyId)
+  }
   @Query(() => ElectricBill)
   async getElectricBillsByCompanyPhone(
     @Args('companyId') companyId: string,
@@ -23,6 +29,7 @@ export class BillResolver {
   ) {
     return this.billService.createWaterBill(waterbillInput)
   }
+  
   @Mutation(() => Boolean)
   async createElectricBill(@Args('electricbillInput') electricbillInput: ElectricBillInput) {
     return this.billService.createElectricBill(electricbillInput)

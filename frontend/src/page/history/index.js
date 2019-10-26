@@ -52,7 +52,7 @@ class History extends React.Component {
         localStorage.getItem('type') === 'company'
             ? await Client.query({
                 query: this.GETHISTORY_BYCOMPANY,
-                // fetchPolicy: 'no-cache',
+                fetchPolicy: 'no-cache',
                 variables: {
                     company: JSON.parse(localStorage.getItem('info')).userId
                 }
@@ -151,7 +151,7 @@ class History extends React.Component {
                 name: item.name.toString(),
                 type: item.type.toString(),
                 total: <NumberFormat defaultValue ={item.total} thousandSeparator={true}  displayType='text'/>,
-                paidAt: Date(item.paidAt),
+                paidAt: new Date(parseInt(item.paidAt)).toLocaleString(),
                 username: item.username.toString(),
                 companyname: item.companyname.toString()
             })

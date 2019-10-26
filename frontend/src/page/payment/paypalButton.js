@@ -76,6 +76,7 @@ class paypalButton extends Component {
           alert("Transaction completed by " + details.payer.name.given_name);
           update()
           createHis()
+          this.props.onCancel()
           // this.props.history.push('./payment')
           // OPTIONAL: Call your server to save the transaction
           return fetch("/paypal-transaction-complete", {
