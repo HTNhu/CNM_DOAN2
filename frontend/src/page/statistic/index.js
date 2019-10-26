@@ -2,7 +2,16 @@ import React from 'react'
 
 function Statistical(){
     return (
-        <h1>Thống kê</h1>
+        <div className='chart'>
+            <Bar
+                data={chartData}
+                height ='450'
+                options={{
+                    maintainAspectRatio: false
+                }}
+            >
+            </Bar>
+        </div>
     )
 }
 export default Statistical
