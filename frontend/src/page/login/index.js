@@ -1,25 +1,18 @@
-import React from 'react'
-// import {
-//     Switch, Route
-//     , Redirect
-// } from 'react-router-dom'
-
+import React , { useEffect } from 'react'
 import gql from 'graphql-tag'
-// import { inject, observer } from 'mobx-react'
 import { graphql } from 'react-apollo'
-import { Row, Col, Form, Icon, Input, Button, Typography } from 'antd'
-// import bg from '../../assets/images/paybillLogo.PNG'
-// import { routers } from '../../routes'
+import { Row, Col, Form, Icon, Input, Button } from 'antd'
 import openNotificationWithIcon from '../../component/openNotification'
-import bg from '../../assets/images/paybillLogo.PNG'
-// import { from } from 'zen-observable'
-// import LayoutPage from '../layout'
+import bgBill from '../../assets/images/bgBill.jpg' 
 function Login(props) {
     console.log('prop login', props)
-    const { Title } = Typography
+    // const { Title } = Typography
     const { form, history } = props
     const { getFieldDecorator } = form
-    // const { Link } = Anchor
+    // useEffect(() => {
+    //    localStorage.removeItem('username')
+    //   });
+    
     function handleSubmit(e) {
         e.preventDefault()
         // setLoading(true)
@@ -41,7 +34,6 @@ function Login(props) {
                             localStorage.setItem('username', username)
                             localStorage.setItem('type', type)
                             openNotificationWithIcon('success', 'login', 'Login Success', 'Login Success')
-                            console.log("sadsadsad")
                             const header = localStorage.getItem('type') === 'member'
                                 ? '/payment'
                                 : localStorage.getItem('type') === 'admin'
@@ -70,34 +62,37 @@ function Login(props) {
         })
     }
     return (
-        // <div style={{backgroundColor: '#89d1be', height:'100%', width:'100%'}} >
-        <div style={{textAlign: 'center', marginTop: '100px' }}>
+        // <div style={{backgroundImage: `url(${bgBill})`, width: '100%', height: '100%'}}>
+        <div style={{ textAlign: 'center', marginTop: '100px' }}>
             <Row id="layout-login">
                 <Col
                     span={8} push={8}
                 >
-                    <div id="components-form-demo-normal-login" style={{ margin: '0 auto' }}>
+                    <div id="components-form-demo-normal-login"  style={{ margin: '0 auto' }}>
                         <Form
                             style={{
+                                // opacity: 1.9,
                                 padding: '24px',
                                 background: '#fbfbfb',
                                 border: '2px solid #89d1be',
-                                borderRadius: '6px',
-                                // opacity: 10
+                                borderRadius: '6px'
                             }}
                             className="login-form">
-                            <div className="login-form-header" >
-                                <img alt='' src={bg} style={{
-                                    margin: '20px',
-                                    
-                                    width: '200px',
-                                    height: '60px'
-                                }} ></img>
+                            
+                            <div className="login-form-header">
+                            <img alt="logo PayBill" src="https://doancnm.s3.amazonaws.com/paybillLogo1.PNG" style={{
+                                display: 'block',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                                paddingBottom:'20px',
+                                width: '70%'
+                            }} />
+                                <h4>Hello :)</h4>
                             </div>
                             <Form.Item>
                                 {getFieldDecorator('username', {
                                     valuePropName: 'defaultValue',
-                                    initialValue: 'admin',
+                                    initialValue: 'mem33',
                                     rules: [
                                         {
                                             required: true,
@@ -122,14 +117,14 @@ function Login(props) {
                                             required: true,
                                             message: 'Please input your Password!'
                                         },
-                                        {
-                                            min: 1,
-                                            message: 'Your password must be between 1 and 8 characters'
-                                        },
-                                        {
-                                            max: 8,
-                                            message: 'Your password must be between 1 and 8 characters'
-                                        }
+                                        // {
+                                        //     min: 1,
+                                        //     message: 'Your password must be between 1 and 8 characters'
+                                        // },
+                                        // {
+                                        //     max: 8,
+                                        //     message: 'Your password must be between 1 and 8 characters'
+                                        // }
                                     ]
                                 })(
                                     <Input
@@ -152,7 +147,7 @@ function Login(props) {
                                             history.push('./signup')
                                         }}
                                     >
-                                        Đăng kí
+                                        Đăng ký
                                 </Button>
                                 </p>
                                 <Button
@@ -162,7 +157,7 @@ function Login(props) {
                                     onClick={handleSubmit}
                                 >
                                     <Icon type="login" />
-                                    Log in
+                                    Đăng nhập
                             </Button>
                             </Form.Item>
                         </Form>
@@ -171,7 +166,7 @@ function Login(props) {
                 </Col>
             </Row>
         </div>
-        // </div>
+    // </div>
     )
 }
 const USER_LOGIN = gql`

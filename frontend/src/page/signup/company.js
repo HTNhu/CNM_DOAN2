@@ -4,27 +4,36 @@ import {
   Input,
   Tooltip,
   Icon,
-  Cascader,
   Select,
   Upload,
   message,
   Button,
-  AutoComplete,
+  Col,
+  Row
 } from 'antd'
+import excel from 'xlsx';
+import {OutTable, ExcelRenderer} from 'react-excel-renderer';
+import moment from "moment";
 import gql from 'graphql-tag'
 import { Client } from '../../tools/apollo'
 import { graphql } from 'react-apollo'
+// import readXlsxFile from 'read-excel-file'
 import openNotificationWithIcon from '../../component/openNotification'
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
+// const AutoCompleteOption = AutoComplete.Option;
 
 class Company extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      pre: false,
       services: [],
       confirmDirty: false,
       autoCompleteResult: [],
+      _spread : {},
+      rows: [],
+      cols: [],
+      listCustomer: []
     }
   }
   GET_ALL_SERVICE = gql`
@@ -35,12 +44,20 @@ query{
   }
 }
 `
+ s3SignMutation = gql`
+  mutation($filename: String!, $filetype: String!) {
+    signS3(filename: $filename, filetype: $filetype) {
+      url
+      signedRequest
+    }
+  }
+`;
+
   componentDidMount = async () => {
     // const { currentPage, inputSearch } = this.state
     this.refetchData()
     // this.setupCount()
   }
-
   refetchData = async () => {
     await Client.query({
       query: this.GET_ALL_SERVICE
@@ -65,7 +82,7 @@ query{
       if (!err) {
         
         const { phone, name, address, username, password, service  } = values
-        const logo = values.logo === undefined ? '' : values.logo[0].response.url
+        const logo= this.state.imageUrl
         console.log('Received values of form: ', values,logo)
         await this.props.createCompany({
           mutation: CREATE_COMPANY,
@@ -76,8 +93,9 @@ query{
               address,
               username,
               password,
-              serviceId: service,
-              logo: logo
+              service,
+              logo: logo,
+              lstCustomer: this.state.listCustomer 
             }
           }
         })
@@ -162,14 +180,7 @@ query{
         },
       },
     };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>,
-    );
+    
     const getBase64 = (img, callback) => {
       const reader = new FileReader();
       reader.addEventListener('load', () => callback(reader.result));
@@ -177,6 +188,7 @@ query{
     }
     
     const beforeUpload = (file) => {
+      console.log(file, "file before")
       const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
       if (!isJpgOrPng) {
         message.error('You can only upload JPG/PNG file!');
@@ -187,13 +199,26 @@ query{
       }
       return isJpgOrPng && isLt2M;
     }
-    const handleChange = info => {
+    const beforeUploadExel = (file) => {
+      console.log(file, "file before")
+      const isJpgOrPng = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+      if (!isJpgOrPng) {
+        message.error('You can only upload exel file!');
+      }
+      // const isLt2M = file.size / 1024 / 1024 < 2;
+      // if (!isLt2M) {
+      //   message.error('Image must smaller than 2MB!');
+      // }
+      return isJpgOrPng ;
+    }
+ 
+    const handleChange = async(info, e) => {
+      console.log("change", info, e)
       if (info.file.status === 'uploading') {
         this.setState({ loading: true });
         return;
       }
       if (info.file.status === 'done') {
-        // Get this url from response in real world.
         getBase64(info.file.originFileObj, imageUrl =>
           this.setState({
             imageUrl,
@@ -209,38 +234,139 @@ query{
       </div>
     );
     const { imageUrl } = this.state
+console.log("state" , this.state)
+const props = {
+  name: 'file',
+  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+  headers: {
+    authorization: 'authorization-text',
+  }
+}
+ function convertToJSON(array) {
+  var first = array[0].join()
+  var headers = first.split(',');
 
+  var jsonData = [];
+    for ( var i = 1, length = array.length; i < length; i++ )
+  {
+
+    var myRow = array[i].join();
+    var row = myRow.split(',');
+
+    var data = {};
+   for ( var x = 0; x < row.length; x++ )
+    {
+      data[headers[x]]= row[x]
+      
+    }
+    jsonData.push(data)
+  }
+  console.log("json", jsonData) 
+  return jsonData;
+};
+  const readExel = async(info) => {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully`);
+      await ExcelRenderer(info.file.originFileObj, (err, resp) => {
+        if(err){
+          console.log(err);            
+        }
+        else{
+          this.setState({
+            cols: resp.cols,
+            rows: resp.rows,
+            listCustomer: convertToJSON(resp.rows)
+          })
+        }
+        console.log(this.state)
+      })
+    } else if (info.file.status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  }
+  
     return (
-      <div style={{ width: '60%', margin: ' 0 auto' }}>
-        <Form {...formItemLayout} onSubmit={this.handleSubmit} style={{
-          padding: '12px',
-          background: '#fbfbfb',
-          border: '2px solid #89d1be',
-          borderRadius: '6px'
-        }}>
-          <h3><center>ĐĂNG KÝ CÔNG TY</center></h3>
+      <div style={{ textAlign: 'center', marginTop: '10px' }}>
+      <Row id="layout-login" >
+          <Col
+              span={12} push={6}
+          >
+              <div id="components-form-demo-normal-login" style={{ margin: '0 auto' }}>
+        <Form   style={{
+                              marginBottom:'20px',
+                              padding: '24px',
+                              paddingBottom: '5px',
+                              background: '#fbfbfb',
+                              border: '2px solid #89d1be',
+                              borderRadius: '6px',
+                              height: 'auto',
+                              width: '100%'
+                          }}
+         {...formItemLayout} onSubmit={this.handleSubmit}>
+            <div className="login-form-header">
+                          <img alt="logo PayBill" src="https://doancnm.s3.amazonaws.com/paybillLogo1.PNG" style={{
+                              display: 'block',
+                              marginLeft: 'auto',
+                              marginRight: 'auto',
+                              paddingBottom:'20px',
+                              width: '50%'
+                          }} />
+                            <h2><center>ĐĂNG KÝ CÔNG TY</center></h2>
+                          </div>
+                          <Form.Item
+            label={
+              <span>
+                Logo&nbsp;
+  
+            </span>
+            }
+          >
+            {getFieldDecorator('logo', {
+              valuePropName: 'fileList',
+              getValueFromEvent: this.normFile,
+              // rules: [{ required: true, message: 'Bạn cần nhập Logo!', whitespace: true }],
+            })( <Upload
+              style={{ width: '50%' }}
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={beforeUpload}
+              onChange={handleChange}
+            >
+              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+            </Upload>)}
+          </Form.Item>
+
           <Form.Item label="Dịch vụ">
             {getFieldDecorator('service', {
               rules: [{ required: true, message: 'Bạn cần chọn dịch vụ bạn cung cấp!' }],
             })(<Select
-              // value={currency}
-              // size={size}
               style={{ width: '50%' }}
-            // onChange={this.handleCurrencyChange}
             >
-              {this.state.services.map(item => <Option value={item.id}>{item.name}</Option>)}
+              {this.state.services.map(item => <Option value={item.name}>{item.name}</Option>)}
             </Select>)}
           </Form.Item>
           <Form.Item label="Số điện thoại">
             {getFieldDecorator('phone', {
-              rules: [{ required: true, message: 'Bạn cần nhập số điện thoại!' }],
-            })(<Input addonBefore={prefixSelector} style={{ width: '50%' }} />)}
+              rules: [
+                { required: true, message: 'Bạn cần nhập số điện thoại!' },
+                {
+                  pattern: new RegExp(/^0+\d{9}$/g),
+                  message: "Không đúng định dạng!" 
+                },
+              ],
+            })(<Input style={{ width: '50%' }} />)}
           </Form.Item>
 
           <Form.Item
             label={
               <span>
-                Họ và Tên&nbsp;
+                Tên Công Ty&nbsp;
   
             </span>
             }
@@ -261,31 +387,6 @@ query{
             {getFieldDecorator('address', {
               rules: [{ required: true, message: 'Bạn cần nhập Địa chỉ!', whitespace: true }],
             })(<Input style={{ width: '50%' }} />)}
-          </Form.Item>
-
-          <Form.Item
-            label={
-              <span>
-                Logo&nbsp;
-  
-            </span>
-            }
-          >
-            {getFieldDecorator('logo', {
-              valuePropName: 'fileList',
-              getValueFromEvent: this.normFile,
-              // rules: [{ required: true, message: 'Bạn cần nhập Logo!', whitespace: true }],
-            })( <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              beforeUpload={beforeUpload}
-              onChange={handleChange}
-            >
-              {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-            </Upload>)}
           </Form.Item>
 
           <Form.Item
@@ -328,25 +429,37 @@ query{
               ],
             })(<Input.Password onBlur={this.handleConfirmBlur} style={{ width: '50%' }} />)}
           </Form.Item>
-
-          {/* <Form.Item {...tailFormItemLayout}>
-          {getFieldDecorator('agreement', {
-            valuePropName: 'checked',
-          })(
-            <Checkbox>
-              I have read the <a href="">agreement</a>
-            </Checkbox>,
-          )}
-        </Form.Item> */}
+          <Form.Item label="Danh sách khách hàng" >
+          <Upload 
+          multiple= {false}
+          onPreview ={() => this.setState({
+            pre: true
+          }) }
+          accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          beforeUpload={beforeUploadExel}
+          {...props} onChange={readExel}>
+    <Button>
+      <Icon type="upload" /> Click to Upload List Customer
+    </Button>
+  </Upload> 
+  {this.state.pre && <OutTable data={this.state.rows} 
+          columns={this.state.cols} 
+          tableClassName="ExcelTable2007" tableHeaderRowClass="heading" />}
+          </Form.Item>
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-              Đồng ý
-          </Button> 
+              Đăng ký
+          </Button>
             <Button type="primary" htmlType="button" style={{ margin: 20 }}>
-              <a href="http://localhost:3006/signup">Trở về</a>
+              <a href="http://localhost:3006/login">Trở về</a>
             </Button>
           </Form.Item>
+          {/* <input type='file' onChange={readExel}>aaaaaaa</input> */}
         </Form>
+        </div>
+        </Col>
+        </Row>
+        
       </div>
     );
   }

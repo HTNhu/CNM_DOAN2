@@ -4,13 +4,11 @@ import {
   Input,
   Tooltip,
   Icon,
-  Cascader,
   Select,
-  Row,
-  Col,
-  Checkbox,
   Button,
-  AutoComplete,
+  Col,
+  Row,
+  InputNumber
 } from 'antd';
 import gql from 'graphql-tag'
 
@@ -18,7 +16,7 @@ import { graphql } from 'react-apollo'
 
 import openNotificationWithIcon from '../../component/openNotification'
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
+// const AutoCompleteOption = AutoComplete.Option;
 
 
 
@@ -113,7 +111,7 @@ handleConfirmBlur = e => {
 
     render() {
       const { getFieldDecorator } = this.props.form;
-      const { autoCompleteResult } = this.state;
+      // const { autoCompleteResult } = this.state;
 console.log("props", this.props)
       const formItemLayout = {
         labelCol: {
@@ -137,32 +135,45 @@ console.log("props", this.props)
           },
         },
       };
-      const prefixSelector = getFieldDecorator('prefix', {
-        initialValue: '86',
-      })(
-        <Select style={{ width: 70 }}>
-          <Option value="86">+86</Option>
-          <Option value="87">+87</Option>
-        </Select>,
-      );
-
-      const websiteOptions = autoCompleteResult.map(website => (
-        <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-      ));
-
       return (
-        <div style={{ width: '60%', margin: ' 0 auto' }}>
-          <Form style={{
-            padding: '12px',
-            background: '#fbfbfb',
-            border: '2px solid #89d1be',
-            borderRadius: '6px'
-          }}  {...formItemLayout} onSubmit={this.handleSubmit}>
-            <h3><center>ĐĂNG KÝ THÀNH VIÊN</center></h3>
+        <div style={{ textAlign: 'center', marginTop: '10px' }}>
+        <Row id="layout-login" >
+            <Col
+                span={12} push={6}
+            >
+                <div id="components-form-demo-normal-login" style={{ margin: '0 auto' }}>
+          <Form   style={{
+                                marginBottom:'20px',
+                                padding: '24px',
+                                paddingBottom: '5px',
+                                background: '#fbfbfb',
+                                border: '2px solid #89d1be',
+                                borderRadius: '6px',
+                                height: 'auto',
+                                width: '100%'
+                            }}
+           {...formItemLayout} onSubmit={this.handleSubmit}>
+              <div className="login-form-header">
+                            <img alt="logo PayBill" src="https://doancnm.s3.amazonaws.com/paybillLogo1.PNG" style={{
+                                display: 'block',
+                                marginLeft: 'auto',
+                                marginRight: 'auto',
+                                paddingBottom:'20px',
+                                width: '50%'
+                            }} />
+                              <h2><center>ĐĂNG KÝ THÀNH VIÊN</center></h2>
+                            </div>
+            
             <Form.Item label="Số điện thoại">
               {getFieldDecorator('phone', {
-                rules: [{ required: true, message: 'Bạn cần nhập số điện thoại!' }],
-              })(<Input addonBefore={prefixSelector} style={{ width: '50%' }} />)}
+                rules: [
+                  { required: true, message: 'Bạn cần nhập số điện thoại!' },
+                  {
+                    pattern: new RegExp(/^0+\d{9}$/g),
+                    message: "Không đúng định dạng!" 
+                  }
+                ],
+              })(<Input  style={{ width: '50%' }} />)}
             </Form.Item>
             <Form.Item
               label={
@@ -228,18 +239,21 @@ console.log("props", this.props)
                 ],
               })(<Input.Password onBlur={this.handleConfirmBlur} style={{ width: '50%' }} />)}
             </Form.Item>
-
+           
             <Form.Item {...tailFormItemLayout} >
               <Button type="primary" htmlType="submit">
-                Đồng ý
+                Đăng ký
             </Button>
               <Button type="primary" htmlType="button" style={{ margin: 20 }}>
-                <a href="http://localhost:3000/signup">Trở về</a>
+                <a href="http://localhost:3006/login">Trở về</a>
               </Button>
 
 
             </Form.Item>
           </Form>
+          </div>
+          </Col>
+          </Row>
         </div>
       );
     }

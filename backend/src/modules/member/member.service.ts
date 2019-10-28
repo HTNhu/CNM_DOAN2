@@ -23,16 +23,18 @@ export class MemberService {
             },
         })
         if (a.Count === 0) return null
-        const mem = new Member()
-        if (a.Items[0].username === username) {
-            mem.userId = a.Items[0].userId
-            mem.phone = a.Items[0].phone
-            mem.name = a.Items[0].name
-            mem.address = a.Items[0].address
-            mem.username = a.Items[0].username
-            mem.password = a.Items[0].password
-        }
-        return mem
+        // const mem = new Member()
+        // if (a.Items[0].username === username) {
+        //     mem.userId = a.Items[0].userId
+        //     mem.phone = a.Items[0].phone
+        //     mem.name = a.Items[0].name
+        //     mem.address = a.Items[0].address
+        //     mem.username = a.Items[0].username
+        //     mem.password = a.Items[0].password
+        //     mem.createdAt = a.Items[0].createdAt
+        //     mem.updatedAt = a.Items[0].updatedAt
+        // }
+        return a.Items[0]
     }
     async findUserByPhoneUsername(phone) {
         return await dynamoDB.scan({

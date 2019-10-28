@@ -31,12 +31,45 @@ let params = {
     TableName: 'Service',
     Item: {
         serviceId: uuid() ,
-        name: "Internet" 
+        name: "Nước" ,
+        logo: "https://doancnm.s3.amazonaws.com/nuoc.png"
     }
 };
 docClient.put(params, (err, data) => {
     if (err) {
-        console.err(err)
+        console.dir(err)
+    }
+    else {
+        console.log("Added item:", JSON.stringify(data, null, 2))
+    }
+});
+let params3 = {
+    TableName: 'Service',
+    Item: {
+        serviceId: uuid() ,
+        name: "Điện" ,
+        logo: "https://doancnm.s3.amazonaws.com/dien.png"
+    }
+};
+docClient.put(params3, (err, data) => {
+    if (err) {
+        console.dir(err)
+    }
+    else {
+        console.log("Added item:", JSON.stringify(data, null, 2))
+    }
+});
+let params2 = {
+    TableName: 'Service',
+    Item: {
+        serviceId: uuid() ,
+        name: "Internet" ,
+        logo: "https://doancnm.s3.amazonaws.com/internet.jpg"
+    }
+};
+docClient.put(params2, (err, data) => {
+    if (err) {
+        console.dir(err)
     }
     else {
         console.log("Added item:", JSON.stringify(data, null, 2))
@@ -45,8 +78,13 @@ docClient.put(params, (err, data) => {
 let params1 = {
     TableName: 'Service',
     Item: {
-        serviceId: uuid() ,
-        name: "Điện" 
+        username: 'admin' ,
+        type: 'admin' ,
+        password: '12345678',
+        userId: uuid(),
+        name: 'Tran Nhu',
+        address: 'Q12',
+        phone: '0355983234'
     }
 };
 docClient.put(params1, (err, data) => {

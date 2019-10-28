@@ -18,7 +18,7 @@ export class CompanyInput {
     logo?: string;
     username: string;
     password?: string;
-    listTypeBill?: string[];
+    serviceId?: string;
 }
 
 export class MemberInput {
@@ -30,7 +30,7 @@ export class MemberInput {
 }
 
 export class Account {
-    id: string;
+    userId: string;
     username: string;
     password?: string;
     type?: string;
@@ -39,29 +39,39 @@ export class Account {
 }
 
 export class Company {
-    id: string;
+    userId: string;
     name: string;
     phone: string;
     address?: string;
     logo?: string;
-    listTypeBill?: string[];
+    serviceId?: string;
+    username: string;
+    password?: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+export class LoginRes {
+    userId?: string;
+    token?: string;
+    type?: string;
 }
 
 export class Member {
-    id: string;
+    userId: string;
     name: string;
     phone: string;
     address?: string;
     username: string;
     password?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export abstract class IMutation {
-    abstract signup(accInput?: AccountInput): string | Promise<string>;
+    abstract updateAccount(type?: string, username?: string, password?: string): boolean | Promise<boolean>;
 
-    abstract updateAccount(username?: string, password?: string): boolean | Promise<boolean>;
-
-    abstract login(username: string, password: string): Account | Promise<Account>;
+    abstract login(username: string, password: string): LoginRes | Promise<LoginRes>;
 
     abstract createCompany(compInput?: CompanyInput): boolean | Promise<boolean>;
 
@@ -71,7 +81,9 @@ export abstract class IMutation {
 export abstract class IQuery {
     abstract getAllAccount(): Account[] | Promise<Account[]>;
 
-    abstract getCompanyByAcc(id?: string): Company | Promise<Company>;
+    abstract getCompanyByUsername(username?: string): Company | Promise<Company>;
+
+    abstract getCompanyByServiceId(serviceId?: string): Company[] | Promise<Company[]>;
 
     abstract getMemberByUsername(username?: string): Member | Promise<Member>;
 

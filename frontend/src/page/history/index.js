@@ -1,45 +1,86 @@
 import React from 'react'
 // import { withRouter } from 'react-router-dom'
-
+import NumberFormat from 'react-number-format'
 import { Table, Tag, Icon, Input, Button } from 'antd';
 import Highlighter from 'react-highlight-words';
+import gql from 'graphql-tag'
+import { Client } from '../../tools/apollo'
 
-const data = [
-    {
-        key: '1',
-        id: 'HD001',
-        tenkh: 'Phan Hữu Quý',
-        loaihd: 'Wifi',
-        tong: '300000vnđ',
-        ngay: '12-11-2020',
-        congty: ['Công ty DCF'],
-        ngaytra: '12-11-2020',
-    },
-    {
-        key: '2',
-        id: 'HD002',
-        tenkh: 'Hồ Trần Như',
-        loaihd: 'Wifi',
-        tong: '300000vnđ',
-        ngay: '12-11-2020',
-        congty: ['Công ty DUR'],
-        ngaytra: '12-11-2020',
-    },
-    {
-        key: '3',
-        id: 'HD003',
-        tenkh: 'Nguyễn Anh Tuấn',
-        loaihd: 'Wifi',
-        tong: '300000vnđ',
-        ngay: '12-11-2020',
-        congty: ['Công ty FHG'],
-        ngaytra: '12-11-2020',
-    },
-];
-class App extends React.Component {
-    state = {
-        searchText: '',
-    };
+class History extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            searchText: '',
+            history: []
+        };
+    }
+    GETHISTORY_BYCOMPANY = gql`
+     query($company: String){
+       getHistoryByCompany(company: $company){
+        billId
+        company
+        username
+        companyname
+        total
+        type
+        paidAt
+        name
+       }
+       }
+         `
+    GETHISTORY_BYMEMBER = gql`
+        query($username: String){
+        getHistoryByMember(username: $username){
+        billId
+        company
+        username
+        companyname
+        total
+        paidAt
+        type
+        name
+    }
+}
+         `
+    componentDidMount = async () => {
+        // const { currentPage, inputSearch } = this.state
+        console.log(JSON.parse(localStorage.getItem('info')).userId)
+        await this.refetchData()
+        // this.setupCount()
+    }
+    refetchData = async () => {
+        localStorage.getItem('type') === 'company'
+            ? await Client.query({
+                query: this.GETHISTORY_BYCOMPANY,
+                fetchPolicy: 'no-cache',
+                variables: {
+                    company: JSON.parse(localStorage.getItem('info')).userId
+                }
+            })
+                .then(async result => {
+                    console.log("getHistory", result)
+                    this.setState({
+                        history: result.data.getHistoryByCompany 
+                    })
+                    console.log("sd", this.state.history)
+                })
+                .catch(() => { })
+     :await Client.query({
+        query: this.GETHISTORY_BYMEMBER,
+        // fetchPolicy: 'no-cache',
+        variables: {
+            username: localStorage.getItem('username')
+    }
+    })
+        .then(async result => {
+            console.log("getHistory", result)
+            this.setState({
+                history: result.data.getHistoryByMember
+            })
+            console.log("sd", this.state.history)
+        })
+        .catch(() => { })
+    }
 
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -86,7 +127,7 @@ class App extends React.Component {
                 highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                 searchWords={[this.state.searchText]}
                 autoEscape
-                textToHighlight={text.toString()}
+                // textToHighlight={text.toString()}
             />
         ),
     });
@@ -101,63 +142,73 @@ class App extends React.Component {
         this.setState({ searchText: '' });
     };
     render() {
+
+        const data = []
+        this.state.history.map((item,idx) =>{
+            data.push({
+                key: (idx+1).toString(),
+                // billId: (item.billId).toString(),
+                name: item.name.toString(),
+                type: item.type.toString(),
+                total: <NumberFormat defaultValue ={item.total} thousandSeparator={true}  displayType='text'/>,
+                paidAt: new Date(parseInt(item.paidAt)).toLocaleString(),
+                username: item.username.toString(),
+                companyname: item.companyname.toString()
+            })
+
+        })
         const columns = [
-            {
-                title: 'ID',
-                dataIndex: 'id',
-                key: 'id',
-                ...this.getColumnSearchProps('id'),
-            },
+            // {
+            //     title: 'ID',
+            //     dataIndex: 'billId',
+            //     key: 'billId',
+            //     // ...this.getColumnSearchProps('billId')
+            // },
             {
                 title: 'TÊN KHÁCH HÀNG',
-                dataIndex: 'tenkh',
-                key: 'tenkh',
-                ...this.getColumnSearchProps('tenkh'),
+                dataIndex: 'name',
+                key: 'name',
+                // ...this.getColumnSearchProps('name'),
             },
             {
                 title: 'LOẠI HÓA ĐƠN',
-                dataIndex: 'loaihd',
-                key: 'loaihd',
-                ...this.getColumnSearchProps('loaihd'),
+                dataIndex: 'type',
+                key: 'type',
+                // ...this.getColumnSearchProps('type'),
             },
             {
                 title: 'TỔNG',
-                dataIndex: 'tong',
-                key: 'tong',
+                dataIndex: 'total',
+                key: 'total',
             },
             {
-                title: 'NGÀY',
-                dataIndex: 'ngay',
-                key: 'ngay',
-                ...this.getColumnSearchProps('ngay'),
+                title: 'NGÀY THANH TOÁN',
+                dataIndex: 'paidAt',
+                key: 'paidAt',
+                // ...this.getColumnSearchProps('paidAt'),
+            },
+            {
+                title: 'NGƯỜI THANH TOÁN',
+                dataIndex: 'username',
+                key: 'username',
+                // ...this.getColumnSearchProps('username'),
             },
             {
                 title: 'CÔNG TY',
-                key: 'congty',
-                dataIndex: 'congty',
-                render: congty => (
+                key: 'companyname',
+                dataIndex: 'companyname',
+                render: companyname => (
                     <span>
-                        {congty.map(tag => {
-                            let color = tag.length > 5 ? 'geekblue' : 'green';
-                            if (tag === 'loser') {
-                                color = 'volcano';
-                            }
-                            return (
-                                <Tag color={color} key={tag}>
-                                    {tag.toUpperCase()}
+                     {
+                                <Tag color='#4ABFA9'>
+                                    {companyname.toUpperCase()}
                                 </Tag>
-                            );
-                        })}
+                      
+                    }
                     </span>
                 ),
-                ...this.getColumnSearchProps('congty'),
-            },
-            {
-                title: 'NGÀY TRẢ',
-                dataIndex: 'ngaytra',
-                key: 'ngaytra',
-                ...this.getColumnSearchProps('ngaytra'),
-            },
+                // ...this.getColumnSearchProps('company'),
+            }
         ];
         return <Table columns={columns} dataSource={data} />;
 
@@ -165,14 +216,4 @@ class App extends React.Component {
 }
 
 
-function History(props) {
-    console.log('prop history', props)
-    return (
-        <>
-            <br></br>
-            <App />
-        </>
-
-    )
-}
 export default History

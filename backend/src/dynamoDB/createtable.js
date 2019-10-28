@@ -11,10 +11,53 @@ const dynamodb = new AWS.DynamoDB()
 dynamodb.createTable({
     TableName: "Service",
     KeySchema: [
-        { AttributeName: "name", KeyType: "HASH" },
+        { AttributeName: "serviceId", KeyType: "HASH" },
     ],
     AttributeDefinitions: [
-        { AttributeName: "name", AttributeType: "S" },
+        { AttributeName: "serviceId", AttributeType: "S" },
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10
+    },
+}, (err, data) => {
+    if (err) {
+        console.dir(err);
+    } else {
+        console.dir(`Created table`);
+    }
+});
+
+dynamodb.createTable({
+    TableName: "User_TransactionHistory",
+    KeySchema: [
+        { AttributeName: "username", KeyType: "HASH" },
+        { AttributeName: "type", KeyType: "RANGE" }
+    ],
+    AttributeDefinitions: [
+        { AttributeName: "username", AttributeType: "S" },
+        { AttributeName: "type", AttributeType: "S" }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10
+    },
+}, (err, data) => {
+    if (err) {
+        console.dir(err);
+    } else {
+        console.dir(`Created table 1`);
+    }
+});
+dynamodb.createTable({
+    TableName: "Bill",
+    KeySchema: [
+        { AttributeName: "billId", KeyType: "HASH" },
+        { AttributeName: "companyId", KeyType: "RANGE" }
+    ],
+    AttributeDefinitions: [
+        { AttributeName: "billId", AttributeType: "S" },
+        { AttributeName: "companyId", AttributeType: "S" }
     ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 10,
@@ -28,36 +71,15 @@ dynamodb.createTable({
     }
 });
 dynamodb.createTable({
-    TableName: "User_TransactionHistory",
+    TableName: "History",
     KeySchema: [
         { AttributeName: "username", KeyType: "HASH" },
-        { AttributeName: "type", KeyType: "RANGE" }
+        { AttributeName: "billId", KeyType: "RANGE" }
     ],
     AttributeDefinitions: [
         { AttributeName: "username", AttributeType: "S" },
-        { AttributeName: "type", AttributeType: "S" }
+        { AttributeName: "billId", AttributeType: "S" }
     ],
-    // GlobalSecondaryIndexes: [{
-    //     IndexName: 'User_History',
-    //     KeySchema: [
-    //         {
-    //             AttributeName: 'username',
-    //             KeyType: 'HASH',
-    //         },
-    //         {
-    //             AttributeName: 'historyId',
-    //             KeyType: 'RANGE',
-    //         }
-    //     ],
-    //     Projection: {
-    //       ProjectionType: 'ALL'
-    //     },
-    //     ProvisionedThroughput: {
-    //         ReadCapacityUnits: 10,
-    //         WriteCapacityUnits: 10
-    //     }
-    // }
-    // ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 10,
         WriteCapacityUnits: 10
@@ -66,6 +88,27 @@ dynamodb.createTable({
     if (err) {
         console.dir(err);
     } else {
-        console.dir(`Created table 1`);
+        console.dir(`Created table History`);
+    }
+});
+dynamodb.createTable({
+    TableName: "ScheduleReminder",
+    KeySchema: [
+        { AttributeName: "id", KeyType: "HASH" },
+        { AttributeName: "companyId", KeyType: "RANGE" }
+    ],
+    AttributeDefinitions: [
+        { AttributeName: "id", AttributeType: "S" },
+        { AttributeName: "companyId", AttributeType: "S" }
+    ],
+    ProvisionedThroughput: {
+        ReadCapacityUnits: 10,
+        WriteCapacityUnits: 10
+    },
+}, (err, data) => {
+    if (err) {
+        console.dir(err);
+    } else {
+        console.dir(`Created table schedule`);
     }
 });

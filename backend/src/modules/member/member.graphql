@@ -8,6 +8,7 @@ type Member {
     createdAt: String
     updatedAt: String
 }
+
 input MemberInput {
     name: String!
     phone: String!

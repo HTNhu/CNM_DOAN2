@@ -1,48 +1,80 @@
 import React from 'react'
 import { Table, Icon, Input, Button } from 'antd';
-import Modal_Internet from './modal_internet'
+// import Modal_Internet from './modal_internet'
 import Highlighter from 'react-highlight-words';
+import Modal_Internet from './modal_electric';
+import Modal_Electric from './modal_electric'
+import Modal_Water from './modal_water'
+import gql from 'graphql-tag'
+import { Client } from '../../tools/apollo'
 
+class ManageBill extends React.Component {
+    constructor(props){
+        super(props)
+        this.state= {
+            searchText: '',
+            visible: false,
+            bills: []
+        }
+    }
+    GET_BILL_BYCOMPANY = JSON.parse(localStorage.getItem('info')).service === "Điện"
+    ? gql`query($companyId: String){
+        getElectricBillsByCompany(companyId:$companyId){
+            billId
+            type
+            name
+            phone
+            address
+           total 
+            description{
+              DNTT
+            }
 
-const data = [
-    {
-        key: '1',
-        id: 'HD001',
-        loaihd: 'Wifi',
-        cuocphi: '300000vnđ',
-        tenkh: 'Phan Hữu Quý',
-        sdt: '0933323622',
-        diachi: 'HCM',
-        tongtien: '200000vnd',
+      }
+    }
+`
+:
+gql`query($companyId: String){
+    getWaterBillsByCompany(companyId:$companyId){
+        billId
+        type
+        name
+        phone
+        address
+       total 
+        description{
+          LNTT
+        }
 
-    },
-    {
-        key: '2',
-        id: 'HD002',
-        loaihd: 'Wifi',
-        cuocphi: '300000vnđ',
-        tenkh: 'Hồ Trần Như',
-        sdt: '0933323622',
-        diachi: 'HCM',
-        tongtien: '200000vnd',
+  }
+}`
+componentDidMount = async () => {
+    // const { currentPage, inputSearch } = this.state
+    // console.log(JSON.parse(localStorage.getItem('info')).userId)
+    await this.refetchData(JSON.parse(localStorage.getItem('info')).userId)
+    // this.setupCount()
+}
 
-    },
-    {
-        key: '3',
-        id: 'HD003',
-        loaihd: 'Wifi',
-        cuocphi: '300000vnđ',
-        tenkh: 'Trần Quang Phúc',
-        sdt: '0933323622',
-        diachi: 'HCM',
-        tongtien: '200000vnd',
-    },
-];
-class App extends React.Component {
-    state = {
-        searchText: '',
-    };
-
+refetchData = async (companyId) => {
+    await Client.query({
+        query: this.GET_BILL_BYCOMPANY,
+        fetchPolicy: 'no-cache',
+        variables: {
+            companyId
+        }
+    })
+        .then(async result => {
+            console.log("getBoll", result)
+             this.setState({
+                bills: JSON.parse(localStorage.getItem('info')).service === "Điện"
+                ?  result.data.getElectricBillsByCompany
+                : result.data.getWaterBillsByCompany
+            })
+            console.log("sd", this.state.bills)
+        })
+        .catch(() => { })
+    // console.log('rowData', this.state.rowData)
+}
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -103,6 +135,22 @@ class App extends React.Component {
         this.setState({ searchText: '' });
     };
     render() {
+        const info = JSON.parse(localStorage.getItem('info'))
+        console.log("infoe", info, this.state.bills)
+        const data = []
+        this.state.bills && this.state.bills.map((item, idx) => {
+            data.push({
+            key: (idx+1).toString(),
+            id: item.billId,
+            type: item.type,
+            TT: item.type === 'Điện' ? item.description.DNTT.toString() : item.description.LNTT.toString() ,
+            name: item.name,
+            phone: item.phone,
+            address: item.address,
+            total: item.total && item.total.toString()
+            })
+        } )
+        console.log(data, "data nha")
         const columns = [
     {
         title: 'MÃ HÓA ĐƠN',
@@ -112,38 +160,43 @@ class App extends React.Component {
     },
     {
         title: 'LOẠI HÓA ĐƠN',
-        dataIndex: 'loaihd',
-        key: 'loaihd',
-        ...this.getColumnSearchProps('loaihd'),
+        dataIndex: 'type',
+        key: 'type',
     },
-    {
-        title: 'CƯỚC PHÍ',
-        dataIndex: 'cuocphi',
-        key: 'cuocphi',
+   this.state.bills && this.state.bills.type === 'Điện' 
+   ? {
+        title: 'Điện năng tiêu thụ',
+        dataIndex: 'TT',
+        key: 'TT',
+    }
+    :{
+        title: 'Lượng nước tiêu thụ',
+        dataIndex: 'TT',
+        key: 'TT',
     },
     {
         title: 'TÊN KHÁCH HÀNG',
-        dataIndex: 'tenkh',
-        key: 'tenkh',
-        ...this.getColumnSearchProps('tenkh'),
+        dataIndex: 'name',
+        key: 'name',
+        ...this.getColumnSearchProps('name'),
     },
 
     {
         title: 'SỐ ĐIỆN THOẠI',
-        dataIndex: 'sdt',
-        key: 'sdt',
-        ...this.getColumnSearchProps('sdt'),
+        dataIndex: 'phone',
+        key: 'phone',
+        ...this.getColumnSearchProps('phone'),
     },
     {
         title: 'ĐỊA CHỈ',
-        dataIndex: 'diachi',
-        key: 'diachi',
-        ...this.getColumnSearchProps('diachi'),
+        dataIndex: 'address',
+        key: 'address',
+        ...this.getColumnSearchProps('address'),
     },
     {
         title: 'TỔNG TIỀN',
-        dataIndex: 'tongtien',
-        key: 'tongtien',
+        dataIndex: 'total',
+        key: 'total',
     },
     {
         title: 'CHỨC NĂNG',
@@ -153,24 +206,31 @@ class App extends React.Component {
     },
 
 ];
-return <Table columns={columns} dataSource={data} />;
+const onCancel = ()=>{
+    this.setState({ visible: false})
+}
+return (
+    <>
+ <Table columns={columns} dataSource={data} />
+    <Button
+    type="primary"
+    onClick={() => {this.setState({ visible: true})}}
+    size="small"
+    style={{ width: 200, height: 50, marginRight: 8 }}
+>
+    Thêm hóa đơn
+    
+</Button>
+{ info.service === 'Điện' ? 
+<Modal_Electric 
+history={this.props.history} visible= { this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Electric>
+:  info.service === 'Nước' ?
+<Modal_Water history={this.props.history} visible ={ this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Water>
+:<Modal_Internet visible={this.state.visible} onCancel ={onCancel} companyId= {info.userId} companyname ={info.name} listCus = {info.lstCustomer}></Modal_Internet>
+}
+</>
+)
 
       }
-}
-
-function ManageBill(props) {
-    const { isShowing, toggle } = Modal_Internet();
-    return (
-        <>
-
-            <br></br>
-            <App/>
-            <Modal_Internet>
-
-            </Modal_Internet>
-
-        </>
-
-    )
 }
 export default ManageBill

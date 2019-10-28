@@ -1,6 +1,7 @@
 type Service {
   id: ID!
   name: String!
+  logo: String
 }
 
 type Query {

@@ -8,7 +8,7 @@ AWS.config.update({
 var dynamodb = new AWS.DynamoDB();
 
 var params = {
-    TableName : "User_TransactionHistory"
+    TableName : "History"
 };
 
 dynamodb.deleteTable(params, function(err, data) {
