@@ -83,6 +83,7 @@ function LayoutPage(props) {
     )
 
     return (
+     
         <Layout style={{ background: '#f6f8f6' }}>
             <Header className="header" style={{ display: 'flex', backgroundColor: 'white', position: 'fixed', zIndex: 1, width: '100%' }}
             >

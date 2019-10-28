@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Icon, Input, Button, Form, Upload , message, Card} from 'antd'
+import { Table, Icon, Input, Button, Skeleton, message, Card} from 'antd'
 import { OutTable, ExcelRenderer } from 'react-excel-renderer';
 // import Modal_Internet from './modal_internet'
 import Highlighter from 'react-highlight-words';
@@ -21,6 +21,7 @@ class ManageBill extends React.Component {
       bills: [],
       import: false,
       listCustomer: [],
+      loading: true
     }
   }
   GET_BILL_BYCOMPANY = localStorage.getItem('service')=== "Điện"
@@ -57,18 +58,11 @@ class ManageBill extends React.Component {
   }
 }`
   componentDidMount = async () => {
-    // const { currentPage, inputSearch } = this.state
-    // console.log(JSON.parse(localStorage.getItem('info')).userId)
     await this.refetchData(localStorage.getItem('userId'))
-
-    // this.setupCount()
+    this.setState({ loading: false})
   }
   componentWillMount = async () => {
-    // const { currentPage, inputSearch } = this.state
-    // console.log(JSON.parse(localStorage.getItem('info')).userId)
     await this.refetchData(localStorage.getItem('userId'))
-
-    // this.setupCount()
   }
   refetchData = async (companyId) => {
     await Client.query({
@@ -254,6 +248,9 @@ class ManageBill extends React.Component {
     }
 console.log("row select", this.state.row)
     return (
+      this.state.loading ? 
+            <Skeleton active /> 
+            :
         <>
      {this.state.import 
     ?  <ExelBill history ={this.props.history}></ExelBill>

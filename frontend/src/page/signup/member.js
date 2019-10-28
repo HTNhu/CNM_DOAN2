@@ -172,6 +172,7 @@ console.log("props", this.props)
                     pattern: new RegExp(/^0+\d{9}$/g),
                     message: "Không đúng định dạng!" 
                   }
+                  
                 ],
               })(<Input  style={{ width: '50%' }} />)}
             </Form.Item>
@@ -183,7 +184,16 @@ console.log("props", this.props)
               }
             >
               {getFieldDecorator('name', {
-                rules: [{ required: true, message: 'Bạn cần nhập họ và tên!', whitespace: true }],
+                rules: [{ required: true, message: 'Bạn cần nhập họ và tên!', whitespace: true },
+                  {
+                    max: 40,
+                    message: "Vượt quá số kí tự" 
+                  },
+                  {
+                    pattern: new RegExp(/^[a-zA-Z]+$/gi),
+                    message: "Không đúng định dạng!" 
+                  }
+                ]
               })(<Input style={{ width: '50%' }} />)}
             </Form.Item>
 
@@ -196,7 +206,13 @@ console.log("props", this.props)
               }
             >
               {getFieldDecorator('address', {
-                rules: [{ required: true, message: 'Bạn cần nhập Địa chỉ!', whitespace: true }],
+                rules: [
+                  { required: true, message: 'Bạn cần nhập Địa chỉ!', whitespace: true },
+                  {
+                    max: 40,
+                    message: "Vượt quá số kí tự" 
+                  }
+                ],
               })(<Input style={{ width: '50%' }} />)}
             </Form.Item>
             <Form.Item

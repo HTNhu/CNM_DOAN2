@@ -46,7 +46,11 @@ class CusExel extends React.Component {
     };
     
     handleOk = e => {
-        e.preventDefault();
+      e.preventDefault()
+      if(this.state.listCustomer.length === 0){
+        console.log("Trước")
+        openNotificationWithIcon('error','error', 'Fail','Danh sách khách hàng không hợp lệ')
+      }else{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
@@ -76,40 +80,49 @@ class CusExel extends React.Component {
             }
         
     })
+  }
 }
 render() {
-    function convertToJSON(array) {
-        var first = array[0].join()
-        var headers = first.split(',');
-        console.log("json", headers.length) 
-        if (headers.length != 4) return []
-        var jsonData = [];
-          for ( var i = 1, length = array.length; i < length; i++ )
-        {
-      
-          var myRow = array[i].join();
-          var row = myRow.split(',');
-          console.log("json", jsonData) 
-          if (row.length != 4) return jsonData
-          var data = {};
-         for ( var x = 0; x < row.length; x++ )
-          {
-            if(row === '') return jsonData
-            data[headers[x]]= row[x]
-           
-          }
-          jsonData.push(data)
-        }
-        console.log("json", jsonData) 
-        return jsonData;
-      };
+  async function  convertToJSON(array) {
+    console.log("arrr row", array)
+  var headers = ['id', 'name', 'phone', 'address']
+   if (headers.length != 4) {
+     message.error("Dũ liệu không hợp lệ") 
+     return []
+   }
+   var jsonData = [];
+     for ( var i = 1, length = array.length; i < length; i++ )
+   {
+ 
+     var myRow = array[i].join();
+     var row = myRow.split(',');
+    
+     if (row.length != 4) {
+       message.error("Dữ liệu không hợp lệ") 
+       return []
+     }
+     var data = {};
+    for ( var x = 0; x < row.length-1; x++ )
+     {
+       if(row[x] === '') {
+         console.log("json", jsonData) 
+         message.error("Dữ liệu không được rỗng") 
+         return []
+       }
+       data[headers[x]]= row[x]
+     }
+     jsonData.push(data)
+   }
+   console.log("json", jsonData) 
+   return jsonData;
+ };
     const readExel = async(info) => {
         if (info.file.status !== 'uploading') {
           console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
-          await ExcelRenderer(info.file.originFileObj, (err, resp) => {
+          await ExcelRenderer(info.file.originFileObj, async(err, resp) => {
             if(err){
               console.log(err);            
             }
@@ -117,7 +130,7 @@ render() {
               this.setState({
                 cols: resp.cols,
                 rows: resp.rows,
-                listCustomer: convertToJSON(resp.rows)
+                listCustomer: await convertToJSON(resp.rows)
               })
             }
             console.log(this.state)

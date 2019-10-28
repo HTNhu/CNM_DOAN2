@@ -1,7 +1,7 @@
 import React from 'react'
 // import { withRouter } from 'react-router-dom'
 import NumberFormat from 'react-number-format'
-import { Table, Tag, Icon, Input, Button } from 'antd';
+import { Table, Tag, Icon, Input, Button, Skeleton } from 'antd';
 import Highlighter from 'react-highlight-words';
 import gql from 'graphql-tag'
 import { Client } from '../../tools/apollo'
@@ -11,7 +11,8 @@ class History extends React.Component {
         super(props)
         this.state = {
             searchText: '',
-            history: []
+            history: [],
+            loading: true
         };
     }
     GETHISTORY_BYCOMPANY = gql`
@@ -43,10 +44,8 @@ class History extends React.Component {
 }
          `
     componentDidMount = async () => {
-        // const { currentPage, inputSearch } = this.state
-       
         await this.refetchData()
-        // this.setupCount()
+        this.setState({loading: false})
     }
     refetchData = async () => {
         localStorage.getItem('type') === 'company'
@@ -63,6 +62,7 @@ class History extends React.Component {
                         history: result.data.getHistoryByCompany 
                     })
                     console.log("sd", this.state.history)
+                    
                 })
                 .catch(() => { })
      :await Client.query({
@@ -78,6 +78,7 @@ class History extends React.Component {
                 history: result.data.getHistoryByMember
             })
             console.log("sd", this.state.history)
+        
         })
         .catch(() => { })
     }
@@ -210,8 +211,12 @@ class History extends React.Component {
                 // ...this.getColumnSearchProps('company'),
             }
         ];
-        return <Table columns={columns} dataSource={data} />;
-
+        return ( 
+        this.state.loading ? 
+        <Skeleton active /> 
+        : 
+        <Table columns={columns} dataSource={data} />
+        )
     }
 }
 
