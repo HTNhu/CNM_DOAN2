@@ -88,7 +88,7 @@ import gql from 'graphql-tag'
                
      }
   render() {
-    localStorage.setItem('name', this.state.info.name )
+     localStorage.setItem('name', this.state.info.name )
     const pStyle = {
         fontSize: 16,
         color: 'rgba(0,0,0,0.85)',

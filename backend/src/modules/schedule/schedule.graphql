@@ -4,12 +4,14 @@ type Schedule {
     memberId: String
     isRead: Boolean
     message: String
+    companyname: String
+    createdAt: String
 }
 
 input ScheduleInput {
     companyId: String
     memberId: String
-    isRead: Boolean
+    companyname: String
     message: String
 }
 type Query {

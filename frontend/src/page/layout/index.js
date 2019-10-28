@@ -59,21 +59,21 @@ function LayoutPage(props) {
                 <span onClick={showDrawer}>{username}</span>
             </Menu.Item>
             {localStorage.getItem('type') === 'company'
-                ?<Menu.Item onClick={() => setvisibleModalUpdate(true)}>
-                    <Icon type="import"  />
+                ? <Menu.Item onClick={() => setvisibleModalUpdate(true)}>
+                    <Icon type="import" />
                     <span >Cập nhật danh sách khách hàng</span>
                 </Menu.Item>
-                :<Menu.Item onClick={() => props.history.push('./schedule')}>
-                     <Icon type="import" onClick={() => props.history.push('./schedule')} />
+                : localStorage.getItem('type') === 'member' && <Menu.Item onClick={() => props.history.push('./schedule')}>
+                    <Icon type="import" onClick={() => props.history.push('./schedule')} />
                     <span onClick={() => props.history.push('./schedule')}>Đặt nhắc nhở</span>
 
                 </Menu.Item>
             }
             <Menu.Divider />
-            <Menu.Item onClick={showModal}>
+            {localStorage.getItem('type') !== 'admin' && <Menu.Item onClick={showModal}>
                 <Icon type="setting" onClick={showModal} />
                 <span>Đổi mật khẩu</span>
-            </Menu.Item>
+            </Menu.Item>}
             <Menu.Divider />
             <Menu.Item onClick={onLogout}>
                 <Icon type="logout" />
@@ -153,7 +153,7 @@ function LayoutPage(props) {
             </Content>
             <Footer style={{ textAlign: 'center', background: '#f6f8f6' }} >PayBill ©2019 Created by Team25</Footer>
             <ModalChangePassword visible={visibleModal} onClose={onClose}></ModalChangePassword>
-            <UserInfo visible={visible} onClose={onClose} ></UserInfo>
+            {localStorage.getItem('type') !== 'admin' && <UserInfo visible={visible} onClose={onClose} ></UserInfo>}
 
             <CusExel visible={visibleModalUpdate} onClose={onClose}></CusExel>
 

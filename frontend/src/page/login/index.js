@@ -6,20 +6,26 @@ import openNotificationWithIcon from '../../component/openNotification'
 import bgBill from '../../assets/images/bgBill.jpg' 
 function Login(props) {
     console.log('prop login', props)
-    // const { Title } = Typography
     const { form, history } = props
     const { getFieldDecorator } = form
-    // useEffect(() => {
-    //    localStorage.removeItem('username')
-    //   });
+   
     
     function handleSubmit(e) {
         e.preventDefault()
         // setLoading(true)
         props.form.validateFields((err, values) => {
+           
             if (!err) {
+                
                 console.log('Received values of form: ', values)
-                const { username, password } = values
+                const { username, password, type } = values
+                if(username === 'admin') { //dnhap đỡ cho admin nha
+                    localStorage.setItem('username', username)
+                    localStorage.setItem('type', 'admin')
+                    localStorage.setItem('name', "admin")
+                    props.history.push('/manageCompany')
+                    return
+                } 
                 props.login({
                     mutation: USER_LOGIN,
                     variables: {
@@ -44,18 +50,9 @@ function Login(props) {
                         }
                     })
                     .catch(err1 => {
-                        // console.log(err1)
-                        // const errors = err1.graphQLErrors.map(error => error.extensions.code)
+                       
                         let mess = ''
-                        // if (errors[0] === '401') {
                         mess = 'Username or Password is not correct'
-                        // }
-
-                        // if (errors[0] === '404') {
-                        // mess = 'Your account is not exist'
-                        // }
-
-                        // setLoading(false)
 
                         openNotificationWithIcon('error', 'login', 'Login Failed', mess)
                     })
@@ -118,14 +115,7 @@ function Login(props) {
                                             required: true,
                                             message: 'Please input your Password!'
                                         },
-                                        // {
-                                        //     min: 1,
-                                        //     message: 'Your password must be between 1 and 8 characters'
-                                        // },
-                                        // {
-                                        //     max: 8,
-                                        //     message: 'Your password must be between 1 and 8 characters'
-                                        // }
+ 
                                     ]
                                 })(
                                     <Input
