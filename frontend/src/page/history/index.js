@@ -44,7 +44,7 @@ class History extends React.Component {
          `
     componentDidMount = async () => {
         // const { currentPage, inputSearch } = this.state
-        console.log(JSON.parse(localStorage.getItem('info')).userId)
+       
         await this.refetchData()
         // this.setupCount()
     }
@@ -54,7 +54,7 @@ class History extends React.Component {
                 query: this.GETHISTORY_BYCOMPANY,
                 fetchPolicy: 'no-cache',
                 variables: {
-                    company: JSON.parse(localStorage.getItem('info')).userId
+                    company: localStorage.getItem('userId')
                 }
             })
                 .then(async result => {

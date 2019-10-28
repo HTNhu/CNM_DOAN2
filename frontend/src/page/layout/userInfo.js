@@ -1,5 +1,5 @@
 import React from 'react'
-import { Drawer, List, Avatar, Divider, Col, Row } from 'antd'
+import { Drawer,  Col, Row } from 'antd'
 import { Client } from '../../tools/apollo'
 import gql from 'graphql-tag'
 
@@ -79,13 +79,16 @@ import gql from 'graphql-tag'
                     this.setState({
                         info: result.data.getCompanyByUsername
                     })
+                    localStorage.setItem('service', this.state.info.service )
+                    
                   
                 })
                 .catch(() => { })
                 // console.log("info ", this.state.info)
-           localStorage.setItem('info', JSON.stringify(this.state.info))
+               
      }
   render() {
+    localStorage.setItem('name', this.state.info.name )
     const pStyle = {
         fontSize: 16,
         color: 'rgba(0,0,0,0.85)',

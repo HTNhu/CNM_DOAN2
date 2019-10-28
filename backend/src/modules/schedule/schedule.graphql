@@ -1,0 +1,21 @@
+type Schedule {
+    id: ID!
+    companyId: String
+    memberId: String
+    isRead: Boolean
+    message: String
+}
+
+input ScheduleInput {
+    companyId: String
+    memberId: String
+    isRead: Boolean
+    message: String
+}
+type Query {
+    getScheduleByMember(memberId: String): [Schedule] 
+}
+type Mutation {
+  updateSchedule(id: String, memberId: String): Boolean
+  createSchedule(scheduleInput: ScheduleInput): Boolean
+}

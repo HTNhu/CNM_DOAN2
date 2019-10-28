@@ -12,11 +12,13 @@ export class Company {
     lstCustomer: [Customer]
 }
 export class Customer{
+    id: string
     name: string
     address: string
     phone: string
 }
 export class CustomerInput{
+    id: string
     name: string
     address: string
     phone: string

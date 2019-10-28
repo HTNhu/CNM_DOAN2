@@ -6,7 +6,6 @@ export class WaterBill {
     phone: string
     address: string
     createdAt: Date
-    updatedAt: Date
     isPaid: Boolean
     description: WaterInput
     total: number
@@ -19,7 +18,6 @@ export class ElectricBill {
     phone: string
     address: string
     createdAt: Date
-    updatedAt: Date
     isPaid: Boolean
     description: ElectricInput
     total: number
@@ -33,18 +31,24 @@ export class ElectricInput {
     unitPrice: number
 }
 export class ElectricBillInput {
+    billId: string
     companyId: string 
     companyname: string
     name: string
     phone: string
     address: string
+    createdAt: Date
     description: ElectricInput
+    total: number
 }
 export class WaterBillInput {
+    billId: string
     companyId: string
     companyname: string 
     name: string
     phone: string
     address: string
+    createdAt: Date
     description: WaterInput
+    total: number
 }

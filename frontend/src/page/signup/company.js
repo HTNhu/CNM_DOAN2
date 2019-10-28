@@ -80,7 +80,7 @@ query{
       console.log(err, "err")
       console.log('Received values of form: errrr ', values)
       if (!err) {
-        
+       
         const { phone, name, address, username, password, service  } = values
         const logo= this.state.imageUrl
         console.log('Received values of form: ', values,logo)
@@ -245,19 +245,22 @@ const props = {
  function convertToJSON(array) {
   var first = array[0].join()
   var headers = first.split(',');
-
+  console.log("json", headers.length) 
+  if (headers.length != 4) return []
   var jsonData = [];
     for ( var i = 1, length = array.length; i < length; i++ )
   {
 
     var myRow = array[i].join();
     var row = myRow.split(',');
-
+    console.log("json", jsonData) 
+    if (row.length != 4) return jsonData
     var data = {};
    for ( var x = 0; x < row.length; x++ )
     {
+      if(row === '') return jsonData
       data[headers[x]]= row[x]
-      
+     
     }
     jsonData.push(data)
   }

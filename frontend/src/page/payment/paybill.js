@@ -26,6 +26,7 @@ class Paybill extends React.Component {
             address
             name
             companyId
+            createdAt
             companyname
            total 
             description{
@@ -99,8 +100,8 @@ class Paybill extends React.Component {
                 dataIndex: 'company',
             },
             {
-                title: 'DNTT',
-                dataIndex: 'DNTT',
+                title: 'NGÀY LẬP',
+                dataIndex: 'createdAt',
             },
             {
                 title: 'Total',
@@ -113,7 +114,7 @@ class Paybill extends React.Component {
             {
                 key: '1',
                 company: this.state.bills.companyname,
-                DNTT: dntt,
+                createdAt: this.state.bills.createdAt,
                 total: <NumberFormat defaultValue ={this.state.bills.total} thousandSeparator={true}  displayType='text'/>,
             }
         ];
@@ -122,14 +123,15 @@ class Paybill extends React.Component {
         const { Search } = Input
         return (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Search
+              <span> <h2>Tra cứu hóa đơn</h2> 
+               <Search
                     style={{ width: 500, margin: 20 }}
                     placeholder="Nhập mã khách hàng, số điện thoại...."
                     onSearch={value => {
                         this.refetchData(this.props.match.params.companyId, value)
                       
                     }} 
-                    enterButton />
+                    enterButton /></span>
                     <br></br>
 
                 <Modal
@@ -143,6 +145,7 @@ class Paybill extends React.Component {
                         <h4>Tên: {this.state.bills.name}</h4>
                         <h4>Địa chỉ: {this.state.bills.address}</h4>
                         <h4>Số điện thoại:  {this.state.bills.phone}</h4>
+                        
                         {this.state.bills !== {} &&<Table columns={columns} dataSource={data} size="small" />}
                         <PaypalButton 
                             onCancel={this.handleCancel}
