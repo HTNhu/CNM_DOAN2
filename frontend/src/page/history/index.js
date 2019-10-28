@@ -168,13 +168,13 @@ class History extends React.Component {
                 title: 'TÊN KHÁCH HÀNG',
                 dataIndex: 'name',
                 key: 'name',
-                // ...this.getColumnSearchProps('name'),
+                ...this.getColumnSearchProps('name'),
             },
             {
                 title: 'LOẠI HÓA ĐƠN',
                 dataIndex: 'type',
                 key: 'type',
-                // ...this.getColumnSearchProps('type'),
+                ...this.getColumnSearchProps('type'),
             },
             {
                 title: 'TỔNG',
@@ -185,13 +185,13 @@ class History extends React.Component {
                 title: 'NGÀY THANH TOÁN',
                 dataIndex: 'paidAt',
                 key: 'paidAt',
-                // ...this.getColumnSearchProps('paidAt'),
+                ...this.getColumnSearchProps('paidAt'),
             },
             {
                 title: 'NGƯỜI THANH TOÁN',
                 dataIndex: 'username',
                 key: 'username',
-                // ...this.getColumnSearchProps('username'),
+                ...this.getColumnSearchProps('username'),
             },
             {
                 title: 'CÔNG TY',
@@ -207,7 +207,7 @@ class History extends React.Component {
                     }
                     </span>
                 ),
-                // ...this.getColumnSearchProps('company'),
+                ...this.getColumnSearchProps('company'),
             }
         ];
         return <Table columns={columns} dataSource={data} />;
