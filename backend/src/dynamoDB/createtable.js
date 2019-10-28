@@ -95,11 +95,11 @@ dynamodb.createTable({
     TableName: "ScheduleReminder",
     KeySchema: [
         { AttributeName: "id", KeyType: "HASH" },
-        { AttributeName: "companyId", KeyType: "RANGE" }
+        { AttributeName: "memberId", KeyType: "RANGE" }
     ],
     AttributeDefinitions: [
         { AttributeName: "id", AttributeType: "S" },
-        { AttributeName: "companyId", AttributeType: "S" }
+        { AttributeName: "memberId", AttributeType: "S" }
     ],
     ProvisionedThroughput: {
         ReadCapacityUnits: 10,

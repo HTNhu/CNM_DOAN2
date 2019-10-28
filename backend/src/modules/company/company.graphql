@@ -1,9 +1,11 @@
 input CustomerInput {
+        id: String
         name: String
         phone: String!
         address: String
 }
 type Customer {
+        id: String
         name: String
         phone: String!
         address: String
@@ -35,9 +37,11 @@ input CompanyInput {
 
 
 type Query {
+    getAllCompany: [Company]
     getCompanyByUsername(username: String): Company
     getCompanyByService(service: String): [Company]
 }
 type Mutation {
+  updateListCustomerCompany(username: String,lstCustomer: [CustomerInput]): Boolean
   createCompany(compInput: CompanyInput): Boolean
 }

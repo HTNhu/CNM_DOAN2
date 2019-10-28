@@ -72,6 +72,14 @@ export const routers = [
 		key: 'paybill',
 		breadcrumbName: 'Tìm kiếm hóa đơn',
 		exact: true
+	},
+	{
+		// isParams: true,
+		path: '/schedule',
+		component: 'schedule',
+		key: 'schedule',
+		breadcrumbName: 'Đặt lịch',
+		exact: true
 	}
 ]
 

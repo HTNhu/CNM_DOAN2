@@ -7,6 +7,8 @@ import {
 import Breadcrumbs from '../../component/breadcrumb'
 import UserInfo from './userInfo'
 import ModalChangePassword from './changePassword'
+import CusExel from './inputCustomer'
+// import Schedule from './schedule'
 function LayoutPage(props) {
 
     const { menuKey } = props
@@ -32,12 +34,13 @@ function LayoutPage(props) {
             : dataTopMenuCompany
 
     const onLogout = () => {
-        localStorage.removeItem('username')
+        localStorage.clear()
         props.history.push('/login')
     }
     const username = localStorage.getItem('username')
     const [visible, setVisible] = useState(false)
     const [visibleModal, setVisibleModal] = useState(false)
+    const [visibleModalUpdate, setvisibleModalUpdate] = useState(false)
     const showDrawer = () => {
         setVisible(true)
     };
@@ -47,6 +50,7 @@ function LayoutPage(props) {
     const onClose = () => {
         setVisible(false)
         setVisibleModal(false)
+        setvisibleModalUpdate(false)
     };
     const menu = (
         <Menu>
@@ -54,6 +58,17 @@ function LayoutPage(props) {
                 <Icon type="info" onClick={showDrawer} />
                 <span onClick={showDrawer}>{username}</span>
             </Menu.Item>
+            {localStorage.getItem('type') === 'company'
+                ?<Menu.Item onClick={() => setvisibleModalUpdate(true)}>
+                    <Icon type="import"  />
+                    <span >Cập nhật danh sách khách hàng</span>
+                </Menu.Item>
+                :<Menu.Item onClick={() => props.history.push('./schedule')}>
+                     <Icon type="import" onClick={() => props.history.push('./schedule')} />
+                    <span onClick={() => props.history.push('./schedule')}>Đặt nhắc nhở</span>
+
+                </Menu.Item>
+            }
             <Menu.Divider />
             <Menu.Item onClick={showModal}>
                 <Icon type="setting" onClick={showModal} />
@@ -139,6 +154,9 @@ function LayoutPage(props) {
             <Footer style={{ textAlign: 'center', background: '#f6f8f6' }} >PayBill ©2019 Created by Team25</Footer>
             <ModalChangePassword visible={visibleModal} onClose={onClose}></ModalChangePassword>
             <UserInfo visible={visible} onClose={onClose} ></UserInfo>
+
+            <CusExel visible={visibleModalUpdate} onClose={onClose}></CusExel>
+
         </Layout >
 
     )

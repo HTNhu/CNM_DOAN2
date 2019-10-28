@@ -8,7 +8,6 @@ type WaterBill {
     phone: String
     address: String
     createdAt: String
-    updatedAt: String
     isPaid: Boolean
     description: Water
     total: Int
@@ -22,26 +21,31 @@ type ElectricBill {
     phone: String
     address: String
     createdAt: String
-    updatedAt: String
     isPaid: Boolean
     description: Electric
     total: Int
 }
 input ElectricBillInput {
+    billId: String
     companyId: String 
     companyname: String
     name: String
     phone: String
     address: String
     description: ElectricInput
+    total: Int
+    createdAt: String
 }
 input WaterBillInput {
+    billId: String
     companyId: String 
     companyname: String
     name: String
     phone: String
     address: String
     description: WaterInput
+    total: Int
+    createdAt: String
 }
 type Water {
   LNTT: Int

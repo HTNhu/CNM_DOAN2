@@ -1,7 +1,7 @@
 import { Injectable, ParseUUIDPipe } from '@nestjs/common'
 import { ApolloError } from 'apollo-server-core'
 import { AccountService } from '../account/account.service'
-import { Company } from './company.entity'
+import { Company, Customer } from './company.entity'
 import * as uuid from 'uuid'
 const dynamoDB = require('../../dynamoDB')
 @Injectable()
@@ -9,6 +9,20 @@ export class CompanyService {
     constructor(
         private readonly accService: AccountService
     ) { }
+    async findAllCompany(): Promise<Company[]> {
+        const a = await dynamoDB.scan({
+            TableName: 'User_TransactionHistory',
+            FilterExpression: '#type = :type',
+            ExpressionAttributeNames: {
+                '#type': 'type',
+            },
+            ExpressionAttributeValues: {
+                ':type': 'company',
+            },
+        })
+        if (a.Count === 0) return []
+        return a.Items
+    }
     async findCompanyByUsername(username): Promise<Company> {
         const a = await dynamoDB.scan({
             TableName: 'User_TransactionHistory',
@@ -23,22 +37,7 @@ export class CompanyService {
             },
         })
         if (a.Count === 0) return null
-        const comp = new Company()
-        if (a.Items[0].username === username) {
-            comp.userId = a.Items[0].userId
-            comp.phone = a.Items[0].phone
-            comp.name = a.Items[0].name
-            comp.address = a.Items[0].address
-            comp.logo = a.Items[0].logo
-            comp.service = a.Items[0].service
-            comp.username = a.Items[0].username
-            comp.password = a.Items[0].password
-            comp.createdAt = a.Items[0].createdAt
-            comp.updatedAt = a.Items[0].updatedAt
-            comp.lstCustomer = a.Items[0].lstCustomer
-            
-        }
-        return comp
+        return a.Items[0]
     }
     async findCompanyByName(name) {
         return await dynamoDB.scan({
@@ -97,20 +96,35 @@ export class CompanyService {
             }
         })
         if (a.Count === 0) return []
-        console.log(a.Items,"sà")
-        // const lst = []
-        // await a.Items.forEach(async element => {
-        //     const comp = new Company();
-        //     comp.userId = element.userId
-        //     comp.username = element.username
-        //     comp.name = element.name
-        //     comp.address = element.address
-        //     comp.logo = element.logo
-        //     comp.service = element.service
-        //     lst.push(comp)
-        // })
-        // console.log(lst)
      return a.Items
+
+    }
+    async update(username: string, lstCustomer: [Customer]): Promise<Boolean> {
+        try {
+            await dynamoDB.updateItem({
+                TableName: "User_TransactionHistory",
+                Key: {
+                    "username": username,
+                    "type": 'company'
+                },
+                UpdateExpression: "set #lstCustomer = :lstCustomer, #updatedAt = :updatedAt",
+                ExpressionAttributeNames: {
+                    "#lstCustomer": "lstCustomer",
+                    "#updatedAt": "updatedAt"
+                },
+                ExpressionAttributeValues: {
+                    ":lstCustomer": lstCustomer,
+                    ":updatedAt": Date.now()
+                },
+                ReturnValues: "UPDATED_NEW"
+            })
+            console.log("UPDATE")
+            console.log('ok')
+            return true
+        } catch (err) {
+            console.error("sdfd", err)
+            return false
+        }
 
     }
 }

@@ -94,23 +94,7 @@ export class AccountService {
 			throw new ApolloError(err, '500', {})
 		}
 	}
-	// async signup(accInput): Promise<String> {
-	// 	const existAcc = await this.findAccountByUsername(accInput.username)
-	// 	if (existAcc) throw new ApolloError('Username existed', '401')
-	// 	const id = uuid.v4()
-	// 	await dynamoDB.putItem({
-	// 		TableName: 'User_TransactionHistory',
-	// 		Item: {
-	// 			"userId": uuid.v4(),
-	// 			"username":  accInput.username,
-	// 			"password": await this.hashPassword(accInput.password),
-	// 			"type": accInput.type,
-	// 			"createdAt": Date.now(),
-    //             "updatedAt": Date.now()
-	// 		}
-	// 	})
-	// 	return id
-	// }
+	
 	async updateAccount(type,username,password): Promise<Boolean> {
 		try{
 			const a =await dynamoDB.updateItem({
