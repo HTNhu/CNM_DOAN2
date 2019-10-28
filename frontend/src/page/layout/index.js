@@ -15,7 +15,8 @@ function LayoutPage(props) {
     console.log("kr", menuKey)
     const dataTopMenuMem = [
         { title: 'THANH TOÁN', navigateTo: '/payment', name: 'payment' },
-        { title: 'LỊCH SỬ GIAO DỊCH', navigateTo: '/history', name: 'history' }
+        { title: 'LỊCH SỬ GIAO DỊCH', navigateTo: '/history', name: 'history' },
+        { title: 'ĐẶT LỊCH', navigateTo: '/schedule', name: 'schedule' }
     ]
     const dataTopMenuCompany = [
         { title: 'QUẢN LÝ HÓA ĐƠN', navigateTo: '/manageBill', name: 'managebill' },

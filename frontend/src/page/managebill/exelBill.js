@@ -29,26 +29,26 @@ class ExelBill extends Component {
           editable: false,
         },
         {
-          title: 
-          localStorage.getItem('service') === 'Điện' ? "Điện năng tiêu thụ" : "Lượng nước tiêu thụ",
-          dataIndex:  localStorage.getItem('service') === 'Điện' ? `description.DNTT` :`description.LNTT`,
+          title:
+            localStorage.getItem('service') === 'Điện' ? "Điện năng tiêu thụ" : "Lượng nước tiêu thụ",
+          dataIndex: localStorage.getItem('service') === 'Điện' ? `description.DNTT` : `description.LNTT`,
           editable: false
         },
         {
-            title: "Đơn giá",
-            dataIndex: "description.unitPrice",
-            editable: false
-          },
-          {
-            title: "Tổng tiền",
-            dataIndex: "total",
-            editable: false
-          },
-          {
-            title: "Ngày lập",
-            dataIndex: "createdAt",
-            editable: false
-          },
+          title: "Đơn giá",
+          dataIndex: "description.unitPrice",
+          editable: false
+        },
+        {
+          title: "Tổng tiền",
+          dataIndex: "total",
+          editable: false
+        },
+        {
+          title: "Ngày lập",
+          dataIndex: "createdAt",
+          editable: false
+        },
         {
           title: "",
           dataIndex: "action",
@@ -69,12 +69,12 @@ class ExelBill extends Component {
       ]
     };
   }
-  getCustomer = (phone) =>{
-    const list =   this.props.getCompanyByUsername && this.props.getCompanyByUsername.getCompanyByUsername.lstCustomer
-    console.log( this.props.getCompanyByUsername.getCompanyByUsername.lstCustomer)
-    return list.findIndex(item => item.phone === phone) < 0 ?  null : list.find(item => item.phone === phone)
+  getCustomer = (phone) => {
+    const list = this.props.getCompanyByUsername && this.props.getCompanyByUsername.getCompanyByUsername.lstCustomer
+    console.log(this.props.getCompanyByUsername.getCompanyByUsername.lstCustomer)
+    return list.findIndex(item => item.phone === phone) < 0 ? null : list.find(item => item.phone === phone)
 
-}
+  }
   handleSave = row => {
     const newData = [...this.state.rows];
     const index = newData.findIndex(item => row.billId === item.billId);
@@ -136,36 +136,38 @@ class ExelBill extends Component {
       } else {
         let newRows = [];
         resp.rows.slice(1).map((row, index) => {
-            if(row[0] === undefined ) return newRows
-            const cus =  this.getCustomer(row[1])
-            console.log("customer", cus)
-          if (row && row !== undefined ) {
-              if(cus ===null) {
-                this.setState({  
-                  errorMessage: `Không tồn tại khách hàng SDT ${row[1]}. Cập nhật danh sách khách hàng`,
-                  index
+          if (row[0] === undefined) return newRows
+          const cus = this.getCustomer(row[1])
+          console.log("customer", cus)
+          if (row && row !== undefined) {
+            if (cus === null) {
+              this.setState({
+                errorMessage: `Không tồn tại khách hàng SDT ${row[1]}. Cập nhật danh sách khách hàng`,
+                index
               })
-              openNotificationWithIcon("error",'error',"Sai",this.state.errorMessage)
+              openNotificationWithIcon("error", 'error', "Sai", this.state.errorMessage)
               return
             }
+            
+
 
             newRows.push({
               billId: row[0],
               phone: row[1],
               description: localStorage.getItem('service') === 'Điện' ?
-              {
-                DNTT :  row[2],
-                unitPrice: row[3]
-              }: {
-                LNTT :  row[2],
-                unitPrice: row[3]
-              },
+                {
+                  DNTT: row[2],
+                  unitPrice: row[3]
+                } : {
+                  LNTT: row[2],
+                  unitPrice: row[3]
+                },
               total: row[4],
               companyId: localStorage.getItem('userId'),
               companyname: localStorage.getItem('name'), // thay name
-              name:  cus.name,
-              address:  cus.address,
-              createdAt: new Date((row[5] - (25567 + 1))*86400*1000).toLocaleDateString()
+              name: cus.name,
+              address: cus.address,
+              createdAt: new Date((row[5] - (25567 + 1)) * 86400 * 1000).toLocaleDateString()
             });
           }
         });
@@ -185,53 +187,55 @@ class ExelBill extends Component {
     });
     return false;
   };
-  createElectric = async(row) => await this.props.createElectricBill({
+  createElectric = async (row) => await this.props.createElectricBill({
     mutation: CREATE_ELECTRICBILL,
     variables: {
-      electricbillInput: row 
-    }})
-    .then( res => {
+      electricbillInput: row
+    }
+  })
+    .then(res => {
       console.log(res)
-      if(res.data.createElectricBill){
+      if (res.data.createElectricBill) {
         openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
       }
-     
+
     })
 
     .catch(err1 => {
       let mess = ''
       mess = 'Fail'
 
-    //   openNotificationWithIcon('error', 'create', 'Create Failed', mess)
-    })
-    createWater = async(row) => await this.props.createWaterBill({
-      mutation: CREATE_WATERBILL,
-      variables: {
-        waterbillInput: row 
-      }})
-      .then( res => {
-        console.log(res)
-        if(res.data.createWaterBill){
-          openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
-        }
-       
-      }).catch(err1 => {
-        let mess = ''
-        mess = 'Fail'
-  
       //   openNotificationWithIcon('error', 'create', 'Create Failed', mess)
-      })
+    })
+  createWater = async (row) => await this.props.createWaterBill({
+    mutation: CREATE_WATERBILL,
+    variables: {
+      waterbillInput: row
+    }
+  })
+    .then(res => {
+      console.log(res)
+      if (res.data.createWaterBill) {
+        openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
+      }
+
+    }).catch(err1 => {
+      let mess = ''
+      mess = 'Fail'
+
+      //   openNotificationWithIcon('error', 'create', 'Create Failed', mess)
+    })
   handleSubmit = async () => {
     console.log("submitting: ", this.state.rows);
     //submit to API
     //if successful, banigate and clear the data
     //this.setState({ rows: [] })
-    this.state.rows.map( async row => 
-        localStorage.getItem('service') === "Điện" ? this.createElectric(row) : this.createWater(row)
-        )
-        await this.props.getBillByCompany.refetch()
-        openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
-        this.setState({ rows: [] })
+    this.state.rows.map(async row =>
+      localStorage.getItem('service') === "Điện" ? this.createElectric(row) : this.createWater(row)
+    )
+    await this.props.getBillByCompany.refetch()
+    openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
+    this.setState({ rows: [] })
   }
   handleDelete = billId => {
     const rows = [...this.state.rows];
@@ -252,7 +256,7 @@ class ExelBill extends Component {
   // };
 
   render() {
-      this.getCustomer("0355983234")
+    this.getCustomer("0355983234")
     const components = {
       body: {
         row: EditableFormRow,
@@ -296,14 +300,14 @@ class ExelBill extends Component {
             align="right"
             style={{ display: "flex", justifyContent: "space-between" }}
           >
-               <Button
-                  onClick={() => this.props.history.push('./managebill')}
-                  size="large"
-                  type="danger"
-                  style={{ marginBottom: 16 }}
-                >
-                  <Icon type="exit" />
-                  Thoát
+            <Button
+              onClick={() => this.props.history.push('./managebill')}
+              size="large"
+              type="danger"
+              style={{ marginBottom: 16 }}
+            >
+              <Icon type="exit" />
+              Thoát
                 </Button>
             {this.state.rows.length > 0 && (
               <>
@@ -354,7 +358,7 @@ mutation ($waterbillInput: WaterBillInput!){
   }
 `
 const GET_BILL_BYCOMPANY = localStorage.getItem('service') === 'Điện' ?
- gql`query($companyId: String){
+  gql`query($companyId: String){
   getElectricBillsByCompany(companyId:$companyId){
       billId
       type
@@ -369,7 +373,7 @@ const GET_BILL_BYCOMPANY = localStorage.getItem('service') === 'Điện' ?
 }
 }
 `
-:  gql`query($companyId: String){
+  : gql`query($companyId: String){
   getWaterBillsByCompany(companyId:$companyId){
       billId
       type
@@ -400,11 +404,11 @@ export default compose(
     name: 'getCompanyByUsername',
     options: {
       variables: {
-       username:  localStorage.getItem('username')
+        username: localStorage.getItem('username')
       }
     }
   }),
-    graphql(
+  graphql(
     CREATE_ELECTRICBILL, {
     name: 'createElectricBill',
     options: {}
@@ -423,4 +427,4 @@ export default compose(
       }
     }
   }),
-  )(ExelBill)
+)(ExelBill)
