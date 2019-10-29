@@ -4,18 +4,15 @@ import {
   Input,
   Tooltip,
   Icon,
-  Select,
   Button,
   Col,
   Row,
-  InputNumber
 } from 'antd';
 import gql from 'graphql-tag'
 
 import { graphql } from 'react-apollo'
 
 import openNotificationWithIcon from '../../component/openNotification'
-const { Option } = Select;
 // const AutoCompleteOption = AutoComplete.Option;
 
 

@@ -1,11 +1,11 @@
 import React from 'react'
-import { Modal, Button, Empty } from 'antd';
-import { Table, Input } from 'antd';
-import { withRouter } from 'react-router-dom'
+import { Modal } from 'antd';
+import { Table } from 'antd';
+// import { withRouter } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import * as compose from 'lodash.flowright'
-import { Item } from 'rc-menu';
+// import { Item } from 'rc-menu';
 // import PayButton  from './payByCompany'
 import NumberFormat from 'react-number-format'
 import openNotificationWithIcon from '../../component/openNotification';
@@ -98,7 +98,7 @@ class PayModal extends React.Component {
         ];
         
         console.log("empty", this.state.isEmpty)
-        const { Search } = Input
+        // const { Search } = Input
         return (
                 <Modal
                     title="HÓA ĐƠN THANH TOÁN"

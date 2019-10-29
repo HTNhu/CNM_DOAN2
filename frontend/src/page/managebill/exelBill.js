@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { Table, Button, Popconfirm, Row, Col, Icon, Upload, Alert } from "antd";
+import { Table, Button, Popconfirm, Row, Col, Icon, Upload } from "antd";
 import { ExcelRenderer } from "react-excel-renderer";
 import { EditableFormRow, EditableCell } from "../../utils/editTable";
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import openNotificationWithIcon from '../../component/openNotification'
-import { Client } from '../../tools/apollo'
+// import { Client } from '../../tools/apollo'
 import * as compose from 'lodash.flowright'
-import { get } from "http";
+
 class ExelBill extends Component {
   constructor(props) {
     super(props);
@@ -137,13 +137,14 @@ class ExelBill extends Component {
       return false;
     }
     //just pass the fileObj as parameter
-    ExcelRenderer(fileObj, (err, resp) => {
+    ExcelRenderer(fileObj,(err, resp) => {
       if (err) {
         // console.log(err);
       } else {
         let newRows = [];
-        resp.rows.slice(1).map((row, index) => {
-          const i = index
+        const arr =resp.rows.slice(1)
+         arr.map((row, index) => {
+          // const i = index
           // console.log("row length", row, resp.rows, i)
           // if(row[0] === undefined ) return newRows
          
@@ -216,8 +217,7 @@ class ExelBill extends Component {
     })
 
     .catch(err1 => {
-      let mess = ''
-      mess = 'Fail'
+      
 
       //   openNotificationWithIcon('error', 'create', 'Create Failed', mess)
     })
@@ -243,8 +243,7 @@ class ExelBill extends Component {
     })
 
     .catch(err1 => {
-      let mess = ''
-      mess = 'Fail'
+      
 
       //   openNotificationWithIcon('error', 'create', 'Create Failed', mess)
     })
@@ -267,8 +266,7 @@ class ExelBill extends Component {
       }
 
     }).catch(err1 => {
-      let mess = ''
-      mess = 'Fail'
+      
     })
   handleSubmit = async () => {
     // e.preventDefault()

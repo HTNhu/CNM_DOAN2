@@ -1,6 +1,6 @@
 import React from 'react'
 // import { withRouter } from 'react-router-dom'
-import NumberFormat from 'react-number-format'
+// import NumberFormat from 'react-number-format'
 import { Table, Tag, Icon, Input, Button, Skeleton, Avatar } from 'antd';
 import Highlighter from 'react-highlight-words';
 import gql from 'graphql-tag'

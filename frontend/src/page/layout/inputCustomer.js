@@ -1,4 +1,4 @@
-import { Form, Icon, Input, Button, Modal, message, Upload } from 'antd';
+import { Form, Icon,  Button, Modal, message, Upload } from 'antd';
 import React from 'react'
 import {OutTable, ExcelRenderer} from 'react-excel-renderer';
 import gql from 'graphql-tag'
@@ -86,7 +86,7 @@ render() {
   async function  convertToJSON(array) {
     // console.log("arrr row", array)
   var headers = ['id', 'name', 'phone', 'address']
-   if (headers.length != 4) {
+   if (headers.length !== 4) {
      message.error("Dũ liệu không hợp lệ") 
      return []
    }
@@ -97,7 +97,7 @@ render() {
      var myRow = array[i].join();
      var row = myRow.split(',');
     
-     if (row.length != 4) {
+     if (row.length !== 4) {
        message.error("Dữ liệu không hợp lệ") 
        return []
      }

@@ -1,9 +1,9 @@
-import React , { useEffect } from 'react'
+import React  from 'react'
 import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 import { Row, Col, Form, Icon, Input, Button } from 'antd'
 import openNotificationWithIcon from '../../component/openNotification'
-import bgBill from '../../assets/images/bgBill.jpg' 
+// import bgBill from '../../assets/images/bgBill.jpg' 
 function Login(props) {
     // console.log('prop login', props)
     const { form, history } = props
@@ -18,7 +18,7 @@ function Login(props) {
             if (!err) {
                 
                 // console.log('Received values of form: ', values)
-                const { username, password, type } = values
+                const { username, password } = values
                 if(username === 'admin') { //dnhap đỡ cho admin nha
                     localStorage.setItem('username', username)
                     localStorage.setItem('type', 'admin')

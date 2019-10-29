@@ -10,11 +10,10 @@ import {
   Button,
   Col,
   Row,
-  Empty
 } from 'antd'
-import excel from 'xlsx';
+
 import {OutTable, ExcelRenderer} from 'react-excel-renderer';
-import moment from "moment";
+
 import gql from 'graphql-tag'
 import { Client } from '../../tools/apollo'
 import { graphql } from 'react-apollo'
@@ -253,7 +252,7 @@ const props = {
  async function  convertToJSON(array) {
    console.log("arrr row", array)
  var headers = ['id', 'name', 'phone', 'address']
-  if (headers.length != 4) {
+  if (headers.length !== 4) {
     message.error("Dũ liệu không hợp lệ") 
     return []
   }
@@ -264,7 +263,7 @@ const props = {
     var myRow = array[i].join();
     var row = myRow.split(',');
    
-    if (row.length != 4) {
+    if (row.length !== 4) {
       message.error("Dữ liệu không hợp lệ") 
       return []
     }

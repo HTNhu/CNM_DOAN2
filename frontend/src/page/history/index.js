@@ -143,9 +143,9 @@ class History extends React.Component {
         this.setState({ searchText: '' });
     };
     render() {
-
+        const { history } =this.state
         const data = []
-        this.state.history.map((item,idx) =>{
+        history.map((item,idx) =>{
             data.push({
                 key: (idx+1).toString(),
                 // billId: (item.billId).toString(),

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 // import { DEFAULT_DEPRECATION_REASON } from 'graphql';
 
 const chartData = {
@@ -42,7 +42,6 @@ const chartData = {
 
 function Statistic(props) {
     console.log('props payment company', props)
-    const { statistic } = props
     return (
         <div className='chart'>
             <Bar

@@ -9,7 +9,7 @@ import {
 	// AccountInput
 } from './account.entity'
 const dynamoDB = require('../../dynamoDB')
-const bcrypt = require('bcrypt')
+// const bcrypt = require('bcrypt')
 @Injectable()
 export class AccountService {
 	constructor() { }
@@ -38,9 +38,9 @@ export class AccountService {
 		return lst
 	}
 
-	hashPassword = async (password: string): Promise<string> => {
-		return await bcrypt.hash(password, 10)
-	}
+	// hashPassword = async (password: string): Promise<string> => {
+	// 	return await bcrypt.hash(password, 10)
+	// }
 	async generateAccessToken(acc: Account) {
 		const token = await jwt.sign(
 			{ userId: acc.userId }, 'somesupersecretkey'
@@ -48,12 +48,12 @@ export class AccountService {
 		return { userId: acc.userId, token, type: acc.type }
 	}
 
-	isPasswordMatched = async (
-		rawPassword: string,
-		encodedPassword: string
-	): Promise<boolean> => {
-		return await bcrypt.compare(rawPassword, encodedPassword)
-	}
+	// isPasswordMatched = async (
+	// 	rawPassword: string,
+	// 	encodedPassword: string
+	// ): Promise<boolean> => {
+	// 	return await bcrypt.compare(rawPassword, encodedPassword)
+	// }
 	async findAccountByUsername(username): Promise<Account> {
 		const a = await dynamoDB.scan({
 			TableName: 'User_TransactionHistory',
@@ -85,7 +85,8 @@ export class AccountService {
 			}
 			// if (acc.password !== password) throw new ApolloError('Wrongpassword', '401')
 		
-			if(!(await this.isPasswordMatched(password, acc.password))) {
+			if(password !== acc.password) {
+				// (await this.isPasswordMatched(password, acc.password))
 				
 			throw new ApolloError('Wrong password', '401')
 			}
@@ -109,7 +110,7 @@ export class AccountService {
 					"#updatedAt": "updatedAt"
 				},
 				ExpressionAttributeValues: {
-					":pw": await this.hashPassword(password),
+					":pw": password,
 					":updatedAt": Date.now()
 				},
 				ReturnValues: "UPDATED_NEW"

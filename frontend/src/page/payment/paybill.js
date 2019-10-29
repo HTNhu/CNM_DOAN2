@@ -1,10 +1,10 @@
 import React from 'react'
-import { Modal, Button, Empty } from 'antd';
+import { Modal,  Empty } from 'antd';
 import { Table, Input } from 'antd';
 import { withRouter } from 'react-router-dom'
 import gql from 'graphql-tag'
 import { Client } from '../../tools/apollo'
-import { Item } from 'rc-menu';
+
 import PaypalButton  from './paypalButton'
 import NumberFormat from 'react-number-format'
 class Paybill extends React.Component {
@@ -108,7 +108,7 @@ class Paybill extends React.Component {
                 dataIndex: 'total',
             }
         ];
-       const dntt = this.state.bills.description === undefined ? '' : this.state.bills.description.DNTT
+    //    const dntt = this.state.bills.description === undefined ? '' : this.state.bills.description.DNTT
     
      const data =   [
             {

@@ -1,6 +1,6 @@
 import React from 'react'
-import { Table, Icon, Input, Button, Skeleton, message, Card} from 'antd'
-import { OutTable, ExcelRenderer } from 'react-excel-renderer';
+import { Table, Icon, Input, Button, Skeleton } from 'antd'
+// import { OutTable, ExcelRenderer } from 'react-excel-renderer';
 // import Modal_Internet from './modal_internet'
 import Highlighter from 'react-highlight-words';
 
@@ -237,13 +237,7 @@ class ManageBill extends React.Component {
       };
     }
 
-    const props = {
-      name: 'file',
-      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-      headers: {
-        authorization: 'authorization-text',
-      }
-    }
+    
 console.log("row select", this.state.row)
     return (
       this.state.loading ? 

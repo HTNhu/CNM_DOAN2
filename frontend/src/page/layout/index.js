@@ -44,7 +44,7 @@ function LayoutPage(props) {
     const username = localStorage.getItem('username')
     const [visible, setVisible] = useState(false)
     const [visibleModal, setVisibleModal] = useState(false)
-    const [schedule, setSchedule] = useState(!props.getScheduleByMember.loading && props.getScheduleByMember.getScheduleByMember)
+    
     const [visibleModalUpdate, setvisibleModalUpdate] = useState(false)
     const showDrawer = () => {
         setVisible(true)
@@ -84,8 +84,8 @@ function LayoutPage(props) {
 
     const menuSchedule = (
         <Menu onClick={handleMenuClick}>
-            {!props.getScheduleByMember.loading && props.getScheduleByMember.getScheduleByMember.map
-                (item => <Menu.Item key= {item.id}>
+            {!props.getScheduleByMember.loading && props.getScheduleByMember.getScheduleByMember.map(
+                    item => <Menu.Item key= {item.id}>
                     <Icon type="user" />
                     {new Date(parseInt(item.createdAt)).toLocaleString()}-{item.message}
                 </Menu.Item>

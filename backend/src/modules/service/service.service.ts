@@ -7,7 +7,6 @@ import {
 	Service
 } from './service.entity'
 const dynamoDB = require('../../dynamoDB')
-const bcrypt = require('bcrypt')
 @Injectable()
 export class ServiceService {
 	constructor() { }
