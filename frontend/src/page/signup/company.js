@@ -9,7 +9,8 @@ import {
   message,
   Button,
   Col,
-  Row
+  Row,
+  Empty
 } from 'antd'
 import excel from 'xlsx';
 import {OutTable, ExcelRenderer} from 'react-excel-renderer';
@@ -33,7 +34,7 @@ class Company extends React.Component {
       _spread : {},
       rows: [],
       cols: [],
-      listCustomer: []
+      // listCustomer: []
     }
   }
   GET_ALL_SERVICE = gql`
@@ -75,46 +76,54 @@ query{
   }
   handleSubmit = e => {
     e.preventDefault()
-    // setLoading(true)
-    this.props.form.validateFields(async (err, values) => {
-      console.log(err, "err")
-      console.log('Received values of form: errrr ', values)
-      if (!err) {
-       
-        const { phone, name, address, username, password, service  } = values
-        const logo= this.state.imageUrl
-        console.log('Received values of form: ', values,logo)
-        await this.props.createCompany({
-          mutation: CREATE_COMPANY,
-          variables: {
-            compInput: {
-              phone,
-              name,
-              address,
-              username,
-              password,
-              service,
-              logo: logo,
-              lstCustomer: this.state.listCustomer 
+    if(this.state.listCustomer.length === 0){
+      console.log("Trước")
+      openNotificationWithIcon('error','error', 'Fail','Danh sách khách hàng không hợp lệ')
+    }else{
+     
+      // setLoading(true)
+      this.props.form.validateFields(async (err, values) => {
+        console.log(err, "err")
+        console.log('Received values of form: errrr ', values,this.state.listCustomer )
+        if (!err) {
+          console.log(this.state,"ể")
+         
+          const { phone, name, address, username, password, service  } = values
+          const logo =  this.state.imageUrl 
+          console.log('Received values of form: ', values,logo)
+          await this.props.createCompany({
+            mutation: CREATE_COMPANY,
+            variables: {
+              compInput: {
+                phone,
+                name,
+                address,
+                username,
+                password,
+                service,
+                logo: logo === undefined ? "http://cdn.onlinewebfonts.com/svg/img_276187.png" : logo,
+                lstCustomer:  this.state.listCustomer
+              }
             }
-          }
-        })
-          .then(res => {
-
-            if (res.data.createCompany === true) {
-              openNotificationWithIcon('success', 'success', 'Đăng ký Công ty', 'Đăng ký công ty thành công')
-
-              this.props.history.push('./login')
-            }
-            else openNotificationWithIcon('error', 'error', 'Signup Failed', 'Company existed')
           })
-          .catch(err1 => {
-            console.log("sai rồi na")
-            openNotificationWithIcon('error', 'error', 'Signup Failed', 'Company existed')
-
-          })
-      }
-    })
+            .then(res => {
+  
+              if (res.data.createCompany === true) {
+                openNotificationWithIcon('success', 'success', 'Đăng ký Công ty', 'Đăng ký công ty thành công')
+  
+                this.props.history.push('./login')
+              }
+              else openNotificationWithIcon('error', 'error', 'Signup Failed', 'Company existed')
+            })
+            .catch(err1 => {
+              console.log("sai rồi na")
+              openNotificationWithIcon('error', 'error', 'Signup Failed', 'Company existed')
+  
+            })
+        }
+      })
+    }
+    
   }
 
   handleConfirmBlur = e => {
@@ -205,10 +214,10 @@ query{
       if (!isJpgOrPng) {
         message.error('You can only upload exel file!');
       }
-      // const isLt2M = file.size / 1024 / 1024 < 2;
-      // if (!isLt2M) {
-      //   message.error('Image must smaller than 2MB!');
-      // }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error('Image must smaller than 2MB!');
+      }
       return isJpgOrPng ;
     }
  
@@ -242,25 +251,33 @@ const props = {
     authorization: 'authorization-text',
   }
 }
- function convertToJSON(array) {
-  var first = array[0].join()
-  var headers = first.split(',');
-  console.log("json", headers.length) 
-  if (headers.length != 4) return []
+ async function  convertToJSON(array) {
+   console.log("arrr row", array)
+ var headers = ['id', 'name', 'phone', 'address']
+  if (headers.length != 4) {
+    message.error("Dũ liệu không hợp lệ") 
+    return []
+  }
   var jsonData = [];
     for ( var i = 1, length = array.length; i < length; i++ )
   {
 
     var myRow = array[i].join();
     var row = myRow.split(',');
-    console.log("json", jsonData) 
-    if (row.length != 4) return jsonData
+   
+    if (row.length != 4) {
+      message.error("Dữ liệu không hợp lệ") 
+      return []
+    }
     var data = {};
-   for ( var x = 0; x < row.length; x++ )
+   for ( var x = 0; x < row.length-1; x++ )
     {
-      if(row === '') return jsonData
+      if(row[x] === '') {
+        console.log("json", jsonData) 
+        message.error("Dữ liệu không được rỗng") 
+        return []
+      }
       data[headers[x]]= row[x]
-     
     }
     jsonData.push(data)
   }
@@ -273,7 +290,7 @@ const props = {
     }
     if (info.file.status === 'done') {
       message.success(`${info.file.name} file uploaded successfully`);
-      await ExcelRenderer(info.file.originFileObj, (err, resp) => {
+      await ExcelRenderer(info.file.originFileObj, async(err, resp) => {
         if(err){
           console.log(err);            
         }
@@ -281,7 +298,7 @@ const props = {
           this.setState({
             cols: resp.cols,
             rows: resp.rows,
-            listCustomer: convertToJSON(resp.rows)
+            listCustomer: await convertToJSON(resp.rows)
           })
         }
         console.log(this.state)
@@ -375,7 +392,16 @@ const props = {
             }
           >
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Bạn cần nhập họ và tên!', whitespace: true }],
+              rules: [{ required: true, message: 'Bạn cần nhập họ và tên!', whitespace: true },
+              {
+                max: 40,
+                message: "Vượt quá số kí tự" 
+              },
+              {
+                pattern: new RegExp(/^[a-zA-Z]+$/gi),
+                message: "Không đúng định dạng!" 
+              }
+            ],
             })(<Input style={{ width: '50%' }} />)}
           </Form.Item>
 
@@ -388,7 +414,11 @@ const props = {
             }
           >
             {getFieldDecorator('address', {
-              rules: [{ required: true, message: 'Bạn cần nhập Địa chỉ!', whitespace: true }],
+              rules: [{ required: true, message: 'Bạn cần nhập Địa chỉ!', whitespace: true },
+              {
+                max: 40,
+                message: "Vượt quá số kí tự" 
+              }],
             })(<Input style={{ width: '50%' }} />)}
           </Form.Item>
 
@@ -403,7 +433,13 @@ const props = {
             }
           >
             {getFieldDecorator('username', {
-              rules: [{ required: true, message: 'Bạn cần nhập Usename!', whitespace: true }],
+              rules: [
+                { required: true, message: 'Bạn cần nhập Usename!', whitespace: true },
+                {
+                  max: 40,
+                  message: "Vượt quá số kí tự" 
+                }
+              ],
             })(<Input style={{ width: '50%' }} />)}
           </Form.Item>
           <Form.Item label="Password" hasFeedback>

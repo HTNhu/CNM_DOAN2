@@ -87,7 +87,7 @@ class ExelBill extends Component {
   };
 
   checkFile(file) {
-    let errorMessage = "";
+    let errorMessage = '';
     if (!file || !file[0]) {
       return;
     }
@@ -136,37 +136,43 @@ class ExelBill extends Component {
       } else {
         let newRows = [];
         resp.rows.slice(1).map((row, index) => {
-          if (row[0] === undefined) return newRows
-          const cus = this.getCustomer(row[1])
-          console.log("customer", cus)
-          if (row && row !== undefined) {
-            if (cus === null) {
-              this.setState({
-                errorMessage: `Không tồn tại khách hàng SDT ${row[1]}. Cập nhật danh sách khách hàng`,
-                index
-              })
-              openNotificationWithIcon("error", 'error', "Sai", this.state.errorMessage)
-              return
-            }
+          const i = index
+          console.log("row length", row, resp.rows, i)
+          // if(row[0] === undefined ) return newRows
+         
+          // console.log("customer", cus)
+          if (index < resp.rows.length - 1) {
+            if (row && row !== undefined) {
+              const cus = this.getCustomer(row[1])
+              if (cus === null) {
+                this.setState({
+                  errorMessage: `Không tồn tại khách hàng SDT ${row[1]}. Cập nhật danh sách khách hàng`,
+                  index
+                })
+                openNotificationWithIcon("error", 'error', "Sai", this.state.errorMessage)
+                return false
+              } else {
+                newRows.push({
+                  billId: row[0],
+                  phone: row[1],
+                  description: localStorage.getItem('service') === 'Điện' ?
+                    {
+                      DNTT: row[2],
+                      unitPrice: row[3]
+                    } : {
+                      LNTT: row[2],
+                      unitPrice: row[3]
+                    },
+                  total: row[4],
+                  companyId: localStorage.getItem('userId'),
+                  companyname: localStorage.getItem('name'), // thay name
+                  name: cus.name,
+                  address: cus.address,
+                  createdAt: new Date((row[5] - (25567 + 1)) * 86400 * 1000).toLocaleDateString()
+                });
+              }
 
-            newRows.push({
-              billId: row[0],
-              phone: row[1],
-              description: localStorage.getItem('service') === 'Điện' ?
-                {
-                  DNTT: row[2],
-                  unitPrice: row[3]
-                } : {
-                  LNTT: row[2],
-                  unitPrice: row[3]
-                },
-              total: row[4],
-              companyId: localStorage.getItem('userId'),
-              companyname: localStorage.getItem('name'), // thay name
-              name: cus.name,
-              address: cus.address,
-              createdAt: new Date((row[5] - (25567 + 1)) * 86400 * 1000).toLocaleDateString()
-            });
+            }
           }
         });
         if (newRows.length === 0) {
@@ -224,10 +230,8 @@ class ExelBill extends Component {
       //   openNotificationWithIcon('error', 'create', 'Create Failed', mess)
     })
   handleSubmit = async () => {
-    console.log("submitting: ", this.state.rows);
-    //submit to API
-    //if successful, banigate and clear the data
-    //this.setState({ rows: [] })
+
+    // e.preventDefault()
     this.state.rows.map(async row =>
       localStorage.getItem('service') === "Điện" ? this.createElectric(row) : this.createWater(row)
     )
@@ -254,7 +258,7 @@ class ExelBill extends Component {
   // };
 
   render() {
-    this.getCustomer("0355983234")
+    // this.getCustomer("0355983234")
     const components = {
       body: {
         row: EditableFormRow,
