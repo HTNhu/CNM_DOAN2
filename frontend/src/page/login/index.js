@@ -5,7 +5,7 @@ import { Row, Col, Form, Icon, Input, Button } from 'antd'
 import openNotificationWithIcon from '../../component/openNotification'
 import bgBill from '../../assets/images/bgBill.jpg' 
 function Login(props) {
-    console.log('prop login', props)
+    // console.log('prop login', props)
     const { form, history } = props
     const { getFieldDecorator } = form
    
@@ -17,7 +17,7 @@ function Login(props) {
            
             if (!err) {
                 
-                console.log('Received values of form: ', values)
+                // console.log('Received values of form: ', values)
                 const { username, password, type } = values
                 if(username === 'admin') { //dnhap đỡ cho admin nha
                     localStorage.setItem('username', username)
@@ -34,7 +34,7 @@ function Login(props) {
                     }
                 })
                     .then(res => {
-                        console.log(res.data.login)
+                        // console.log(res.data.login)
                         const { userId, type } = res.data.login
                         if (type && userId) {
                             localStorage.setItem('username', username)

@@ -48,12 +48,12 @@ class CusExel extends React.Component {
     handleOk = e => {
       e.preventDefault()
       if(this.state.listCustomer.length === 0){
-        console.log("Trước")
+        // console.log("Trước")
         openNotificationWithIcon('error','error', 'Fail','Danh sách khách hàng không hợp lệ')
       }else{
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                // console.log('Received values of form: ', values);
                 // const { password } = values
                 this.props.updateListCustomer({
                     mutation: UPDATE_LISTCUSTOMER,
@@ -64,14 +64,14 @@ class CusExel extends React.Component {
                     }
                 })
                     .then(async res => {
-                        console.log(res, "update")
+                        // console.log(res, "update")
                         if (res.data.updateListCustomerCompany)
                        openNotificationWithIcon('success', 'success', 'Update Success', 'Update Success')
                             this.props.onClose()
 
                     })
                     .catch(err1 => {
-                        console.log("sai rôi nha", err1)
+                        // console.log("sai rôi nha", err1)
                         // let mess = ''
                         // mess = 'Fail'
 
@@ -84,14 +84,14 @@ class CusExel extends React.Component {
 }
 render() {
   async function  convertToJSON(array) {
-    console.log("arrr row", array)
+    // console.log("arrr row", array)
   var headers = ['id', 'name', 'phone', 'address']
    if (headers.length != 4) {
      message.error("Dũ liệu không hợp lệ") 
      return []
    }
    var jsonData = [];
-     for ( var i = 1, length = array.length; i < length; i++ )
+     for ( var i = 1, length = array.length -1; i < length; i++ )
    {
  
      var myRow = array[i].join();
@@ -105,7 +105,7 @@ render() {
     for ( var x = 0; x < row.length-1; x++ )
      {
        if(row[x] === '') {
-         console.log("json", jsonData) 
+        //  console.log("json", jsonData) 
          message.error("Dữ liệu không được rỗng") 
          return []
        }
@@ -113,18 +113,18 @@ render() {
      }
      jsonData.push(data)
    }
-   console.log("json", jsonData) 
+  //  console.log("json", jsonData) 
    return jsonData;
  };
     const readExel = async(info) => {
         if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
+          // console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
           await ExcelRenderer(info.file.originFileObj, async(err, resp) => {
             if(err){
-              console.log(err);            
+              // console.log(err);            
             }
             else{
               this.setState({
@@ -133,14 +133,14 @@ render() {
                 listCustomer: await convertToJSON(resp.rows)
               })
             }
-            console.log(this.state)
+            // console.log(this.state)
           })
         } else if (info.file.status === 'error') {
           message.error(`${info.file.name} file upload failed.`);
         }
       }
     const beforeUploadExel = (file) => {
-        console.log(file, "file before")
+        // console.log(file, "file before")
         const isJpgOrPng = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
         if (!isJpgOrPng) {
           message.error('You can only upload exel file!');

@@ -32,9 +32,9 @@ class Member extends React.Component {
     e.preventDefault()
     // setLoading(true)
     this.props.form.validateFields(async(err, values) => {
-      console.log(err, "err")
+      // console.log(err, "err")
       if (!err) {
-        console.log('Received values of form: ', values)
+        // console.log('Received values of form: ', values)
         const { phone, name, address, username, password } = values
         await this.props.createMember({
           mutation: CREATE_MEMBER,
@@ -49,7 +49,7 @@ class Member extends React.Component {
           }
         })
           .then(res => {
-            console.log("ểtrterte", res)
+            // console.log("ểtrterte", res)
             if(res.data.createMember === true){
               openNotificationWithIcon('success', 'success', 'Đăng ký thành viên', 'Đăng ký thành viên thành công')
 

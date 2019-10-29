@@ -6,14 +6,14 @@ import gql from 'graphql-tag'
 import { graphql } from 'react-apollo'
 // import openNotificationWithIcon from '../../component/openNotification'
 function Payment(props) {
-    console.log('props payment company', props)
+    // console.log('props payment company', props)
     const { history } = props
     // let { path, url } = useRouteMatch();
     // const onClickCardService = (id)=>{
 
     // }
     const serviceIds = !props.getServices.loading ? props.getServices.getAllService : []
-    console.log("ddd",serviceIds)
+    // console.log("ddd",serviceIds)
     return (
         <>
             <h1 style={{ textAlign: 'center' }}><b>THANH TOÁN HÓA ĐƠN</b></h1>

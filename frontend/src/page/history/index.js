@@ -128,7 +128,7 @@ class History extends React.Component {
                 highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                 searchWords={[this.state.searchText]}
                 autoEscape
-                // textToHighlight={text.toString()}
+                textToHighlight={text.toString()}
             />
         ),
     });
@@ -169,13 +169,13 @@ class History extends React.Component {
                 title: 'TÊN KHÁCH HÀNG',
                 dataIndex: 'name',
                 key: 'name',
-                // ...this.getColumnSearchProps('name'),
+                ...this.getColumnSearchProps('name'),
             },
             {
                 title: 'LOẠI HÓA ĐƠN',
                 dataIndex: 'type',
                 key: 'type',
-                // ...this.getColumnSearchProps('type'),
+                ...this.getColumnSearchProps('type'),
             },
             {
                 title: 'TỔNG',
@@ -192,7 +192,7 @@ class History extends React.Component {
                 title: 'NGƯỜI THANH TOÁN',
                 dataIndex: 'username',
                 key: 'username',
-                // ...this.getColumnSearchProps('username'),
+                ...this.getColumnSearchProps('username'),
             },
             {
                 title: 'CÔNG TY',

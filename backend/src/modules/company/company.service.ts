@@ -23,6 +23,7 @@ export class CompanyService {
         if (a.Count === 0) return []
         return a.Items
     }
+    
     async findCompanyByUsername(username): Promise<Company> {
         const a = await dynamoDB.scan({
             TableName: 'User_TransactionHistory',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Layout, Icon, Menu, Dropdown, Avatar, Breadcrumb, Badge } from 'antd'
+import { Layout, Icon, Menu, Dropdown, Avatar, Breadcrumb, Badge, message } from 'antd'
 // import bg from '../../assets/images/paybillLogo1.PNG'
 import {
     Link
@@ -8,10 +8,14 @@ import Breadcrumbs from '../../component/breadcrumb'
 import UserInfo from './userInfo'
 import ModalChangePassword from './changePassword'
 import CusExel from './inputCustomer'
-// import Schedule from './schedule'
+import { graphql } from 'react-apollo'
+import gql from 'graphql-tag'
+import * as compose from 'lodash.flowright'
+import openNotificationWithIcon from '../../component/openNotification'
 function LayoutPage(props) {
 
     const { menuKey } = props
+
     console.log("kr", menuKey)
     const dataTopMenuMem = [
         { title: 'THANH TOÁN', navigateTo: '/payment', name: 'payment' },
@@ -40,6 +44,7 @@ function LayoutPage(props) {
     const username = localStorage.getItem('username')
     const [visible, setVisible] = useState(false)
     const [visibleModal, setVisibleModal] = useState(false)
+    const [schedule, setSchedule] = useState(!props.getScheduleByMember.loading && props.getScheduleByMember.getScheduleByMember)
     const [visibleModalUpdate, setvisibleModalUpdate] = useState(false)
     const showDrawer = () => {
         setVisible(true)
@@ -82,8 +87,52 @@ function LayoutPage(props) {
         </Menu>
     )
 
+    const menuSchedule = (
+        <Menu onClick={handleMenuClick}>
+            {!props.getScheduleByMember.loading && props.getScheduleByMember.getScheduleByMember.map
+                (item => <Menu.Item key= {item.id}>
+                    <Icon type="user" />
+                    {new Date(parseInt(item.createdAt)).toLocaleString()}-{item.message}
+                </Menu.Item>
+                    //   <Menu.Item key="2">
+                    //     <Icon type="user" />
+                    //     2nd menu item
+                    //   </Menu.Item>
+                    //   <Menu.Item key="3">
+                    //     <Icon type="user" />
+                    //     3rd item
+                    //  </Menu.Item>
+                )}
+        </Menu>
+    );
+     function handleMenuClick(e) {
+        props.updateSchedule({
+            mutation: UPDATE_SCHEDULE,
+            variables: {
+               id: e.key,
+               memberId: localStorage.getItem('userId')
+
+            }
+        })
+            .then(async res => {
+                // console.log(res, "update")
+                if (res.data.updateSchedule)
+            //    openNotificationWithIcon('success', 'success', 'Update Success', 'Update Success')
+                    props.getScheduleByMember.refetch()
+
+            })
+            .catch(err1 => {
+                // console.log("sai rôi nha", err1)
+                // let mess = ''
+                // mess = 'Fail'
+
+                openNotificationWithIcon('error', 'create', 'update Failed', "Fail")
+            })
+        message.info(e.item.props.children[1] + e.item.props.children[2] +e.item.props.children[3]);
+        // console.log('click', e);
+      }
     return (
-     
+
         <Layout style={{ background: '#f6f8f6' }}>
             <Header className="header" style={{ display: 'flex', backgroundColor: 'white', position: 'fixed', zIndex: 1, width: '100%' }}
             >
@@ -112,29 +161,34 @@ function LayoutPage(props) {
                         </Menu.Item>
                     ))}
                 </Menu>
-                {localStorage.getItem('type') === 'member' && <Badge count={1} style={{ marginTop: '10px' }}>
-                    <Avatar icon='bell' size='large'
-                        style={{
-                            color: '#000000',
-                            backgroundColor: '#ffffff',
-                            marginLeft: '60px'
-                        }} />
-                </Badge>}
+                {localStorage.getItem('type') === 'member' &&
+                    <Dropdown overlay={menuSchedule}  trigger={['click']}
+                    placement='bottomRight' >
+                        <Badge count={!props.getScheduleByMember.loading && props.getScheduleByMember.getScheduleByMember.length} style={{ marginTop: '10px' }}>
+                            <Avatar icon='bell' size='large'
+                                style={{
+                                    color: '#000000',
+                                    backgroundColor: '#ffffff',
+                                    marginLeft: '60px'
+                                }} />
+                        </Badge>
+                    </Dropdown>}
 
-                <Dropdown
-                    key='0'
-                    overlay={menu}
-                    trigger={['click']}
-                    placement='bottomRight'
-                >
-                    <Avatar icon='user' size='large'
-                        style={{
-                            color: '#000000',
-                            backgroundColor: '#ffffff',
-                            marginLeft: '60px'
-                        }} />
-                </Dropdown>
-                <span><p >{username}</p>  </span>
+
+                    <Dropdown
+                        key='0'
+                        overlay={menu}
+                        trigger={['click']}
+                        placement='bottomRight'
+                    >
+                        <Avatar icon='user' size='large'
+                            style={{
+                                color: '#000000',
+                                backgroundColor: '#ffffff',
+                                marginLeft: '60px'
+                            }} />
+                    </Dropdown>
+                    <span><p >{username}</p>  </span>
             </Header>
             <Content style={{ padding: '0 50px', marginTop: 64 }}>
                 <div style={{ margin: '16px 0' }}>
@@ -162,5 +216,35 @@ function LayoutPage(props) {
 
     )
 }
-export default LayoutPage
+const GET_SCHEDULE = gql`
+{getScheduleByMember(  memberId: "d6d43d68-842c-445a-a15c-e4c978816f29")
+{
+  id
+  companyname
+  message
+  isRead
+  createdAt
+}}`
+const UPDATE_SCHEDULE = gql`
+mutation($id: String, $memberId: String ){
+    updateSchedule(id: $id, memberId: $memberId)
+  }`
+export default compose(
+    graphql(
+        GET_SCHEDULE, {
+        name: 'getScheduleByMember',
+        options: {
+            fetchPolicy: 'no-cache',
+            variables: {
+                username: localStorage.getItem('userId')
+            }
+        }
+    }),
+    graphql(
+        UPDATE_SCHEDULE, {
+        name: 'updateSchedule',
+        options: {}
+    }
+    )
+    )(LayoutPage)
 

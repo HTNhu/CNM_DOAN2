@@ -5,6 +5,7 @@ type Schedule {
     isRead: Boolean
     message: String
     companyname: String
+    phone: String
     createdAt: String
 }
 
@@ -12,7 +13,7 @@ input ScheduleInput {
     companyId: String
     memberId: String
     companyname: String
-    message: String
+    phone: String
 }
 type Query {
     getScheduleByMember(memberId: String): [Schedule] 

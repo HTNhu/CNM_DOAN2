@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ApolloError } from 'apollo-server-core'
 import { AccountService } from '../account/account.service'
-import { Member } from './member.entity'
+import { Member,MemberResSchedule } from './member.entity'
 const dynamoDB = require('../../dynamoDB')
 import * as uuid from 'uuid'
 @Injectable()
@@ -9,6 +9,28 @@ export class MemberService {
     constructor(
         private readonly accService: AccountService
     ) { }
+    async findAllMember(): Promise<MemberResSchedule[]> {
+        const a = await dynamoDB.scan({
+            TableName: 'User_TransactionHistory',
+            FilterExpression: '#type = :type',
+            ExpressionAttributeNames: {
+                '#type': 'type',
+            },
+            ExpressionAttributeValues: {
+                ':type': 'member',
+            },
+        })
+        if (a.Count === 0) return []
+        const lst = []
+		a.Items.forEach(element => {
+            const mem = new MemberResSchedule();
+			mem.userId = element.userId
+            mem.phone = element.phone
+            mem.name = element.name
+			lst.push(mem)
+		});
+		return lst
+    }
     async findMemberByUsername(username): Promise<Member> {
         const a = await dynamoDB.scan({
             TableName: 'User_TransactionHistory',
@@ -23,17 +45,6 @@ export class MemberService {
             },
         })
         if (a.Count === 0) return null
-        // const mem = new Member()
-        // if (a.Items[0].username === username) {
-        //     mem.userId = a.Items[0].userId
-        //     mem.phone = a.Items[0].phone
-        //     mem.name = a.Items[0].name
-        //     mem.address = a.Items[0].address
-        //     mem.username = a.Items[0].username
-        //     mem.password = a.Items[0].password
-        //     mem.createdAt = a.Items[0].createdAt
-        //     mem.updatedAt = a.Items[0].updatedAt
-        // }
         return a.Items[0]
     }
     async findUserByPhoneUsername(phone) {

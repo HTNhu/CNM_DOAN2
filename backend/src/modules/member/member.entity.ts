@@ -15,3 +15,8 @@ export class MemberInput {
     username: string
     password: string
 }
+export class MemberResSchedule {
+    userId: string
+    name: string
+    phone: string
+}

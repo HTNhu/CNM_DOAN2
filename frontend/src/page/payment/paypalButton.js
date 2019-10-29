@@ -14,7 +14,7 @@ class paypalButton extends Component {
 
 
   render() {
-    console.log(this.props, "props nè")
+    // console.log(this.props, "props nè")
     const update = () => {
       this.props.updateStatusBill({
         mutation: UPDATE_STATUSBILL,
@@ -39,7 +39,7 @@ class paypalButton extends Component {
         })
     }
     const createHis = () => {
-      console.log(localStorage.getItem, this.props.bill)
+      // console.log(localStorage.getItem, this.props.bill)
       this.props.createHistory({
         mutation: CREATE_HISTORY,
         variables: {

@@ -33,6 +33,7 @@ export class ScheduleService {
                 "companyname": scheduleInput.companyname,
                 "message": `Bạn có hóa đơn mới từ công ty ${scheduleInput.companyname}`,
                 "isRead": false,
+                "phone": scheduleInput.phone,
                 "createdAt": Date.now()
             }
         })
@@ -42,7 +43,7 @@ export class ScheduleService {
     async update(id, memberId): Promise<Boolean> {
 		try{
 			const a =await dynamoDB.updateItem({
-				TableName: "User_TransactionHistory",
+				TableName: "ScheduleReminder",
 				Key: {
 					"id": id,
 					"memberId": memberId

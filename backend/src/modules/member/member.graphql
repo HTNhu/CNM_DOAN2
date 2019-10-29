@@ -16,7 +16,14 @@ input MemberInput {
     username: String!
     password: String
 }
+
+type MemberResSchedule {
+    userId: String
+    name: String!
+    phone: String!
+}
 type Query {
+    getAllMember: [MemberResSchedule]
     getMemberByUsername(username: String): Member
 }
 type Mutation {

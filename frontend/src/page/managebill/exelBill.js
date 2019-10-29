@@ -15,7 +15,7 @@ class ExelBill extends Component {
       cols: [],
       rows: [],
       index: -1,
-      // service: JSON.parse(localStorage.getItem('info')).service, // thay service
+      member: [],
       errorMessage: null,
       columns: [
         {
@@ -69,10 +69,17 @@ class ExelBill extends Component {
       ]
     };
   }
+  
   getCustomer = (phone) => {
     const list = this.props.getCompanyByUsername && this.props.getCompanyByUsername.getCompanyByUsername.lstCustomer
     console.log(this.props.getCompanyByUsername.getCompanyByUsername.lstCustomer)
     return list.findIndex(item => item.phone === phone) < 0 ? null : list.find(item => item.phone === phone)
+
+  }
+  getMember  = (phone) => {
+    const listMem = !this.props.getAllMember.loading ? this.props.getAllMember.getAllMember : []
+    // console.log("listMemberrrr", listMem.findIndex(item => item.phone === phone) < 0 ? null : listMem.find(item => item.phone === phone))
+    return listMem.findIndex(item => item.phone === phone) < 0 ? null : listMem.find(item => item.phone === phone)
 
   }
   handleSave = row => {
@@ -98,17 +105,17 @@ class ExelBill extends Component {
     if (!isExcel) {
       errorMessage = "You can only upload Excel file!";
     }
-    console.log("file", file[0].type);
+    // console.log("file", file[0].type);
     const isLt2M = file[0].size / 1024 / 1024 < 2;
     if (!isLt2M) {
       errorMessage = "File must be smaller than 2MB!";
     }
-    console.log("errorMessage", errorMessage);
+    // console.log("errorMessage", errorMessage);
     return errorMessage;
   }
 
   fileHandler = fileList => {
-    console.log("fileList", fileList);
+    // console.log("fileList", fileList);
     let fileObj = fileList;
     if (!fileObj) {
       this.setState({
@@ -116,7 +123,7 @@ class ExelBill extends Component {
       });
       return false;
     }
-    console.log("fileObj.type:", fileObj.type);
+    // console.log("fileObj.type:", fileObj.type);
     if (
       !(
         fileObj.type === "application/vnd.ms-excel" ||
@@ -132,12 +139,12 @@ class ExelBill extends Component {
     //just pass the fileObj as parameter
     ExcelRenderer(fileObj, (err, resp) => {
       if (err) {
-        console.log(err);
+        // console.log(err);
       } else {
         let newRows = [];
         resp.rows.slice(1).map((row, index) => {
           const i = index
-          console.log("row length", row, resp.rows, i)
+          // console.log("row length", row, resp.rows, i)
           // if(row[0] === undefined ) return newRows
          
           // console.log("customer", cus)
@@ -149,7 +156,7 @@ class ExelBill extends Component {
                   errorMessage: `Không tồn tại khách hàng SDT ${row[1]}. Cập nhật danh sách khách hàng`,
                   index
                 })
-                openNotificationWithIcon("error", 'error', "Sai", this.state.errorMessage)
+                openNotificationWithIcon("warning", 'warning', "Warning", this.state.errorMessage)
                 return false
               } else {
                 newRows.push({
@@ -192,15 +199,44 @@ class ExelBill extends Component {
     });
     return false;
   };
+
+  createSchedule = async (inf) => await this.props.createSchedule({
+    mutation: CREATE_SCHEDULE,
+    variables: {
+      scheduleInput: {
+        memberId: inf.userId,
+        phone: inf.phone,
+        companyId: localStorage.getItem('userId'),
+        companyname: localStorage.getItem('name')
+      }
+    }
+  })
+    .then(res => {
+      // console.log("scheduleres", res)
+    })
+
+    .catch(err1 => {
+      let mess = ''
+      mess = 'Fail'
+
+      //   openNotificationWithIcon('error', 'create', 'Create Failed', mess)
+    })
   createElectric = async (row) => await this.props.createElectricBill({
     mutation: CREATE_ELECTRICBILL,
     variables: {
       electricbillInput: row
     }
   })
-    .then(res => {
-      console.log(res)
+    .then( async res => {
+      // console.log(res)
+      
       if (res.data.createElectricBill) {
+        // console.log(row.phone, "phoneeeeee")
+          const mem =  await this.getMember(row.phone)
+          // console.log("member create schedule elect", mem)
+          if(mem !== null){
+               this.createSchedule(mem)
+          }
         openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
       }
 
@@ -218,23 +254,28 @@ class ExelBill extends Component {
       waterbillInput: row
     }
   })
-    .then(res => {
-      console.log(res)
+    .then(async res => {
+
+      // console.log(res)
       if (res.data.createWaterBill) {
+        const mem = this.getMember(row.phone)
+        // console.log("member create schedule", mem)
+        if(mem !== null){
+            await this.createSchedule(mem)
+        }
         openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
       }
 
     }).catch(err1 => {
       let mess = ''
       mess = 'Fail'
-
-      //   openNotificationWithIcon('error', 'create', 'Create Failed', mess)
     })
   handleSubmit = async () => {
     // e.preventDefault()
-    this.state.rows.map(async row =>
+    this.state.rows.map(async row =>{
       localStorage.getItem('service') === "Điện" ? this.createElectric(row) : this.createWater(row)
-    )
+    }
+      )
     await this.props.getBillByCompany.refetch()
     openNotificationWithIcon('success', 'success', 'Create Success', 'Create Success')
     this.setState({ rows: [] })
@@ -259,7 +300,7 @@ class ExelBill extends Component {
   // };
 
   render() {
-    // this.getCustomer("0355983234")
+    // console.log("get All member", this.getMember("0355983234"))
     const components = {
       body: {
         row: EditableFormRow,
@@ -283,7 +324,7 @@ class ExelBill extends Component {
     });
     return (
       <>
-        <h1>Importing Excel Component</h1>
+        <h1>Importing Excel Bill</h1>
         <Row gutter={16}>
           <Col
             span={8}
@@ -334,7 +375,7 @@ class ExelBill extends Component {
             multiple={false}
           >
             <Button>
-              <Icon type="upload" /> Click to Upload Excel File
+              <Icon type="upload" /> Click to Upload Excel Bill File
             </Button>
           </Upload>
         </div>
@@ -401,6 +442,19 @@ query($username: String!){
    }
   }
   }`
+  const GET_ALL_MEMBER = gql`
+  query{
+    getAllMember{
+      userId
+      name
+      phone
+    }
+    }`
+    const CREATE_SCHEDULE = gql`
+mutation ($scheduleInput: ScheduleInput!){
+  createSchedule(scheduleInput: $scheduleInput)
+  }
+` 
 export default compose(
   graphql(
     GET_COMPANY_BYUSERNAME, {
@@ -410,6 +464,11 @@ export default compose(
         username: localStorage.getItem('username')
       }
     }
+  }),
+  graphql(
+    GET_ALL_MEMBER, {
+    name: 'getAllMember',
+    options: {}
   }),
   graphql(
     CREATE_ELECTRICBILL, {
@@ -429,5 +488,10 @@ export default compose(
         companyId: localStorage.getItem('userId')
       }
     }
+  }),
+  graphql(
+    CREATE_SCHEDULE, {
+    name: 'createSchedule',
+    options: {}
   }),
 )(ExelBill)

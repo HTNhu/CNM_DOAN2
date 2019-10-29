@@ -3,9 +3,7 @@ import { Table, Icon, Input, Button, Skeleton, message, Card} from 'antd'
 import { OutTable, ExcelRenderer } from 'react-excel-renderer';
 // import Modal_Internet from './modal_internet'
 import Highlighter from 'react-highlight-words';
-import Modal_Internet from './modal_electric';
-import Modal_Electric from './modal_electric'
-import Modal_Water from './modal_water'
+
 import gql from 'graphql-tag'
 import { Client } from '../../tools/apollo'
 import ExelBill from './exelBill';

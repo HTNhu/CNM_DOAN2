@@ -80,14 +80,6 @@ export const routers = [
 		key: 'schedule',
 		breadcrumbName: 'Đặt lịch',
 		exact: true
-	},
-	{
-		// isParams: true,
-		path: '/statistic',
-		component: 'statistic',
-		key: 'statistic',
-		breadcrumbName: 'Thống kê',
-		exact: true
 	}
 ]
 

@@ -5,10 +5,11 @@ export class Schedule {
   memberId: string
   message: string
   isRead: Boolean
+  phone: string
 }
 export class ScheduleInput {
   companyId: string
   memberId: string
-  message: string
   companyname: string
+  phone: string
 }

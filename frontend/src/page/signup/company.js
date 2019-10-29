@@ -65,11 +65,11 @@ query{
       // fetchPolicy: 'no-cache',
     })
       .then(result => {
-        console.log("sds", result)
+        // console.log("sds", result)
         this.setState({
           services: result.data.getAllService
         })
-        console.log("sd", this.state.services)
+        // console.log("sd", this.state.services)
       })
       .catch(() => { })
     // console.log('rowData', this.state.rowData)
@@ -77,20 +77,19 @@ query{
   handleSubmit = e => {
     e.preventDefault()
     if(this.state.listCustomer.length === 0){
-      console.log("Trước")
+      // console.log("Trước")
       openNotificationWithIcon('error','error', 'Fail','Danh sách khách hàng không hợp lệ')
     }else{
      
       // setLoading(true)
       this.props.form.validateFields(async (err, values) => {
-        console.log(err, "err")
-        console.log('Received values of form: errrr ', values,this.state.listCustomer )
+        // console.log(err, "err")
+        // console.log('Received values of form: errrr ', values,this.state.listCustomer )
         if (!err) {
-          console.log(this.state,"ể")
          
           const { phone, name, address, username, password, service  } = values
           const logo =  this.state.imageUrl 
-          console.log('Received values of form: ', values,logo)
+          // console.log('Received values of form: ', values,logo)
           await this.props.createCompany({
             mutation: CREATE_COMPANY,
             variables: {
@@ -116,7 +115,7 @@ query{
               else openNotificationWithIcon('error', 'error', 'Signup Failed', 'Company existed')
             })
             .catch(err1 => {
-              console.log("sai rồi na")
+              // console.log("sai rồi na")
               openNotificationWithIcon('error', 'error', 'Signup Failed', 'Company existed')
   
             })
