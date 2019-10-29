@@ -1,12 +1,8 @@
 
 const AWS = require('aws-sdk')
-const fs = require('fs')
-const awsConfig = JSON.parse(fs.readFileSync('../awsConfig.json', 'utf-8'))
 
-AWS.config.update({
-    region: 'us-east-1',
-    endpoint: "https://dynamodb.us-east-1.amazonaws.com"
-});
+AWS.config.loadFromPath('./awsConfig.json');
+
 const dynamodb = new AWS.DynamoDB()
 dynamodb.createTable({
     TableName: "Service",

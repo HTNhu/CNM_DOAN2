@@ -1,32 +1,14 @@
 var AWS = require("aws-sdk");
 const uuid = require('uuid/v4')
+// AWS.config.loadFromPath('./awsConfig.json');
 AWS.config.update({
     region: 'us-east-1',
-    endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+    accessKeyId: "ASIAS6NWTXIMR4WPFZOT",
+secretAccessKey: "Quz2JvKNIchHhKFL9b7vC+mz18qgSf+dPO+H+vEg",
+sessionToken:"FQoGZXIvYXdzELH//////////wEaDMbSDnQGXuJt54STOCKDAth/a4tt/4XaVfyGVjDUx3DMuCHlIKRL9jogmcounMpdNkkv92xN8910+kLJOc8C1pRrfjcxYhigZmnTY+u6uQ/Hw5tJ5cW+3L+H41lgVFkAgz7Zy+GDJtj4NfLJeL385YL6ETr7RClcjn0+QdU4y4YlYWk/ESBfIpFftPKq30LhY3SH8LYZkp0Pd2lWdHluCROg3Ez1HiRJ+yYf+d62HLfEx7ZW/ZF2DGACJ+cQmINjdomtYuiLk9eOVjCCzUzvXvrbxIVWkdRgQDawrx1g0kgRs9L3QvE/ymA0NENzq7NiMTAG/Yu7omHtH5Hidtx0RIrHH3ilAbdhM/zL73mNxrkr0BcovK3h7QU="
 });
-
 var docClient = new AWS.DynamoDB.DocumentClient();
 
-// let params = {
-//     TableName: 'CNM_DOAN2',
-//     Item: {
-//         partitionkey: "Account",
-//         sortkey: uuid(),
-//         data: 'admin123',
-//         password: '12345678',
-//         type: 'admin',
-//         createdAt: Date.now(),
-//         updatedAt: Date.now()
-//     }
-// };
-// docClient.put(params, (err, data) => {
-//     if (err) {
-//         console.err(err)
-//     }
-//     else {
-//        console.log("Added item:", JSON.stringify(data, null, 2))
-//     }
-// });
 let params = {
     TableName: 'Service',
     Item: {
@@ -75,60 +57,5 @@ docClient.put(params2, (err, data) => {
         console.log("Added item:", JSON.stringify(data, null, 2))
     }
 });
-let params1 = {
-    TableName: 'Service',
-    Item: {
-        username: 'admin' ,
-        type: 'admin' ,
-        password: '12345678',
-        userId: uuid(),
-        name: 'Tran Nhu',
-        address: 'Q12',
-        phone: '0355983234'
-    }
-};
-docClient.put(params1, (err, data) => {
-    if (err) {
-        console.err(err)
-    }
-    else {
-        console.log("Added item:", JSON.stringify(data, null, 2))
-    }
-});
 
-let params2 = {
-    TableName: 'Service',
-    Item: {
-        serviceId: uuid() ,
-        name: "Nước" 
-    }
-};
 
-docClient.put(params2, (err, data) => {
-    if (err) {
-        console.err(err)
-    }
-    else {
-        console.log("Added item:", JSON.stringify(data, null, 2))
-    }
-});
-// let params1 = {
-//     TableName: 'User_TransactionHistory',
-//     Item: {
-//         username: 'member1' ,
-//         type: 'member' ,
-//         password: '12345678',
-//         userId: uuid(),
-//         name: 'Tran Nhu',
-//         address: 'Q12',
-//         phone: '0355983234'
-//     }
-// };
-// docClient.put(params1, (err, data) => {
-//     if (err) {
-//         console.err(err)
-//     }
-//     else {
-//         console.log("Added item:", JSON.stringify(data, null, 2))
-//     }
-// });
