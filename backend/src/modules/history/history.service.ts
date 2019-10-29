@@ -61,5 +61,19 @@ export class HistoryService {
         console.log("kq", a)
         return a.Items
     }
-
+    
+    async findHistoryByDate(year: string): Promise<History[]> {
+        const a = await dynamoDB.scan({
+            TableName: "History",
+            FilterExpression: " #paidAt = :paidAt",
+            ExpressionAttributeNames: {
+                // "#paidAt": "paidAt.year" //Tim năm
+            },
+            ExpressionAttributeValues: {
+                // ":paidAt": paidAt.year // Tìm năm
+            },
+        })
+        console.log("kq", a)
+        return a.Items
+    }
 }

@@ -20,10 +20,12 @@ function Payment(props) {
             <div style={{ margin: '50px 50px' }}>
 
                 <Row type="flex" justify="center" align="top">
+
                    {serviceIds.map(service => <Col span={6} onClick={() => {
 
                         history.push(`/payment/${service.name}`)
                     }}>
+                        
                         <Card style={{ width: '200px' }}>
                             <Card.Meta
                                 avatar={<Avatar src={service.logo} />}
