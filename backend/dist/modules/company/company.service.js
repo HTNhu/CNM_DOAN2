@@ -1,15 +1,24 @@
-import { Injectable, ParseUUIDPipe } from '@nestjs/common'
-import { ApolloError } from 'apollo-server-core'
-import { AccountService } from '../account/account.service'
-import { Company, Customer } from './company.entity'
-import * as uuid from 'uuid'
-const dynamoDB = require('../../dynamoDB')
-@Injectable()
-export class CompanyService {
-    constructor(
-        private readonly accService: AccountService
-    ) { }
-    async findAllCompany(): Promise<Company[]> {
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const common_1 = require("@nestjs/common");
+const apollo_server_core_1 = require("apollo-server-core");
+const account_service_1 = require("../account/account.service");
+const uuid = require("uuid");
+const dynamoDB = require('../../dynamoDB');
+let CompanyService = class CompanyService {
+    constructor(accService) {
+        this.accService = accService;
+    }
+    async findAllCompany() {
         const a = await dynamoDB.scan({
             TableName: 'User_TransactionHistory',
             FilterExpression: '#type = :type',
@@ -19,12 +28,12 @@ export class CompanyService {
             ExpressionAttributeValues: {
                 ':type': 'company',
             },
-        })
-        if (a.Count === 0) return []
-        return a.Items
+        });
+        if (a.Count === 0)
+            return [];
+        return a.Items;
     }
-    
-    async findCompanyByUsername(username): Promise<Company> {
+    async findCompanyByUsername(username) {
         const a = await dynamoDB.scan({
             TableName: 'User_TransactionHistory',
             FilterExpression: '#type = :type and #username = :username',
@@ -36,9 +45,10 @@ export class CompanyService {
                 ':type': 'company',
                 ':username': username
             },
-        })
-        if (a.Count === 0) return null
-        return a.Items[0]
+        });
+        if (a.Count === 0)
+            return null;
+        return a.Items[0];
     }
     async findCompanyByName(name) {
         return await dynamoDB.scan({
@@ -52,16 +62,14 @@ export class CompanyService {
                 ':key': 'company',
                 ':name': name
             },
-        })
+        });
     }
-    async create(compInput): Promise<Boolean> {
-        console.log(compInput)
-        const existCompany = await this.findCompanyByName(compInput.name)
-        const existUsername = await this.findCompanyByUsername(compInput.username)
-        if (existCompany.Count !== 0 || existUsername) throw new ApolloError('Company existed', '401')
-        // const id = await this.accService.signup({username: compInput.username, password: compInput.password, type: "company" })
-       
-       
+    async create(compInput) {
+        console.log(compInput);
+        const existCompany = await this.findCompanyByName(compInput.name);
+        const existUsername = await this.findCompanyByUsername(compInput.username);
+        if (existCompany.Count !== 0 || existUsername)
+            throw new apollo_server_core_1.ApolloError('Company existed', '401');
         await dynamoDB.putItem({
             TableName: 'User_TransactionHistory',
             Item: {
@@ -77,14 +85,13 @@ export class CompanyService {
                 "service": compInput.service,
                 "createdAt": Date.now(),
                 "updatedAt": Date.now(),
-                "lstCustomer" : compInput.lstCustomer
+                "lstCustomer": compInput.lstCustomer
             }
-        })
-
-        return true
+        });
+        return true;
     }
-    async findCompanyByService(service) : Promise<Company[]> {
-       const a=  await dynamoDB.scan({
+    async findCompanyByService(service) {
+        const a = await dynamoDB.scan({
             TableName: 'User_TransactionHistory',
             FilterExpression: '#service = :service and #type= :type',
             ExpressionAttributeNames: {
@@ -95,12 +102,12 @@ export class CompanyService {
                 ':service': service,
                 ':type': 'company'
             }
-        })
-        if (a.Count === 0) return []
-     return a.Items
-
+        });
+        if (a.Count === 0)
+            return [];
+        return a.Items;
     }
-    async update(username: string, lstCustomer: [Customer]): Promise<Boolean> {
+    async update(username, lstCustomer) {
         try {
             await dynamoDB.updateItem({
                 TableName: "User_TransactionHistory",
@@ -118,14 +125,20 @@ export class CompanyService {
                     ":updatedAt": Date.now()
                 },
                 ReturnValues: "UPDATED_NEW"
-            })
-            console.log("UPDATE")
-            console.log('ok')
-            return true
-        } catch (err) {
-            console.error("sdfd", err)
-            return false
+            });
+            console.log("UPDATE");
+            console.log('ok');
+            return true;
         }
-
+        catch (err) {
+            console.error("sdfd", err);
+            return false;
+        }
     }
-}
+};
+CompanyService = __decorate([
+    common_1.Injectable(),
+    __metadata("design:paramtypes", [account_service_1.AccountService])
+], CompanyService);
+exports.CompanyService = CompanyService;
+//# sourceMappingURL=company.service.js.map

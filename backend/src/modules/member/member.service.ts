@@ -74,7 +74,7 @@ export class MemberService {
             Item: {
                 "userId": uuid.v4(),
 				"username":  memInput.username,
-				"password": await this.accService.hashPassword(memInput.password),
+				"password": memInput.password,
 				"type":'member',
 				"createdAt": Date.now(),
                 "updatedAt": Date.now(),
