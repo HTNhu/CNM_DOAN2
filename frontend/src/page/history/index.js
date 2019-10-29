@@ -215,7 +215,7 @@ class History extends React.Component {
         this.state.loading ? 
         <Skeleton active /> 
         : 
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} pagination={{ pageSize: 30 }} scroll={{ y: 240 }} />
         )
     }
 }

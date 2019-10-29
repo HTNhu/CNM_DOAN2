@@ -13,6 +13,7 @@ import Signup from './signup'
 function Root(props) {
   
   const username = localStorage.getItem('username')
+  const type = localStorage.getItem('type')
   console.log(username)
   return (
   // <>
@@ -44,6 +45,18 @@ function Root(props) {
           ></Route>))
 
         : <>
+        <Route
+            path='/'
+            render={() => {
+              const Component = lazy(() => import(`./login`))
+              return (
+                <Login {...props}>
+                  <Suspense fallback={null}></Suspense>
+                  <Component {...props} />
+                </Login>
+              )
+            }}
+          />
          <Route
             path='/login'
             render={() => {
@@ -69,7 +82,14 @@ function Root(props) {
             }}
           /> </>}
 
-      <Redirect to='/login' />
+      { !username 
+      ? <Redirect to='/' /> 
+      : type === 'member' 
+      ? <Redirect to='/payment' />  
+      : type === 'company' 
+      ? <Redirect to='/managebill'/>
+      : <Redirect to='/managecompany' /> 
+    }
     </Switch>
     // </>
   )

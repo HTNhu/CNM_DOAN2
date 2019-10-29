@@ -152,7 +152,7 @@ class Paybill extends React.Component {
                             bill ={this.state.bills}
                             companyId= {this.state.bills.companyId} 
                             billId ={this.state.bills.billId}
-                            amount = {this.state.bills.total}>Thanh toán</PaypalButton >
+                            amount = {this.state.bills.total /2000}>Thanh toán</PaypalButton >
                     </div>
                 </Modal>
                 {this.state.isEmpty && <Empty></Empty>}

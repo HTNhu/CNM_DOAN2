@@ -26,8 +26,8 @@ function LayoutPage(props) {
         { title: 'LỊCH SỬ GIAO DỊCH', navigateTo: '/history', name: 'history' }
     ]
     const dataTopMenuAdmin = [
+        { title: 'XÓA CÔNG TY', navigateTo: '/managecompany', name: 'managecompany' },
         { title: 'THỐNG KÊ', navigateTo: '/statistic', name: 'statistic' },
-        { title: 'XÓA CÔNG TY', navigateTo: '/managecompany', name: 'managecompany' }
     ]
     const { Content, Header, Footer } = Layout
 
@@ -64,14 +64,9 @@ function LayoutPage(props) {
                 <span onClick={showDrawer}>{username}</span>
             </Menu.Item>
             {localStorage.getItem('type') === 'company'
-                ? <Menu.Item onClick={() => setvisibleModalUpdate(true)}>
+                && <Menu.Item onClick={() => setvisibleModalUpdate(true)}>
                     <Icon type="import" />
                     <span >Cập nhật danh sách khách hàng</span>
-                </Menu.Item>
-                : localStorage.getItem('type') === 'member' && <Menu.Item onClick={() => props.history.push('./schedule')}>
-                    <Icon type="import" onClick={() => props.history.push('./schedule')} />
-                    <span onClick={() => props.history.push('./schedule')}>Đặt nhắc nhở</span>
-
                 </Menu.Item>
             }
             <Menu.Divider />

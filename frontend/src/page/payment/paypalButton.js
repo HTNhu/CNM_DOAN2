@@ -71,7 +71,7 @@ class paypalButton extends Component {
     }
     return (
       <PayPalButton
-        amount={this.props.amount / 20000}
+        amount={this.props.amount}
         onSuccess={(details, data) => {
           alert("Transaction completed by " + details.payer.name.given_name);
           update()
