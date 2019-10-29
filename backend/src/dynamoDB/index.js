@@ -1,12 +1,10 @@
 const AWS = require('aws-sdk')
 
 // import tables from './tables';
-                AWS.config.update({
-                    endpoint: 'http://localhost:8000',
-                    region: 'local',
-                    // accessKeyId: 'local',
-                    // secretAccessKey: 'local',
-                })
+AWS.config.update({
+    region: 'us-east-1',
+    endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+});
 
            const dynamo = new AWS.DynamoDB.DocumentClient();
            

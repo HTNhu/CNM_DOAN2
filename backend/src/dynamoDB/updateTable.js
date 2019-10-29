@@ -3,9 +3,9 @@ const fs = require('fs')
 const awsConfig = JSON.parse(fs.readFileSync('../awsConfig.json', 'utf-8'))
 
 AWS.config.update({
-    endpoint: awsConfig.ENDPOINT,
-    region: awsConfig.REGION
-})
+    region: 'us-east-1',
+    endpoint: "https://dynamodb.us-east-1.amazonaws.com"
+});
 const dynamodb = new AWS.DynamoDB()
 
 dynamodb.updateTable({
