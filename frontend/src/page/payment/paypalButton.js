@@ -4,6 +4,7 @@ import gql from 'graphql-tag'
 // import { compose} from 'react-apollo'
 import * as compose from 'lodash.flowright'
 import { graphql } from 'react-apollo'
+import { message } from "antd";
 class paypalButton extends Component {
   constructor(props) {
     super(props)
@@ -73,7 +74,7 @@ class paypalButton extends Component {
       <PayPalButton
         amount={this.props.amount}
         onSuccess={(details, data) => {
-          alert("Transaction completed by " + details.payer.name.given_name);
+          message.success("Transaction completed by " + details.payer.name.given_name);
           update()
           createHis()
           this.props.onCancel()
