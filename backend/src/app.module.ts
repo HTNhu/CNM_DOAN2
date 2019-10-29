@@ -25,7 +25,8 @@ import * as path from 'path';
     ServiceModule,
     UploadModule,
     BillModule,
-    HistoryModule
+    HistoryModule,
+    ScheduleModule
   ],
   controllers: [AppController],
   providers: [AppService],

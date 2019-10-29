@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { Bar, Line, Pie } from 'react-chartjs-2';
+import { DEFAULT_DEPRECATION_REASON } from 'graphql';
 
 const chartData = {
     labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ nhật'],
@@ -24,25 +25,35 @@ const chartData = {
                 'rgba(153, 102, 255, 0.6)',
                 'rgba(255, 159, 64, 0.6)',
                 'rgba(0, 168, 255, 0.6)',
-
             ]
         }
     ]
-
 }
 
-function Statistical(){
+
+function Statistic(props) {
+    console.log('props payment company', props)
+    const { statistic } = props
     return (
         <div className='chart'>
             <Bar
                 data={chartData}
-                height ='450'
                 options={{
-                    maintainAspectRatio: false
+                    title: {
+                        display: true,
+                        text: 'THỐNG KÊ HÓA ĐƠN CỦA CÁC CÔNG TY',
+                        fontSize: 25
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom'
+                    }
                 }}
             >
             </Bar>
+
+
         </div>
     )
 }
-export default Statistical
+export default Statistic

@@ -3,20 +3,22 @@ import { Schedule, ScheduleInput } from './schedule.entity'
 import { ScheduleService } from './schedule.service'
 @Resolver('Schedule')
 export class ScheduleResolver {
-  constructor(private readonly memberService: ScheduleService) { }
+  constructor(private readonly scheduleService: ScheduleService) { }
 
   @Query(() => [Schedule])
   async getScheduleByMember(
     @Args('memberId') memberId: String
   ) {
-    return []
+    return this.scheduleService.findScheduleByMember(memberId)
   }
   @Mutation(() => [Boolean])
   async createSchedule(@Args('scheduleInput') scheduleInput: ScheduleInput) {
-    return true
+
+    return this.scheduleService.create(scheduleInput)
   }
   @Mutation(() => [Boolean])
   async updateSchedule(@Args('id') id: String, @Args('memberId') memberId: String) {
-    return true
+
+    return this.scheduleService.update(id, memberId)
   }
 }

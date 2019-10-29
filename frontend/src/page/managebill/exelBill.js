@@ -148,8 +148,6 @@ class ExelBill extends Component {
               openNotificationWithIcon("error", 'error', "Sai", this.state.errorMessage)
               return
             }
-            
-
 
             newRows.push({
               billId: row[0],
