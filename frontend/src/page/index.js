@@ -14,7 +14,7 @@ function Root(props) {
   
   const username = localStorage.getItem('username')
   const type = localStorage.getItem('type')
-  console.log(username)
+  console.log(username, props)
   return (
   // <>
     /* <Breadcrumbs>
@@ -45,8 +45,9 @@ function Root(props) {
           ></Route>))
 
         : <>
-        <Route
-            path='/'
+         <Route
+          exact = 'true'
+          path='/'
             render={() => {
               const Component = lazy(() => import(`./login`))
               return (
@@ -57,8 +58,9 @@ function Root(props) {
               )
             }}
           />
-         <Route
-            path='/login'
+          <Route
+          exact = 'true'
+          path='/login'
             render={() => {
               const Component = lazy(() => import(`./login`))
               return (
@@ -82,8 +84,8 @@ function Root(props) {
             }}
           /> </>}
 
-      { !username 
-      ? <Redirect to='/' /> 
+      { !username
+      ?  <Redirect to='/' /> 
       : type === 'member' 
       ? <Redirect to='/payment' />  
       : type === 'company' 
