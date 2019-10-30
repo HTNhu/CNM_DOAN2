@@ -488,7 +488,7 @@ const props = {
               Đăng ký
           </Button>
             <Button type="primary" htmlType="button" style={{ margin: 20 }}>
-              <a href="http://localhost:3006/login">Trở về</a>
+              <a href="http://http://ec2-3-85-86-20.compute-1.amazonaws.com:3006/login">Trở về</a>
             </Button>
           </Form.Item>
           {/* <input type='file' onChange={readExel}>aaaaaaa</input> */}
