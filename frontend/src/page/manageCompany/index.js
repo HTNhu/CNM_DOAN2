@@ -111,7 +111,7 @@ class ManageCompany extends React.Component {
     render() {
 
         const data = []
-        this.state.companies.map((item,idx) =>{
+        this.state.companies.forEach((item) =>{
             data.push({
                 key: item.userId,
                 logo: item.logo,
@@ -120,7 +120,7 @@ class ManageCompany extends React.Component {
                 
             })
 
-        })
+        },{})
         const columns = [
             // {
             //     title: 'ID',

@@ -143,7 +143,7 @@ class ExelBill extends Component {
       } else {
         let newRows = [];
         const arr =resp.rows.slice(1)
-         arr.map((row, index) => {
+         arr.forEach((row, index) => {
           // const i = index
           // console.log("row length", row, resp.rows, i)
           // if(row[0] === undefined ) return newRows

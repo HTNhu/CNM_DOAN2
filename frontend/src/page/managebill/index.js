@@ -145,7 +145,7 @@ class ManageBill extends React.Component {
     // const info = JSON.parse(localStorage.getItem('info'))
     console.log("infoe",  this.state.bills)
     const data = []
-    this.state.bills && this.state.bills.map((item, idx) => {
+    this.state.bills && this.state.bills.forEach((item, idx) => {
       data.push({
         key: (idx + 1).toString(),
         id: item.billId,

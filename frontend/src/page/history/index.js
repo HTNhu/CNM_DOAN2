@@ -145,7 +145,7 @@ class History extends React.Component {
     render() {
         const { history } =this.state
         const data = []
-        history.map((item,idx) =>{
+        history.forEach((item,idx) =>{
             data.push({
                 key: (idx+1).toString(),
                 // billId: (item.billId).toString(),
