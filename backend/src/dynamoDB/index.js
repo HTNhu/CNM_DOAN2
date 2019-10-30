@@ -3,9 +3,9 @@ const AWS = require('aws-sdk')
 // AWS.config.loadFromPath('./awsConfig.json');
 AWS.config.update({
     region: 'us-east-1',
-    accessKeyId: "ASIA56GFAHQG7NQO25OQ",
-secretAccessKey: "4T3D+tsqI9mihSNu09oREPxEy+G3sPoguq6UuSjP",
-sessionToken:"FQoGZXIvYXdzELT//////////wEaDKUKQotaVsTj+w2jzyKCAg2hiL6G5XPuQo87hdGln2/94UUpiDJ/cYCOhs1JOqJ95idhaSUAh2s982YlXVZbzuCSuiBO0ZIFcRgkAxceYFjnuDwg7oAKhpX9KA5YYlus+wK3bLKrNTMIlW4Etv+VBxY6cgP/Zwphb3ygXYeIR0tqDsUb06UfCp3EjJL9shP6V+U/wDMvAjP9Sl/P/Ppp3N240KKdlYDEN3QG0Izdxuj+M1Hb45pQTePBcefepHbUSLOgXhLND6Y2coo3i9Sb9TQiSZ7QxGZF1R0aOAojDNJhZiDSC2FLWAfeadmIGMQ4WNaXuxgIXy5obqJXoncJCWuTC5R7wIr26S5J5NTnMgTbTCiHh+LtBQ=="
+    accessKeyId: "ASIA56GFAHQG2HDL2VVP",
+secretAccessKey: "LtjzQK2cqdOJztRrwljjWzcr5xKbYf2NsXwA0RNf",
+sessionToken:"FQoGZXIvYXdzEMH//////////wEaDClfnlzLuLKEXrBsWSKCAphk9BkAiet1XIF5p1bAaZlJda3h/cnhWp9IkYOmevmuXr2a8NvJWWRwtgPErOUe+Gfid/PZT0DxZuWjtTirqXsmLgPEjStJwtjFIlh2QpnxOY6O29F4kjX3kdsEq9Bi5r/cy4KIMKFqjhARdUXUtqdMgmruPXc5bu8pKSbYwCvnLBComSMP+8wWoBQVltDDPjkVgVSAIv/JiqfBMHZLvC2ufMEjReN56pUa1SoGDLHhtmAJIR6NaFry2j08oIRbAPjfLR5zPKGFv/fwOUMQCAHMVJYEfJlAIimLtTs5qQ4ZIzUurinOAMNs/S1vQzZ9Ggvg8bLNrXgd65hFhnPpQwj2kCjb7uTtBQ=="
 });
            const dynamo = new AWS.DynamoDB.DocumentClient();
            

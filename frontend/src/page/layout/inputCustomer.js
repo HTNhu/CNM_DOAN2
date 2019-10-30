@@ -85,7 +85,7 @@ class CusExel extends React.Component {
 render() {
   async function  convertToJSON(array) {
     // console.log("arrr row", array)
-  var headers = ['id', 'name', 'phone', 'address']
+  var headers = ['id', 'phone', 'name', 'address']
    if (headers.length !== 4) {
      message.error("Dũ liệu không hợp lệ") 
      return []
@@ -102,7 +102,7 @@ render() {
        return []
      }
      var data = {};
-    for ( var x = 0; x < row.length-1; x++ )
+   for ( var x = 0; x < row.length; x++ )
      {
        if(row[x] === '') {
         //  console.log("json", jsonData) 

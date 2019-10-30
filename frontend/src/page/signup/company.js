@@ -257,7 +257,7 @@ const props = {
     return []
   }
   var jsonData = [];
-    for ( var i = 1, length = array.length; i < length; i++ )
+    for ( var i = 1, length = array.length-1; i < length; i++ )
   {
 
     var myRow = array[i].join();
@@ -268,7 +268,7 @@ const props = {
       return []
     }
     var data = {};
-   for ( var x = 0; x < row.length-1; x++ )
+   for ( var x = 0; x < row.length; x++ )
     {
       if(row[x] === '') {
         console.log("json", jsonData) 

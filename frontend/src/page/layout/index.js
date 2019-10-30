@@ -212,7 +212,8 @@ function LayoutPage(props) {
     )
 }
 const GET_SCHEDULE = gql`
-{getScheduleByMember(  memberId: "d6d43d68-842c-445a-a15c-e4c978816f29")
+query($memberId: String){
+    getScheduleByMember(  memberId: $memberId)
 {
   id
   companyname
@@ -231,7 +232,7 @@ export default compose(
         options: {
             fetchPolicy: 'no-cache',
             variables: {
-                username: localStorage.getItem('userId')
+                memberId: localStorage.getItem('userId')
             }
         }
     }),
