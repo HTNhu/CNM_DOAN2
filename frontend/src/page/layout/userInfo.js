@@ -37,15 +37,10 @@ import gql from 'graphql-tag'
              createdAt
              updatedAt
              service
-             lstCustomer{
-              name
-              phone
-              address
-            }
            }
            }`
      componentDidMount = async () => {
-         this.refetchData(localStorage.getItem('username'))
+        await this.refetchData(localStorage.getItem('username'))
          // this.setupCount()
      }
  
@@ -58,28 +53,30 @@ import gql from 'graphql-tag'
                  username
              }
          })
-             .then(async result => {
+             .then( result => {
                  console.log("sds", result)
                  this.setState({
                     info: result.data.getMemberByUsername
                  })
+                 localStorage.setItem('name', result.data.getMemberByUsername.name )
                 
              })
              .catch(() => { })
              :
              await Client.query({
                 query: this.GET_COMPANY_BYUSERNAME,
-                // fetchPolicy: 'no-cache',
+                fetchPolicy: 'no-cache',
                 variables: {
                     username
                 }
             })
-                .then(async result => {
+                .then( result => {
                     console.log("ìnocompan", result)
                     this.setState({
                         info: result.data.getCompanyByUsername
                     })
-                    localStorage.setItem('service', this.state.info.service )
+                    localStorage.setItem('service', result.data.getMemberByUsername.service )
+                    localStorage.setItem('name', result.data.getMemberByUsername.name)
                     
                   
                 })
@@ -88,7 +85,7 @@ import gql from 'graphql-tag'
                
      }
   render() {
-     localStorage.setItem('name', this.state.info.name )
+    console.log("info ", this.state.info)
     const pStyle = {
         fontSize: 16,
         color: 'rgba(0,0,0,0.85)',
