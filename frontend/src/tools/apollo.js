@@ -5,7 +5,7 @@ import { createHttpLink  } from 'apollo-link-http'
 const cache = new InMemoryCache()
 
 const Client = new ApolloClient({
-  link: createHttpLink({ uri: 'http://localhost:3000/graphql' }),
+  link: createHttpLink({ uri: 'http://ec2-user@ec2-3-85-86-20.compute-1.amazonaws.com:3000/graphql' }),
   cache,
     defaultOptions: {
     //   mutate: {
