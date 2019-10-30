@@ -70,7 +70,7 @@ export class BillService {
                 ':isPaid': false
             },
         })
-        console.log("kq", a)
+        // console.log("kq", a)
         return a.Items
     }
 
@@ -89,7 +89,7 @@ export class BillService {
                 ':isPaid': false
             },
         })
-        console.log("kqby phone", a)
+        // console.log("kqby phone", a)
         if (a.Count === 0) return null
         return a.Items[0]
     }
@@ -112,8 +112,8 @@ export class BillService {
                 },
                 ReturnValues: "UPDATED_NEW"
             })
-            console.log("UPDATE")
-            console.log('ok')
+            // console.log("UPDATE")
+            // console.log('ok')
             return true
         } catch (err) {
             console.error("sdfd", err)

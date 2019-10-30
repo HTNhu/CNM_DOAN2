@@ -87,7 +87,7 @@ query{
         if (!err) {
          
           const { phone, name, address, username, password, service  } = values
-          const logo =  this.state.imageUrl 
+          // const logo =  this.state.imageUrl 
           // console.log('Received values of form: ', values,logo)
           await this.props.createCompany({
             mutation: CREATE_COMPANY,
@@ -99,7 +99,7 @@ query{
                 username,
                 password,
                 service,
-                logo: logo === undefined ? "http://cdn.onlinewebfonts.com/svg/img_276187.png" : logo,
+                logo:  "http://cdn.onlinewebfonts.com/svg/img_276187.png" ,
                 lstCustomer:  this.state.listCustomer
               }
             }
@@ -155,13 +155,13 @@ query{
     }
     this.setState({ autoCompleteResult });
   };
-  normFile = e => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
+  // normFile = e => {
+  //   console.log('Upload event:', e);
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
+  //   return e && e.fileList;
+  // };
   render() {
     const { getFieldDecorator } = this.props.form;
 
@@ -188,24 +188,24 @@ query{
       },
     };
     
-    const getBase64 = (img, callback) => {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => callback(reader.result));
-      reader.readAsDataURL(img);
-    }
+    // const getBase64 = (img, callback) => {
+    //   const reader = new FileReader();
+    //   reader.addEventListener('load', () => callback(reader.result));
+    //   reader.readAsDataURL(img);
+    // }
     
-    const beforeUpload = (file) => {
-      console.log(file, "file before")
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-      if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
-      }
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-      }
-      return isJpgOrPng && isLt2M;
-    }
+    // const beforeUpload = (file) => {
+    //   console.log(file, "file before")
+    //   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    //   if (!isJpgOrPng) {
+    //     message.error('You can only upload JPG/PNG file!');
+    //   }
+    //   const isLt2M = file.size / 1024 / 1024 < 2;
+    //   if (!isLt2M) {
+    //     message.error('Image must smaller than 2MB!');
+    //   }
+    //   return isJpgOrPng && isLt2M;
+    // }
     const beforeUploadExel = (file) => {
       console.log(file, "file before")
       const isJpgOrPng = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
@@ -219,36 +219,36 @@ query{
       return isJpgOrPng ;
     }
  
-    const handleChange = async(info, e) => {
-      console.log("change", info, e)
-      if (info.file.status === 'uploading') {
-        this.setState({ loading: true });
-        return;
-      }
-      if (info.file.status === 'done') {
-        getBase64(info.file.originFileObj, imageUrl =>
-          this.setState({
-            imageUrl,
-            loading: false,
-          }),
-        );
-      }
-    };
-    const uploadButton = (
-      <div>
-        <Icon type={this.state.loading ? 'loading' : 'plus'} />
-        <div className="ant-upload-text">Upload</div>
-      </div>
-    );
-    const { imageUrl } = this.state
-console.log("state" , this.state)
-const props = {
-  name: 'file',
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  headers: {
-    authorization: 'authorization-text',
-  }
-}
+//     const handleChange = async(info, e) => {
+//       console.log("change", info, e)
+//       if (info.file.status === 'uploading') {
+//         this.setState({ loading: true });
+//         return;
+//       }
+//       if (info.file.status === 'done') {
+//         getBase64(info.file.originFileObj, imageUrl =>
+//           this.setState({
+//             imageUrl,
+//             loading: false,
+//           }),
+//         );
+//       }
+//     };
+//     const uploadButton = (
+//       <div>
+//         <Icon type={this.state.loading ? 'loading' : 'plus'} />
+//         <div className="ant-upload-text">Upload</div>
+//       </div>
+//     );
+//     const { imageUrl } = this.state
+// console.log("state" , this.state)
+// const props = {
+//   name: 'file',
+//   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+//   headers: {
+//     authorization: 'authorization-text',
+//   }
+// }
  async function  convertToJSON(array) {
    console.log("arrr row", array)
  var headers = ['id', 'name', 'phone', 'address']
@@ -334,19 +334,20 @@ const props = {
                           }} />
                             <h2><center>ĐĂNG KÝ CÔNG TY</center></h2>
                           </div>
-                          <Form.Item
+                          {/* <Form.Item
             label={
               <span>
                 Logo&nbsp;
   
             </span>
             }
-          >
-            {getFieldDecorator('logo', {
+          > */}
+            {/* {getFieldDecorator('logo', {
               valuePropName: 'fileList',
               getValueFromEvent: this.normFile,
               // rules: [{ required: true, message: 'Bạn cần nhập Logo!', whitespace: true }],
-            })( <Upload
+            })( 
+            <Upload
               style={{ width: '50%' }}
               name="avatar"
               listType="picture-card"
@@ -357,8 +358,8 @@ const props = {
               onChange={handleChange}
             >
               {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-            </Upload>)}
-          </Form.Item>
+            </Upload>)} */}
+          {/* </Form.Item> */}
 
           <Form.Item label="Dịch vụ">
             {getFieldDecorator('service', {
@@ -488,7 +489,7 @@ const props = {
               Đăng ký
           </Button>
             <Button type="primary" htmlType="button" style={{ margin: 20 }}>
-              <a href="http://http://ec2-3-85-86-20.compute-1.amazonaws.com:3006/login">Trở về</a>
+              <a href="base64">Trở về</a>
             </Button>
           </Form.Item>
           {/* <input type='file' onChange={readExel}>aaaaaaa</input> */}

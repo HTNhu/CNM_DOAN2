@@ -76,7 +76,7 @@ let MemberService = class MemberService {
     async create(memInput) {
         const existMember = await this.findUserByPhoneUsername(memInput.phone);
         const existUsername = await this.findMemberByUsername(memInput.username);
-        console.log("sfdg", existMember, existUsername);
+        // console.log("sfdg", existMember, existUsername);
         if (existMember.Count !== 0 || existUsername)
             throw new apollo_server_core_1.ApolloError('Member existed', '401');
         await dynamoDB.putItem({

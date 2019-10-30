@@ -65,7 +65,7 @@ let CompanyService = class CompanyService {
         });
     }
     async create(compInput) {
-        console.log(compInput);
+        // console.log(compInput);
         const existCompany = await this.findCompanyByName(compInput.name);
         const existUsername = await this.findCompanyByUsername(compInput.username);
         if (existCompany.Count !== 0 || existUsername)
@@ -126,8 +126,8 @@ let CompanyService = class CompanyService {
                 },
                 ReturnValues: "UPDATED_NEW"
             });
-            console.log("UPDATE");
-            console.log('ok');
+            // console.log("UPDATE");
+            // console.log('ok');
             return true;
         }
         catch (err) {

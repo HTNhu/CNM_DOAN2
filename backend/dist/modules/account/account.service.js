@@ -56,7 +56,7 @@ let AccountService = class AccountService {
             acc.username = a.Items[0].username;
             acc.type = a.Items[0].type;
             acc.password = a.Items[0].password;
-            console.log(acc, a.Items[0]);
+            // console.log(acc, a.Items[0]);
         }
         return acc;
     }
@@ -95,8 +95,8 @@ let AccountService = class AccountService {
                 },
                 ReturnValues: "UPDATED_NEW"
             });
-            console.log("UPDATE");
-            console.log(a);
+            // console.log("UPDATE");
+            // console.log(a);
             return true;
         }
         catch (err) {

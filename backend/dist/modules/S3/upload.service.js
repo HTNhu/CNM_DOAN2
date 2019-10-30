@@ -32,7 +32,7 @@ let UploadService = class UploadService {
                 ContentType: filetype,
             };
             const signedRequest = await s3.getSignedUrl('putObject', s3Params, (err, data) => {
-                console.log(data, "uewuewe");
+                // console.log(data, "uewuewe");
             });
             const url = `https://${s3Bucket}.s3.amazonaws.com/${filename}`;
             return {

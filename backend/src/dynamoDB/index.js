@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk')
 
 // AWS.config.loadFromPath('./awsConfig.json');
-AWS.config.update({
+AWS.config.update({ // dday ne
     region: 'us-east-1',
     accessKeyId: "ASIA56GFAHQG2HDL2VVP",
 secretAccessKey: "LtjzQK2cqdOJztRrwljjWzcr5xKbYf2NsXwA0RNf",

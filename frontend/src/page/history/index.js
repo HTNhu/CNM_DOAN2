@@ -57,11 +57,11 @@ class History extends React.Component {
                 }
             })
                 .then(async result => {
-                    console.log("getHistory", result)
+                    // console.log("getHistory", result)
                     this.setState({
                         history: result.data.getHistoryByCompany 
                     })
-                    console.log("sd", this.state.history)
+                    // console.log("sd", this.state.history)
                     
                 })
                 .catch(() => { })

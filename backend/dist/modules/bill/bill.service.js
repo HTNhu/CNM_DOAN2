@@ -77,7 +77,7 @@ let BillService = class BillService {
                 ':isPaid': false
             },
         });
-        console.log("kq", a);
+        // console.log("kq", a);
         return a.Items;
     }
     async findBillByCompanyPhone(companyId, phone) {
@@ -95,7 +95,7 @@ let BillService = class BillService {
                 ':isPaid': false
             },
         });
-        console.log("kqby phone", a);
+        // console.log("kqby phone", a);
         if (a.Count === 0)
             return null;
         return a.Items[0];
@@ -119,8 +119,8 @@ let BillService = class BillService {
                 },
                 ReturnValues: "UPDATED_NEW"
             });
-            console.log("UPDATE");
-            console.log('ok');
+            // console.log("UPDATE");
+            // console.log('ok');
             return true;
         }
         catch (err) {

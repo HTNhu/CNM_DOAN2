@@ -58,7 +58,7 @@ export class HistoryService {
                 ":username": username
             },
         })
-        console.log("kq", a)
+        // console.log("kq", a)
         return a.Items
     }
 

@@ -64,8 +64,8 @@ let ScheduleService = class ScheduleService {
                 },
                 ReturnValues: "UPDATED_NEW"
             });
-            console.log("UPDATE");
-            console.log(a);
+            // console.log("UPDATE");
+            // console.log(a);
             return true;
         }
         catch (err) {

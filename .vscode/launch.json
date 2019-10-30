@@ -7,8 +7,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:8080",
+            "name": "Launch Chrome against ec2-user@ec2-3-85-86-20.compute-1.amazonaws.com",
+            "url": "http://ec2-user@ec2-3-85-86-20.compute-1.amazonaws.com:8080",
             "webRoot": "${workspaceFolder}"
         }
     ]
