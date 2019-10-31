@@ -64,9 +64,11 @@ class CusExel extends React.Component {
                     }
                 })
                     .then(async res => {
-                        // console.log(res, "update")
+                        console.log(res, "update", this.props)
                         if (res.data.updateListCustomerCompany)
+                        this.props.getCompanyByUsername.refetch({ variables: localStorage.getItem('username')})
                        openNotificationWithIcon('success', 'success', 'Update Success', 'Update Success')
+
                             this.props.onClose()
 
                     })
@@ -236,6 +238,7 @@ graphql(
     GET_COMPANY_BYUSERNAME, {
     name: 'getCompanyByUsername',
     options: {
+      fetchPolicy: 'no-cache',
         variables: {
             username: localStorage.getItem('username')
         }

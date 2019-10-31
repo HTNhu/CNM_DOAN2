@@ -35,8 +35,9 @@ function Login(props) {
                 })
                     .then(res => {
                         // console.log(res.data.login)
-                        const { userId, type } = res.data.login
+                        const { userId, type, token } = res.data.login
                         if (type && userId) {
+                            localStorage.setItem('token', token)
                             localStorage.setItem('username', username)
                             localStorage.setItem('type', type)
                             localStorage.setItem('userId', userId)
@@ -165,6 +166,7 @@ mutation ($username: String!, $password: String!){
     login(username: $username, password: $password ){
         userId
         type
+        token
     }
   }
 `

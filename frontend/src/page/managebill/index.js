@@ -150,7 +150,9 @@ class ManageBill extends React.Component {
         key: (idx + 1).toString(),
         id: item.billId,
         createdAt: item.createdAt,
-        TT: item.type === 'Điện' ? item.description.DNTT.toString() : item.description.LNTT.toString(),
+        TT: item.type !== undefined && item.type === 'Điện' ? 
+        item.description.DNTT : 
+        item.description.LNTT,
         name: item.name,
         phone: item.phone,
         address: item.address,

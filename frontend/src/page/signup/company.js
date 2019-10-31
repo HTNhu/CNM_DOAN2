@@ -44,33 +44,24 @@ query{
   }
 }
 `
- s3SignMutation = gql`
-  mutation($filename: String!, $filetype: String!) {
-    signS3(filename: $filename, filetype: $filetype) {
-      url
-      signedRequest
-    }
-  }
-`;
-
-  componentDidMount = async () => {
+  componentWillMount =  async() => {
+    console.log("vo")
     // const { currentPage, inputSearch } = this.state
-    this.refetchData()
+      await this.refetchData()
     // this.setupCount()
   }
   refetchData = async () => {
-    await Client.query({
-      query: this.GET_ALL_SERVICE
-      // fetchPolicy: 'no-cache',
+     await Client.query({
+      query: this.GET_ALL_SERVICE,
     })
       .then(result => {
-        // console.log("sds", result)
+        console.log("sds", result)
         this.setState({
           services: result.data.getAllService
         })
-        // console.log("sd", this.state.services)
+        
       })
-      .catch(() => { })
+      .catch((e) => { console.log(e)})
     // console.log('rowData', this.state.rowData)
   }
   handleSubmit = e => {
@@ -242,16 +233,16 @@ query{
 //     );
 //     const { imageUrl } = this.state
 // console.log("state" , this.state)
-// const props = {
-//   name: 'file',
-//   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-//   headers: {
-//     authorization: 'authorization-text',
-//   }
-// }
+const props = {
+  name: 'file',
+  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+  headers: {
+    authorization: 'authorization-text',
+  }
+}
  async function  convertToJSON(array) {
    console.log("arrr row", array)
- var headers = ['id', 'name', 'phone', 'address']
+ var headers = ['id', 'phone', 'name', 'address']
   if (headers.length !== 4) {
     message.error("Dũ liệu không hợp lệ") 
     return []
@@ -305,7 +296,7 @@ query{
       message.error(`${info.file.name} file upload failed.`);
     }
   }
-  
+  console.log(this.state.services,"serrr")
     return (
       <div style={{ textAlign: 'center', marginTop: '10px' }}>
       <Row id="layout-login" >
@@ -367,7 +358,10 @@ query{
             })(<Select
               style={{ width: '50%' }}
             >
-              {this.state.services.map(item => <Option value={item.name}>{item.name}</Option>)}
+              {/* {this.state.services.map(item =>  */}
+              <Option value="Điện">Điện</Option>
+              <Option value="Nước">Nước</Option>
+              <Option value="Internet">Internet</Option>
             </Select>)}
           </Form.Item>
           <Form.Item label="Số điện thoại">

@@ -75,12 +75,12 @@ import gql from 'graphql-tag'
                     this.setState({
                         info: result.data.getCompanyByUsername
                     })
-                    localStorage.setItem('service', result.data.getMemberByUsername.service )
-                    localStorage.setItem('name', result.data.getMemberByUsername.name)
+                    localStorage.setItem('service', result.data.getCompanyByUsername.service )
+                    localStorage.setItem('name', result.data.getCompanyByUsername.name)
                     
                   
                 })
-                .catch(() => { })
+                .catch((e) => { console.log("err", e)})
                 // console.log("info ", this.state.info)
                
      }
