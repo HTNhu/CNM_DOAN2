@@ -7,7 +7,7 @@ import { BrowserRouter
 import Root from './page';
 function App() {
 	const client = new ApolloClient({
-		uri: 'http://ec2-3-85-86-20.compute-1.amazonaws.com:3000/graphql'
+		uri: 'http://localhost:3000/graphql'
 	});
 	return (
 		<ApolloProvider client={client}>

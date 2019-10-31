@@ -15,7 +15,6 @@ import openNotificationWithIcon from '../../component/openNotification'
 function LayoutPage(props) {
 
     const { menuKey } = props
-
     console.log("kr", menuKey)
     const dataTopMenuMem = [
         { title: 'THANH TOÁN', navigateTo: '/payment', name: 'payment' },

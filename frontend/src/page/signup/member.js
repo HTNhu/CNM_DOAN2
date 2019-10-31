@@ -187,7 +187,7 @@ console.log("props", this.props)
                     message: "Vượt quá số kí tự" 
                   },
                   {
-                    pattern: new RegExp(/^[a-zA-Z]+$/gi),
+                    pattern: new RegExp(/[^0-9\~!@#$%^&*()_+?><]+$/gi),
                     message: "Không đúng định dạng!" 
                   }
                 ]
@@ -258,10 +258,8 @@ console.log("props", this.props)
                 Đăng ký
             </Button>
               <Button type="primary" htmlType="button" style={{ margin: 20 }}>
-                <a href="http://ec2-user@ec2-3-85-86-20.compute-1.amazonaws.com:3006/login">Trở về</a>
+                <a href="http://localhost:3006/login">Trở về</a>
               </Button>
-
-
             </Form.Item>
           </Form>
           </div>

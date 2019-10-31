@@ -1,5 +1,9 @@
 const AWS = require('aws-sdk');
-AWS.config.loadFromPath('./awsConfig.json');
+// AWS.config.loadFromPath('./awsConfig.json');
+AWS.config.update({
+    region: 'local',
+    endpoint: 'http://localhost:8000'
+  });
 const docClient = new AWS.DynamoDB.DocumentClient();
 const params = {
     TableName: 'ScheduleReminder',

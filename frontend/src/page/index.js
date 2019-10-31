@@ -46,6 +46,7 @@ function Root(props) {
 
         : <>
         <Route
+        exact={ true }
             path='/'
             render={() => {
               const Component = lazy(() => import(`./login`))
@@ -58,6 +59,7 @@ function Root(props) {
             }}
           />
          <Route
+         exact={true}
             path='/login'
             render={() => {
               const Component = lazy(() => import(`./login`))
@@ -70,6 +72,7 @@ function Root(props) {
             }}
           />
           <Route
+            exact= {true}
             path='/signup'
             render={() => {
               const Component = lazy(() => import(`./signup`))

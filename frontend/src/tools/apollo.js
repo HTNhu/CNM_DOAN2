@@ -16,7 +16,7 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 const httpLink = createHttpLink(
-  { uri: 'http://ec2-user@ec2-3-85-86-20.compute-1.amazonaws.com:3000/graphql' , 
+  { uri: 'http://localhost:3000/graphql' , 
   fetch, 
 credentials: 'include'
 })
